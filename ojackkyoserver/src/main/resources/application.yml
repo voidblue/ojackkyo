@@ -1,0 +1,12 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost/OJACKKYO?characterEncoding=utf-8
+    password: 456111
+    username: root
+    freemarker:
+      content-type: application/json
+
+
+server:
+  port: 4000
