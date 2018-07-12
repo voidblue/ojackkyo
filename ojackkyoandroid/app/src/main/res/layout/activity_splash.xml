@@ -4,6 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFC000"
-    tools:context="ojackkyo.nero.ojackkyo.MainActivity">
+    tools:context="ojackkyo.nero.ojackkyo.SplashActivity">
 
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/main"
+        android:layout_margin="20dp"
+        android:gravity="center"/>
 </LinearLayout>
