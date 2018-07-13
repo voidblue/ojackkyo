@@ -13,12 +13,12 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         Handler hd = new Handler();
-        hd.postDelayed(new splashhandler(), 3000); // 3초 후에 hd handler 실행  3000ms = 3초
+        hd.postDelayed(new splashhandler(), 1500); // 3초 후에 hd handler 실행  3000ms = 3초
     }
 
     private class splashhandler implements Runnable {
         public void run(){
-            startActivity(new Intent(getApplication(), MainActivity.class)); //로딩이 끝난 후, Login_Activity 이동
+            startActivity(new Intent(getApplication(), MainActivity.class)); //로딩이 끝난 후, MainActivity 이동
             SplashActivity.this.finish(); // 로딩페이지 Activity stack에서 제거
         }
     }
