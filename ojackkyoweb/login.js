@@ -1,7 +1,7 @@
 $("#submit").click(function(){
   
     $.ajax({
-        url: 'http://192.168.43.202:4000/auth/login',
+        url: ip + '/auth/login',
         contentType : 'application/json',
         type: 'POST',
         async: false,
@@ -12,6 +12,7 @@ $("#submit").click(function(){
         success : function(data){
             console.log(data);
             sessionStorage.setItem("token", data);
+            window.location.replace("Main.html")
         },
         error : function(a, b, c){  
             console.log(a)

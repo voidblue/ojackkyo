@@ -5,18 +5,28 @@ if (sessionStorage.getItem("token")==null){
       ')
     } 
     else{
-        $("#ifLogin").html('<button type="button"><a href="#">Logout</a></button>')
+        $("#ifLogin").html('<button type="button" onclick="logout()"><a href="#">Logout</a></button>')
     }
+
+function logout(){
+    sessionStorage.clear();
+    window.location.reload();
+}
+
+var titleArray = ['', '', '']
+var string
 for(var i = 0; i<3; i++){
-  string += '<table class="attr"><thead><tr><th scope="cols"><button type="button" class="plusButton">+</button>' +titleArray[i]+ '</th></tr></thead>'
+    
+    string += '<table class="attr"><thead><tr><th scope="cols"><button type="button" class="plusButton">+</button>' + titleArray[i]+ '</th></tr></thead>'
+    
         $.ajax({
-        url: 'http://192.168.43.202:4000/user/list',
+        url: ip + '/user/1',
         contentType : 'application/json',
         type: 'GET',
         async: false,
         success : function(data){
-            console.log(data.length)
-
+            console.log(data)
+            string += '<tr><td>' + data.uid + '</td></tr>';
             for (var j = 0 ; j < data.length ; j++){
                 string += '<tr><td>' + data[j].uid + '</td></tr>';
             }
