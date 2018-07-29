@@ -36,7 +36,6 @@ public class ListViewAdapter extends BaseAdapter {
         final int pos = position;
         final Context context = parent.getContext();
 
-
         if (convertView == null) {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item, parent, false);
@@ -50,6 +49,7 @@ public class ListViewAdapter extends BaseAdapter {
         return convertView;
     }
 
+    
     @Override
     public long getItemId(int position) {
         return position;
@@ -63,7 +63,6 @@ public class ListViewAdapter extends BaseAdapter {
     public void addVO(String items) {
         ListVO item = new ListVO();
         item.setTitle(items);
-
         listVO.add(item);
     }
 }

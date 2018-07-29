@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/state"
         android:background="@drawable/listshape"
-        android:layout_width="140dp"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:textColor="#000000"
         android:gravity="center"
