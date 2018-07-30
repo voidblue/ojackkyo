@@ -7,7 +7,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class PostActivity extends AppCompatActivity {
-    TextView title;
+    TextView name, kind;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,8 +15,12 @@ public class PostActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        title = (TextView)findViewById(R.id.title);
-        String name = intent.getExtras().getString("name");
-        title.setText(name);
+        name = (TextView)findViewById(R.id.title);
+        kind = (TextView)findViewById(R.id.kind);
+
+        String post_name = intent.getExtras().getString("name");
+        String post_kind = intent.getExtras().getString("kind");
+        kind.setText(post_kind);
+        name.setText(post_name);
     }
 }
