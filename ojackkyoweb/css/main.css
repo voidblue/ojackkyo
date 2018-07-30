@@ -1,0 +1,53 @@
+body {
+  background-color: #5a5e8f;
+  margin: 0;
+}
+
+header {
+  text-align: right;
+  margin-top: 1rem;
+  margin-right: 1.5rem;
+}
+
+header button {
+  border: 0;
+  background-color: inherit;
+  color: #C5BCD8;
+  font-size: 1.2rem;
+  font-weight: bold;
+  width: 8rem;
+  height: 3rem;
+}
+
+.logo_img {
+  text-align: center;
+  margin-top: 4rem;
+  margin-bottom: 2.8rem;
+}
+
+.logo_img img {
+  width: 15rem;
+  height: 14rem;
+}
+
+.id, .pw {
+  position: relative;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.id_box, .pw_box {
+  position: absolute;
+  color: #C5BCD8;
+  left: 33.9rem;
+  top: 1rem;
+  font-size: 1.4rem;
+}
+
+input {
+  border: 0;
+  background-color: #73779E;
+  width: 380px;
+  height: 50px;
+  border-radius: 3px;
+}
