@@ -38,9 +38,10 @@ public class ScrollViewFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ObservableScrollView view = (ObservableScrollView)inflater.inflate(R.layout.fragment_scroll, container, false);
-        // 게시판 내부 내용 수정
+
+        // 게시판 목록 수정
         listView = (ListView)view.findViewById(R.id.listview);
         adapter = new ListViewAdapter();
 
@@ -55,7 +56,9 @@ public class ScrollViewFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), PostActivity.class);
-                intent.putExtra("name",getArguments().getString("title") + "test" + position);
+                // 게시판 내용 넘겨주기
+                intent.putExtra("kind", getArguments().getString("title"));
+                intent.putExtra("name","test" + position);
                 startActivity(intent);
             }
         });
