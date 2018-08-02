@@ -2,12 +2,53 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" type="text/css" href="../css/board.css">
+    <link rel="stylesheet" href="../css/frame.css">
+    <link rel="stylesheet" href="../css/board.css">
     <title>게시판</title>
   </head>
   <body>
     <header>
-      <img src="https://image.flaticon.com/icons/svg/119/119587.svg"><a class="logo" href="#"></a>
+      <div class="logo">
+        <a href="#">오 작 교</a>
+      </div>
+      <div class="user">
+        <div class="search">
+          <input type="search">
+          <input type="submit" value="검색">
+        </div>
+        <button type="button" name="message"><img src="../img/message.svg"></button>
+        <button type="button" name="alarm"><img src="../img/alarm.svg"></button>
+        <button type="button" name="user"><img src="../img/user.svg"></button>
+      </div>
     </header>
+    <div class="middle">
+      <div class="write_box">
+        <div class="content">
+          게시판 <input type="text" name="type">
+          <p></p>
+          제목 <input type="text" name="title">
+          <p></p>
+          파일첨부
+          <p></p>
+          <input type="text" name="content_box">
+        </div>
+      </div>
+    </div>
+    <footer>
+      <div class="ranking_img">
+        주간랭킹 <img src="../img/medal.svg">
+      </div>
+      <div class="senior">
+        졸업생 00학번 000
+      </div>
+      <span></span>
+      <div class="junior">
+        재학생 00학번 000
+      </div>
+      <span></span>
+      <div class="btn_more">
+        <button type="button" name="more"><img src="../img/arrow-up.svg"></button>
+      </div>
+    </footer>
   </body>
 </html>
