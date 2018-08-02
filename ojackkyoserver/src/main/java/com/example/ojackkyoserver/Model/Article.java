@@ -1,15 +1,25 @@
 package com.example.ojackkyoserver.Model;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
 
+import javax.persistence.*;
+
+
+@Data
+@Entity
 public class Article {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
     String text;
+    String title;
     String timeCreated;
-    Integer author;
+    String authorsNickname;
+    Integer viewed;
+    @Transient @JsonIgnore
+    Integer searchPriority;
+    @Transient
+    String file;   //base64 encoding
 
 }

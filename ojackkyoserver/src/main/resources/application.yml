@@ -1,8 +1,8 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost/OJACKKYO?characterEncoding=utf-8
-    password: 456111
+    url: jdbc:mysql://52.194.73.44/ojackkyo?characterEncoding=utf-8
+    password: kakao123
     username: root
     freemarker:
       content-type: application/json

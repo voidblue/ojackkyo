@@ -1,7 +1,8 @@
 package com.example.ojackkyoserver.Model;
 
+
 import lombok.Data;
-import lombok.ToString;
+import org.hibernate.annotations.GeneratorType;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,11 +11,9 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@ToString
-public class Tag {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class TagArticleMap {
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    Integer referredTimes;
-    String name;
+    String tagName;
+    Integer article;
 }

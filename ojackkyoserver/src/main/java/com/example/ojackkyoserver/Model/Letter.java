@@ -1,7 +1,6 @@
 package com.example.ojackkyoserver.Model;
 
 import lombok.Data;
-import lombok.ToString;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,17 +9,13 @@ import javax.persistence.Id;
 
 @Entity
 @Data
-@ToString
-public class User {
+public class Letter {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer id;
-    String uid;
-    String password;
-    String StudentCode;
-    String name;
-    String nickname;
-    String callNumber;
-    String email;
-    String sns;
+    Integer sender;
+    Integer receiver;
+    Boolean idReaded;
+    String text;
+
 }

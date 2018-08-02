@@ -24,8 +24,8 @@ public class UserController {
         return userRepository.findById(id).get();
     }
 
-    @GetMapping("/list")
-    public List<User> list(HttpServletResponse res){
+    @GetMapping("/list/search")
+    public List<User> list(HttpServletResponse res, @RequestParam String xxx){
         res.setHeader("Access-Control-Allow-Origin","*");
         return userRepository.findAll();
     }
@@ -40,13 +40,13 @@ public class UserController {
         }
     }
 
+    //TODO 코드 개선
     @PutMapping
     public User update(@RequestBody User user, HttpServletRequest req, HttpServletResponse res){
         User[] userholder = new User[1];
         AuthContext.askAuthorityAndRun(user.getUid(), req.getHeader("token"), res, ()->{
             if (userRepository.existsByUid(user.getUid())){
                 userholder[0] = userRepository.save(user);
-                System.out.println(userholder[0] + "asdhgsjaisjaigsdijnij");
             }else{
                 userholder[0] = null;
                 try {
@@ -59,4 +59,10 @@ public class UserController {
         System.out.println(userholder[0]);
         return userholder[0];
     }
+
+    //TODO 계정 삭제는 논의 후 진행
+//    @DeleteMapping("/{id}")
+//    public void Delete(@PathVariable Integer id){
+//
+//    }
 }

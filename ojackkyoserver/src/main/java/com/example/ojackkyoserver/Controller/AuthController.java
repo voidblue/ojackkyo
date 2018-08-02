@@ -29,7 +29,8 @@ public class AuthController {
                         .setHeaderParam("issueDate", System.currentTimeMillis())
                         .setSubject("")
                         .claim("uid", user.get().getUid())
-//                        .claim("nickname", user.get().getNickname())
+                        .claim("id", user.get().getId())
+                        .claim("nickname", user.get().getNickname())
 //                        .claim("imageName", user.get().getImageName())
                         .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
                         .compact();

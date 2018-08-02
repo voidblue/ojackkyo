@@ -1,8 +1,6 @@
 package com.example.ojackkyoserver;
 
 import com.example.ojackkyoserver.Model.User;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,24 +17,16 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class UserTest {
+    private static final String PATH = "/user";
     @Autowired
     private TestRestTemplate restTemplate;
-    private static final String PATH = "/user";
+    RestTestContext context;
 
-    String jwtString;
     HttpHeaders httpHeaders;
     @Before
-    public void setup(){
-        httpHeaders = new HttpHeaders();
-        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        jwtString = Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setHeaderParam("issueDate", System.currentTimeMillis())
-                .setSubject("")
-                .claim("uid", "testuser")
-                .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
-                .compact();
-        httpHeaders.add("token", jwtString);
+    public void setup() {
+        context = new RestTestContext(restTemplate);
+        httpHeaders = context.getHttpHeadersWithToken();
 
     }
 
@@ -45,7 +35,6 @@ public class UserTest {
     public void get(){
         String uid = "testuser";
         String password = "1234";
-
 
         User user = restTemplate.getForObject(PATH + "/" + 1, User.class);
 
@@ -83,8 +72,8 @@ public class UserTest {
     public void update(){
         User userForUpdate = getCreatedUser();
         userForUpdate.setPassword("4321");
-        notoken(PATH , HttpMethod.PUT, userForUpdate);
-        notOwner(PATH, HttpMethod.PUT, userForUpdate);
+        context.notoken(PATH , HttpMethod.PUT, userForUpdate);
+        context.notOwner(PATH, HttpMethod.PUT, userForUpdate);
 
         HttpEntity entity = new HttpEntity(userForUpdate, httpHeaders);
         ResponseEntity<User> user= restTemplate.exchange(PATH, HttpMethod.PUT, entity , User.class);
@@ -94,12 +83,12 @@ public class UserTest {
     }
 
     @Test
-    public void invailidUidWhenUpdate(){
+    public void invalidUidWhenUpdate(){
         User userForUpdate = getCreatedUser();
         userForUpdate.setUid("gg");
 
-        notoken(PATH , HttpMethod.PUT, userForUpdate);
-        notOwner(PATH, HttpMethod.PUT, userForUpdate);
+        context.notoken(PATH , HttpMethod.PUT, userForUpdate);
+        context.notOwner(PATH, HttpMethod.PUT, userForUpdate);
 
         HttpEntity entity = new HttpEntity(userForUpdate, httpHeaders);
         ResponseEntity<User> user= restTemplate.exchange(PATH, HttpMethod.PUT, entity , User.class);
@@ -107,9 +96,10 @@ public class UserTest {
         assertThat(user.getBody(), is(nullValue()));
     }
 
+    //TODO 계정 삭제는 논의 후 진행
 //    @Test
 //    public void delete(){
-//        User user = restTemplate.getForObject(PATH + "/"+ getValidUser().getId(), User.class);
+//        User user = restTemplate.getForObject(PATH + "/"+ getCreatedUser().getId(), User.class);
 //        restTemplate.delete(PATH + "/" + user.getId());
 //
 //        User deletedUser = restTemplate.getForObject(PATH + "/" + user.getId(), User.class);
@@ -117,31 +107,8 @@ public class UserTest {
 //        assertThat(deletedUser, is(nullValue()));
 //
 //    }
-//
-    public void notOwner(String url,HttpMethod httpMethod, User user){
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        jwtString = Jwts.builder()
-                .setHeaderParam("typ", "JWT")
-                .setHeaderParam("issueDate", System.currentTimeMillis())
-                .setSubject("")
-                .claim("uid", "다른아이디")
-                .claim("nickname", "")
-                .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
-                .compact();
-        headers.add("token", jwtString);
 
-        HttpEntity entity = new HttpEntity(user, headers);
-        ResponseEntity<User> resultUser = restTemplate.exchange(url , httpMethod, entity, User.class);
-        assertThat(resultUser.getBody(), is(nullValue()));
-    }
 
-    public void notoken(String url, HttpMethod httpMethod, User user){
-        HttpHeaders notokenHeader = new HttpHeaders();
-        HttpEntity entity = new HttpEntity(user, notokenHeader);
-        ResponseEntity<User> resultUser = restTemplate.exchange(url , httpMethod, entity, User.class);
-
-    }
 
     private User getCreatedUser() {
         User user = new User();
