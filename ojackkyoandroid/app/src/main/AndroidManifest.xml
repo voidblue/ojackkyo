@@ -24,8 +24,12 @@
         <activity
             android:name=".EditTextActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
-        <activity android:name=".PostActivity"
+        <activity
+            android:name=".PostActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
     </application>
-
+<uses-permission android:name="android.permission.INTERNET"/>
 </manifest>

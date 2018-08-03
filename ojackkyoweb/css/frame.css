@@ -5,6 +5,7 @@ body {
 header {
   background-color: #5a5e8f;
   text-align: center;
+  /* position: fixed; */
 }
 
 .logo {
@@ -46,4 +47,51 @@ button img {
   width: 35px;
   height: 33px;
   margin: 1px;
+}
+
+footer {
+  background-color: #5a5e8f;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.ranking_img {
+  display: inline-block;
+  color: white;
+  font-size: 32px;
+  border-right: 1px solid gray;
+}
+
+.ranking_img img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.senior {
+  display: inline-block;
+  color: white;
+  font-size: 32px;
+  margin-left: 7rem;
+}
+
+span {
+  display: inline-block;
+  width: 18rem;
+}
+
+.junior {
+  display: inline-block;
+  color: white;
+  font-size: 32px;
+}
+
+.btn_more {
+  display: inline-block;
+}
+
+.btn_more img {
+  width: 32px;
+  height: 32px;
 }
