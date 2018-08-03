@@ -41,10 +41,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Connection connection = new Connection();
                 String[] strings = {"id", "password"};
                 connection.execute(strings);
-//                Intent intent = new Intent(this, MainActivity.class);
-//                startActivity(intent);
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
         }
     }
-
-
 }
