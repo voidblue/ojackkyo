@@ -5,17 +5,17 @@ import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
 import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
-import com.example.ojackkyoserver.Repository.TagRespository;
+import com.example.ojackkyoserver.Repository.TagRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/article")
@@ -25,7 +25,8 @@ public class ArticleController {
     ArticleRepository articleRepository;
     @Autowired
     TagArticleMapRepository tagArticleMapRepository;
-
+    @Autowired
+    TagRepository tagRepository;
     @GetMapping("/{id}")
     public Article get(@PathVariable Integer id){
         Article article;
@@ -58,12 +59,12 @@ public class ArticleController {
         }else if (text != null && !text.equals("null")){
             String[] words = text.split(" ");
 
-            List<Article> allAricles = articleRepository.findAll();
+            List<Article> Articles = articleRepository.findAll();
             ArrayList<ArrayList> sets = new ArrayList();
             for (int i = 0 ; i < words.length; i++){
                 sets.add(new ArrayList<Article>());
             }
-            for (Article e : allAricles){
+            for (Article e : Articles){
                 int matchTime = 0;
                 for (String w : words) {
                     if(e.getText().contains(w)) {matchTime++;}
@@ -87,10 +88,25 @@ public class ArticleController {
     @PostMapping
     public Article create(@RequestBody Article article, HttpServletRequest req, HttpServletResponse res){
         String token = req.getHeader("token");
+        article.setId(null);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        article.setTimeCreated(sdf.format(new Date()));
         final Article[] result = {null};
         AuthContext.askLoginedAndRun(token, res, ()->{
-            article.setId(null);
             result[0] = articleRepository.save(article);
+            ArrayList<TagArticleMap> maps = article.getTagArticleMaps();
+            for (TagArticleMap e : maps){
+                if (tagRepository.existsByName(e.getTagName())){
+                    Tag tag = (Tag) tagRepository.findByName(e.getTagName());
+                    tag.setReferredTimes(tag.getReferredTimes() + 1);
+                    tagRepository.save(tag);
+                }else{
+                    Tag tag = new Tag();
+                    tag.setReferredTimes(1);
+                    tag.setName(e.getTagName());
+                    tagRepository.save(tag);
+                }
+            }
         });
         return result[0];
     }
@@ -125,9 +141,19 @@ public class ArticleController {
         }else{
             res.setStatus(404, "이미 없는 자원입니다.");
         }
+    }
 
-
-
+    @PostMapping("/file")
+    public void fileupload(@RequestParam MultipartFile file, @RequestParam Integer articleId){
+        File path = new File("files/article/"+articleId + "/" + file.getOriginalFilename());
+        if(!path.exists()){
+            path.mkdirs();
+        }
+        try {
+            file.transferTo(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

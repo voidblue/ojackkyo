@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 
 @Data
@@ -20,6 +21,5 @@ public class Article {
     @Transient @JsonIgnore
     Integer searchPriority;
     @Transient
-    String file;   //base64 encoding
-
+    ArrayList<TagArticleMap> tagArticleMaps;
 }
