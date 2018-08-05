@@ -1,13 +1,11 @@
 package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Model.Tag;
-import com.example.ojackkyoserver.Repository.TagRespository;
+import com.example.ojackkyoserver.Repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -16,31 +14,12 @@ import java.io.IOException;
 public class TagController {
 
     @Autowired
-    TagRespository tagRespository;
+    TagRepository tagRepository;
 
     @GetMapping("/{id}")
-    public void get(@PathVariable Integer id){
-
+    public Optional<Tag> get(@PathVariable Integer id){
+        return tagRepository.findById(id);
     }
 
-    @PostMapping
-    public Tag create(@RequestBody Tag tag, HttpServletRequest req, HttpServletResponse res){
-        Tag[] tagHolder = new Tag[1];
-        System.out.println(tag);
-        AuthContext.askLoginedAndRun(req.getHeader("token"), res, ()->{
-            if(!tagRespository.existsByName(tag.getName())) {
-                tagHolder[0] = tagRespository.save(tag);
-            }else {
-                try {
-                    tagHolder[0] = null;
-                    res.sendError(404, "아이디 중복입니다.");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        System.out.println(tagHolder[0]);
-        return tagHolder[0];
-    }
 
 }

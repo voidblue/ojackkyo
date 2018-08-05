@@ -22,7 +22,6 @@ public class Connection extends AsyncTask{
     @Override
     protected Object doInBackground(Object[] objects) {
         String serverURL = "http://117.17.102.131:4000/auth/login";
-
         try {
 
             URL url = new URL(serverURL);
@@ -69,7 +68,6 @@ public class Connection extends AsyncTask{
 
             Log.d("", sb.toString());
             bufferedReader.close();
-
 
             return sb.toString();
 
