@@ -1,41 +1,33 @@
-<html>
-    <head>
-        <link rel="stylesheet" href="loginCSS.css">
-        <title>Login</title>
-    </head>
-    <body class="align">
-
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/login.css">
+    <title>Login</title>
+  </head>
+  <body class="align">
     <div class="site__container">
+      <div class="grid__container">
+        <form class="form--login" action="" method="post">
+          <div class="form__field">
+            <label class="fontawesome-user" for="login__username"><span class="hidden">아이디</span></label>
+            <input id="login__username" type="text" class="form__input" placeholder="아이디" required>
+          </div>
 
-        <div class="grid__container">
+          <div class="form__field">
+            <label class="fontawesome-lock" for="login__password"><span class="hidden">비밀번호</span></label>
+            <input id="login__password" type="password" class="form__input" placeholder="비밀번호" required>
+          </div>
 
-          <form action="" method="post" class="form form--login">
-
-            <div class="form__field">
-              <label class="fontawesome-user" for="login__username"><span class="hidden">Username</span></label>
-              <input id="login__username" type="text" class="form__input" placeholder="Username" required>
-            </div>
-
-            <div class="form__field">
-              <label class="fontawesome-lock" for="login__password"><span class="hidden">Password</span></label>
-              <input id="login__password" type="password" class="form__input" placeholder="Password" required>
-            </div>
-
-            <div class="form__field">
-              <input type="submit" value="Log In" id = "submit" onclick="return false">
-            </div>
-
-          </form>
-
-          <p class="text--center">Not a member? <a href="#">Sign up now</a> <span class="fontawesome-arrow-right"></span></p>
-
-        </div>
-
+          <div class="form__field">
+            <input type="submit" value="로그인" id="submit" onclick="return false">
+          </div>
+        </form>
+        <p class="text--center">아직 회원이 아니십니까? <a href="#">회원가입하러 가기</a> <span class="fontawesome-arrow-right"></span></p>
+      </div>
     </div>
-
-</body>
-
-    <script src="GlobalVarialble.js"></script>  
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-    <script src="login.js"></script>
+  </body>
+  <script src="GlobalVarialble.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="login.js"></script>
 </html>
