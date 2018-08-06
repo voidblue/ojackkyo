@@ -34,10 +34,22 @@ header {
   display: inline-block;
 }
 
-.search input {
+.search_bar {
   background-color: white;
   border: 0;
   border-radius: 2px;
+  width: 180px;
+  padding-top: 18px;
+}
+
+.btn {
+  margin-left: -34px;
+}
+
+.btn_img {
+  width: 20px;
+  height: 20px;
+  padding-bottom: 2px;
 }
 
 button {
@@ -80,7 +92,7 @@ footer {
   margin-left: 7rem;
 }
 
-span {
+.blank {
   display: inline-block;
   width: 18rem;
 }
