@@ -25,3 +25,19 @@ function SignIn(){
         
     })
 }
+
+$("#btnID").click(function(){
+    $.ajax({
+        url: ip +'/user/duplicationCheck/' + $("#inputID").val(),
+        contentType : 'application/json',
+        type : "get",
+        asycn: false,
+        success : function(data){
+            alert("사용 가능한 ID입니다.")
+        },
+        error : function(data) {
+            alert("ID가 중복되었습니다.");
+        }   
+        
+    })
+})
