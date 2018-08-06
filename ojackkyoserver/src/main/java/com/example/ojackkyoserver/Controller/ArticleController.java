@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/article")
 public class ArticleController {
