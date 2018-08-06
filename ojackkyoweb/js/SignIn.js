@@ -26,12 +26,6 @@ function SignIn(){
     })
 }
 
-<<<<<<< HEAD
-$(".footer").offset({top:$(document).scrollTop() + $(window).height()-60})
-$(window).scroll(function(){
-    $(".footer").offset({top:$(document).scrollTop() + $(window).height()-60})     
-})
-=======
 $("#btnID").click(function(){
     $.ajax({
         url: ip +'/user/duplicationCheck/' + $("#inputID").val(),
@@ -47,4 +41,3 @@ $("#btnID").click(function(){
         
     })
 })
->>>>>>> 27f7ccba8800f889640c355995196d16439d9f01
