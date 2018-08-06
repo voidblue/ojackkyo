@@ -21,7 +21,12 @@ function SignIn(){
          error : function(data) {
              console.log(data)
              alert("회원가입 실패");
-         }   
-        
+         }
+
     })
 }
+
+$(".footer").offset({top:$(document).scrollTop() + $(window).height()-60})
+$(window).scroll(function(){
+    $(".footer").offset({top:$(document).scrollTop() + $(window).height()-60})     
+})
