@@ -1,45 +1,53 @@
 <!DOCTYPE html>
-<html>
-    <head>
-        <meta charset="utf-8">
-        <title>회원가입</title>
-        <link rel="stylesheet" href="SignInCSS.css">
-    </head>
-    <body>
-        <header><h1 style="text-align: center"> 오작교 </h1></header>
-        <section>
-            <form>
-                <center>
-                        <fieldset class=SignIn>
-                            <textarea id="inputID" rows="1" required autofocus placeholder="ID입력" name="ID"></textarea> <button id="id">중복확인</button><br>
-                            <textarea class="inputType1" rows="1" placeholder="PASSWARD입력" name="passward"></textarea><br>
-                            <textarea class="inputType1" rows="1" placeholder="PASSWARD확인"></textarea><br>
-                            <label id="pwchk"></label><br>
-                            <textarea id="inputStdID" rows="1" placeholder="학번" name="stdID"></textarea>
-                            <textarea id="inputName" rows="1" placeholder="이름" name="name"></textarea><br>
-                            <textarea id="inputID" rows="1" placeholder="닉네임입력" name="nickname"></textarea> 
-                            <button id="id">중복확인</button><br>
-                            
-                            <label id="like">관심분야</label>
-                            <div id="chkbox">
-                                <input type="checkbox" name="chk_info" value="C">C언어
-                                <input type="checkbox" name="chk_info" value="JAVA">JAVA<br>
-                                <input type="checkbox" name="chk_info" value="Android">안드로이드
-                                <input type="checkbox" name="chk_info" value="other">기타    
-                            </div><br>
-                            
-                            
-                            <textarea class="inputType1" rows="1" placeholder="연락처" name="phone"></textarea><br>
-                            <textarea class="inputType1" rows="1" placeholder="E-Mail" name="mailAddr"></textarea><br>
-                            <textarea class="inputType1" rows="1" placeholder="SNS주소" name="snsAddr"></textarea><br>
-                            <center>
-                                <button id="signIn">가입하기</button>
-                            </center>
-                        </fieldset>    
-                </center>
-                
-            </form>
-        </section>
-    </body>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="../css/SignIn.css">
+    <title>회원가입</title>
+  </head>
+  <body>
+    <header>
+      <h1>회원가입</h1>
+    </header>
+    <section>
+      <form>
+        <center>
+        <fieldset class="signin">
+          <input id="inputID" type="text" name="ID" rows="1" required autofocus placeholder="ID입력">
+          <button type="button" id="id">중복확인</button>
+          <br>
+          <input class="inputType1" type="password" name="password" rows="1" placeholder="PASSWARD입력">
+          <br>
+          <input class="inputType1" type="password" rows="1" placeholder="PASSWARD확인">
+          <br><br>
+          <input id="inputStdID" type="text" name="stdID" rows="1" placeholder="학번">
+          <input id="inputName" type="text" name="name" rows="1" placeholder="이름">
+          <br>
+          <input id="inputID" type="text" name="nickname" rows="1" placeholder="닉네임입력">
+          <button type="button" id="id">중복확인</button><br>
 
+          <label id="like">관심분야</label>
+          <div id="chkbox">
+            <label><input type="checkbox" name="chk_info" value="C">C언어</label>
+            <label><input type="checkbox" name="chk_info" value="JAVA">JAVA</label>
+            <br>
+            <label><input type="checkbox" name="chk_info" value="Android">안드로이드</label>
+            <label><input type="checkbox" name="chk_info" value="other">기타</label>
+          </div>
+          <br>
+
+          <input class="inputType1" type="tel" name="phone" rows="1" placeholder="연락처">
+          <br>
+          <input class="inputType1" type="email" name="mailAddr" rows="1" placeholder="E-Mail">
+          <br>
+          <input class="inputType1" type="text" name="snsAddr" rows="1" placeholder="SNS주소">
+          <br>
+          <center>
+            <button type="submit" id="signIn">가입하기</button>
+          </center>
+        </fieldset>
+        </center>
+      </form>
+    </section>
+  </body>
 </html>
