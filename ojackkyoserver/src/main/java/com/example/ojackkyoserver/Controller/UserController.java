@@ -31,8 +31,8 @@ public class UserController {
         return userRepository.findAll();
     }
 
-    @GetMapping("/duplicationCheck/{uid}")
-    public HashMap duplicationCheck(@PathVariable String uid, HttpServletResponse res){
+    @GetMapping("/uidCheck/{uid}")
+    public HashMap uidCheck(@PathVariable String uid, HttpServletResponse res){
         if(!userRepository.existsByUid(uid)) {
             HashMap hashMap = new HashMap();
             hashMap.put("결과", "중복되지 않았습니다.");
@@ -44,7 +44,19 @@ public class UserController {
         }
 
     }
+    @GetMapping("/nicknameCheck/{uid}")
+    public HashMap duplicationCheck(@PathVariable String nickname, HttpServletResponse res){
+        if(!userRepository.existsByNickname(nickname)) {
+            HashMap hashMap = new HashMap();
+            hashMap.put("결과", "중복되지 않았습니다.");
+            return hashMap;
+        }else{
+            HashMap hashMap = new HashMap();
+            res.setStatus(404, "아이디가 중복되었습니다.");
+            return null;
+        }
 
+    }
 
     @PostMapping
     public User create(@RequestBody User user, HttpServletResponse res) throws IOException {
