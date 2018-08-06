@@ -28,7 +28,7 @@ function SignIn(){
 
 $("#btnID").click(function(){
     $.ajax({
-        url: ip +'/user/duplicationCheck/' + $("#inputID").val(),
+        url: ip +'/user/uidCheck/' + $("#inputID").val(),
         contentType : 'application/json',
         type : "get",
         asycn: false,
@@ -37,6 +37,22 @@ $("#btnID").click(function(){
         },
         error : function(data) {
             alert("ID가 중복되었습니다.");
+        }   
+        
+    })
+})
+
+$("#btnNickname").click(function(){
+    $.ajax({
+        url: ip +'/user/nicknameCheck/' + $("#inputNickname").val(),
+        contentType : 'application/json',
+        type : "get",
+        asycn: false,
+        success : function(data){
+            alert("사용 가능한 닉네임입니다.")
+        },
+        error : function(data) {
+            alert("닉네임이 중복되었습니다.");
         }   
         
     })

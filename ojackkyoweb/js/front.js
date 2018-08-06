@@ -21,9 +21,9 @@ function btnLogin(){
 }
 
 function btnFind(){
-    window.location.replace("#");
+    window.location.href("#");
 }
 
 function btnSignIn(){
-    window.location.replace("SignInSelect.html");
+    window.location.href="SignInSelect.html";
 }
