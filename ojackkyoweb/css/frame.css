@@ -2,10 +2,13 @@ body {
   margin: 0;
 }
 
+
+
 header {
   background-color: #5a5e8f;
   text-align: center;
   /* position: fixed; */
+  height: 3rem;
 }
 
 .logo {
@@ -54,6 +57,7 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+  height: 3rem;
 }
 
 .ranking_img {

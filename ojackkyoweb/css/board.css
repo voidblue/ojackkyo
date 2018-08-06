@@ -1,22 +1,28 @@
 body {
   margin: 0;
 }
-
-.middle {
+.body {
   /* text-align: center; */
   background-color: #ABA7CD;
-  position: absolute;
+  /*position: absolute;*/
+  min-height: 51rem;
+  width: 100%;
+  text-align: center;
+  height: 100%;
+
 }
 
 .write_box {
+  text-align: left;
   display: inline-block;
   background-color: white;
-  margin-left: 15rem;
-  margin-right: 15rem;
+  margin: 0 auto;
   width: 60rem;
+  height: 45rem;
 }
 
 .content {
+  margin: 0 auto;
   padding-top: 50px;
   padding-left: 150px;
   padding-right: 150px;

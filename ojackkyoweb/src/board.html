@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="../css/board.css">
     <title>게시판</title>
   </head>
-  <body>
+  <body class="body">
     <header>
       <div class="logo">
         <a href="#">오 작 교</a>
@@ -14,29 +14,29 @@
       <div class="user">
         <div class="search">
           <input type="search">
-          <input type="submit" value="검색">
+          <input type="submit" class = "search_btn"value="검색">
         </div>
         <button type="button" name="message"><img src="../img/message.svg"></button>
         <button type="button" name="alarm"><img src="../img/alarm.svg"></button>
         <button type="button" name="user"><img src="../img/user.svg"></button>
       </div>
     </header>
-    <div class="middle">
-      <div class="write_box">
-        <div class="content">
-          게시판 <input type="text" name="type">
-          <p></p>
-          제목 <input type="text" name="title">
-          <p></p>
-          파일첨부
-          <p></p>
-          <input type="text" name="content_box">
-          <div class="btn_submit">
-            <button type="submit" name="write">작성하기</button>
+    <!-- <div class="middle full_width"> -->
+        <div class="write_box">
+          <div class="content">
+            게시판 <input type="text" name="type">
+            <p></p>
+            제목 <input type="text" name="title">
+            <p></p>
+            파일첨부
+            <p></p>
+            <input type="text" name="content_box">
+            <div class="btn_submit">
+              <button type="submit" name="write">작성하기</button>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+    <!-- </div> -->
     <footer>
       <div class="ranking_img">
         주간랭킹 <img src="../img/medal.svg">
