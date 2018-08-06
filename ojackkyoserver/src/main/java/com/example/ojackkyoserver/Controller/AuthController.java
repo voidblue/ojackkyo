@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
 import java.util.Optional;
 
 @CrossOrigin(origins = "*")
@@ -19,7 +20,7 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
     @PostMapping("/login")
-    public String login(@RequestBody Auth auth, HttpServletResponse res){
+    public HashMap login(@RequestBody Auth auth, HttpServletResponse res){
         String jwtString = null;
         try{
             Optional<User> user = userRepository.findByUid(auth.getUid());
@@ -40,8 +41,9 @@ public class AuthController {
         }catch (EmptyResultDataAccessException e){
             res.setStatus(500);
         }
-
-        return jwtString;
+        HashMap hashMap = new HashMap();
+        hashMap.put("token", jwtString);
+        return hashMap;
 
     }
 }

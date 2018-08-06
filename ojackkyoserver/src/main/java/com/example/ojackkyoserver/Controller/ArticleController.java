@@ -8,6 +8,9 @@ import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,43 +44,45 @@ public class ArticleController {
         return article;
     }
 
-    @GetMapping("/list/search?")
-    public List<Article> get(@RequestParam(defaultValue = "null") String tag,
-                            @RequestParam(defaultValue = "null") String authorsNickname,
-                             @RequestParam(defaultValue = "null")String text){
+    @GetMapping("/list/search")
+    public Page<Article> get(@RequestParam(defaultValue = "null") String tag,
+                             @RequestParam(defaultValue = "null") String authorsNickname,
+                             @RequestParam(defaultValue = "null")String text, Pageable pageable){
         if(tag != null && !tag.equals("null")){
             List articles = new ArrayList();
-
             List<TagArticleMap> map = tagArticleMapRepository.findAllByTagName(tag);
-            for (TagArticleMap e : map){
-                articles.add(articleRepository.findById(e.getArticle()));
-            }
-            return articles;
-        }else if (authorsNickname != null && authorsNickname.equals("null")){
-            List<Article> articles = articleRepository.findAlLByAuthorsNickname(authorsNickname);
+            List<Integer> ids = new ArrayList<>();
+            return articleRepository.findByIdIn(ids, pageable);
+        }else if (authorsNickname != null && !authorsNickname.equals("null")){
+            Page<Article> articles = articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
             return articles;
         }else if (text != null && !text.equals("null")){
             String[] words = text.split(" ");
 
+            ArrayList fullResult = new ArrayList();
             List<Article> Articles = articleRepository.findAll();
-            ArrayList<ArrayList> sets = new ArrayList();
-            for (int i = 0 ; i < words.length; i++){
-                sets.add(new ArrayList<Article>());
-            }
+
             for (Article e : Articles){
-                int matchTime = 0;
                 for (String w : words) {
-                    if(e.getText().contains(w)) {matchTime++;}
+                    if (e.getTitle().contains(w)) {e.setSearchPriority(e.getSearchPriority()+2);}
+                    else if(e.getText().contains(w)) {e.setSearchPriority(e.getSearchPriority()+1);}
                 }
-                if (matchTime >= 1){
-                    sets.get(matchTime - 1).add(e);
+                if(e.getSearchPriority()>1){
+                    fullResult.add(e);
                 }
             }
+            fullResult.sort((Comparator) (o, t1) -> {
+                if (((Article)o).getSearchPriority() < ((Article)t1).getSearchPriority() ){
+                    return 1;
+                }else if (((Article)o).getSearchPriority() == ((Article)t1).getSearchPriority() ){
+                    return 0;
+                }else {return -1;}
+            });
             ArrayList result = new ArrayList();
-            for (int i = words.length -1 ; i >= 0 ; i--){
-                result.addAll(sets.get(i));
+            for (int i = pageable.getPageSize() * pageable.getPageNumber() ; i < (pageable.getPageSize()+1) * pageable.getPageNumber() ; i++){
+                result.add(fullResult.get(i));
             }
-            return result;
+            return articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
 
         }else{
             return null;
@@ -93,7 +98,7 @@ public class ArticleController {
         article.setTimeCreated(sdf.format(new Date()));
         final Article[] result = {null};
         AuthContext.askLoginedAndRun(token, res, ()->{
-            result[0] = articleRepository.save(article);
+            result[0] = (Article) articleRepository.save(article);
             ArrayList<TagArticleMap> maps = article.getTagArticleMaps();
             for (TagArticleMap e : maps){
                 if (tagRepository.existsByName(e.getTagName())){
@@ -117,7 +122,7 @@ public class ArticleController {
         final Article[] result = {null};
         AuthContext.askAuthorityAndRun(article.getAuthorsNickname(), token, res, ()->{
             if(articleRepository.existsById(article.getId())){
-                result[0] = articleRepository.save(article);
+                result[0] = (Article) articleRepository.save(article);
             }else{
                 try {
                     res.sendError(404, "존재하지 않은 자원에 대한 수정입니다.");

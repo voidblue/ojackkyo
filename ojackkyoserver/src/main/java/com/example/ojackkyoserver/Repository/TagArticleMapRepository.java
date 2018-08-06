@@ -1,6 +1,8 @@
 package com.example.ojackkyoserver.Repository;
 
 import com.example.ojackkyoserver.Model.TagArticleMap;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
