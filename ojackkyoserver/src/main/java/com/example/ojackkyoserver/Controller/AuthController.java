@@ -46,4 +46,18 @@ public class AuthController {
         return hashMap;
 
     }
+
+    @GetMapping("/duplicationCheck/{uid}")
+    public HashMap duplicationCheck(@PathVariable String uid, HttpServletResponse res){
+        if(userRepository.existsByUid(uid)) {
+            HashMap hashMap = new HashMap();
+            hashMap.put("결과", "중복되지 않았습니다.");
+            return hashMap;
+        }else{
+            HashMap hashMap = new HashMap();
+            res.setStatus(404, "아이디가 중복되었습니다.");
+            return null;
+        }
+
+    }
 }
