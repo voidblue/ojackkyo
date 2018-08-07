@@ -45,7 +45,7 @@ input[name = title] {
   margin-left: 27px;
 }
 
-input[name = content_box] {
+textarea[name = content_box] {
   background-color: gray;
   border: 0;
   width: 100%;

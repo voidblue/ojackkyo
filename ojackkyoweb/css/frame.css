@@ -1,8 +1,7 @@
 body {
   margin: 0;
+  background-color: #ABA7CD;
 }
-
-
 
 header {
   background-color: #5a5e8f;
@@ -96,7 +95,7 @@ footer {
   margin-left: 7rem;
 }
 
-.blank {
+span {
   display: inline-block;
   width: 18rem;
 }
