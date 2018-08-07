@@ -6,6 +6,7 @@ body{
 
 h1{
     font-size: 3em;
+    color: #ABA7CD;
 }
 
 .login{
@@ -20,6 +21,10 @@ h1{
     width: 60%;
     margin-bottom: 6px;
     margin-left: -72px;
+    height: 1.5em;
+    border: 0;
+    padding-left: 7px;
+    border-radius: 1px;
 }
 
 #userPW{
@@ -30,23 +35,39 @@ h1{
     padding: 0px;
     margin : 0px;
     position: absolute;
-    width: 72px;
-    height: 75px;
-    font-size: 1.2em;
+    width: 85px;
+    height: 82px;
+    font-size: 1.3em;
+    border: 0;
+    border-radius: 2px;
+    background-color: #C5BCD8;
+    color: #DDCDE7;
+    font-weight: bold;
 }
 
 #btnFind{
-    width :48%;
+    width :45%;
     height: 50px;
     font-size: 1.1em;
+    border-radius: 2px;
+    background-color: #9B9AC0;
+    border: 0;
+}
+
+span {
+    width: 2em;
 }
 
 #btnSignIn{
-    width: 48%;
+    width: 45%;
     height: 50px;
     font-size: 1.1em;
+    border-radius: 2px;
+    background-color: #9B9AC0;
+    border: 0;
 }
 
 #btnPack{
+    margin-top: 1.1em;
     width: 330px;
 }
