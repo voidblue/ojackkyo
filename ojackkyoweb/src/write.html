@@ -2,58 +2,34 @@
 <html lang="ko">
   <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="../css/frame.css">
+    <link rel="stylesheet" href="../css/headerFooter.css">
     <link rel="stylesheet" href="../css/write.css">
     <title>게시판</title>
   </head>
   <body class="body">
-    <header>
-      <div class="logo">
-        <a href="#">오 작 교</a>
-      </div>
-      <div class="user">
-        <div class="search">
-          <textarea class="search_bar" type="search"></textarea>
-          <button class="btn" type="button" name="submit"><img class="btn_img" src="../img/search.svg"></button>
-        </div>
-        <button type="button" name="message"><img src="../img/message.svg"></button>
-        <button type="button" name="alarm"><img src="../img/alarm.svg"></button>
-        <button type="button" name="user"><img src="../img/user.svg"></button>
-      </div>
-    </header>
+    <header id = "header"></header>
     <!-- <div class="middle full_width"> -->
         <div class="write_box">
           <div class="content">
             게시판 <input type="text" name="type">
             <p></p>
-            제목 <input type="text" name="title">
+            제목 <input type="text" name="title" id = "title">
             <p></p>
             파일첨부
             <p></p>
-            <textarea name="content_box" wrap="physical"></textarea>
+            <textarea name="content_box" wrap="physical" id = "contents"></textarea>
             <div class="btn_submit">
-              <button type="submit" name="write">작성하기</button>
+              <button type="submit" name="write" onclick="editArticle()">작성하기</button>
             </div>
           </div>
         </div>
     <!-- </div> -->
-    <footer>
-      <div class="ranking_img">
-        주간랭킹 <img src="../img/medal.svg">
-      </div>
-      <div class="senior">
-        졸업생 00학번 000
-      </div>
-      <span class="blank"></span>
-      <div class="junior">
-        재학생 00학번 000
-      </div>
-      <span></span>
-      <div class="btn_more">
-        <button type="button" name="more"><img src="../img/arrow-up.svg"></button>
-      </div>
-    </footer>
+    <footer id = "footer"></footer>
+
   </body>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="../js/frame.js"></script>
+  <script src="../js/GlobalVarialble.js"></script>
+  <script src="../js/write.js"></script>
+  <script src="../js/headerFooter.js"></script>
+
 </html>
