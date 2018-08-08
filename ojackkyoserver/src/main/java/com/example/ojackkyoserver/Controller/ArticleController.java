@@ -94,26 +94,37 @@ public class ArticleController {
     @PostMapping
     public Article create(@RequestBody Article article, HttpServletRequest req, HttpServletResponse res){
         String token = req.getHeader("token");
+        article.setViewed(0);
+        System.out.println(token);
         article.setId(null);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         article.setTimeCreated(sdf.format(new Date()));
         final Article[] result = {null};
+        final ArrayList[] gTags = new ArrayList[1];
         AuthContext.askLoginedAndRun(token, res, ()->{
+            article.setAuthorsNickname((String) AuthContext.decodeToken(token).getBody().get("nickname"));
             result[0] = (Article) articleRepository.save(article);
-            ArrayList<TagArticleMap> maps = article.getTagArticleMaps();
-            for (TagArticleMap e : maps){
-                if (tagRepository.existsByName(e.getTagName())){
-                    Tag tag = (Tag) tagRepository.findByName(e.getTagName());
-                    tag.setReferredTimes(tag.getReferredTimes() + 1);
-                    tagRepository.save(tag);
-                }else{
-                    Tag tag = new Tag();
-                    tag.setReferredTimes(1);
-                    tag.setName(e.getTagName());
-                    tagRepository.save(tag);
+            if(article.getTags() != null) {
+                ArrayList<Tag> tags = article.getTags();
+                for (Tag e : tags) {
+                    gTags[0] = tags;
+                    if (tagRepository.existsByName(e.getName())) {
+                        Tag innerTag = tagRepository.findByName(e.getName());
+                        e.setId(innerTag.getId());
+                        e.setReferredTimes(innerTag.getReferredTimes() + 1);
+                        tagRepository.save(e);
+                    } else {
+                        e.setReferredTimes(1);
+                        e.setName(e.getName());
+                        tagRepository.save(e);
+                    }
                 }
             }
         });
+        for (Object e : gTags[0]){
+            ((TagArticleMap)e).setArticle(result[0].getId());
+        }
+        tagArticleMapRepository.saveAll(gTags[0]);
         return result[0];
     }
 

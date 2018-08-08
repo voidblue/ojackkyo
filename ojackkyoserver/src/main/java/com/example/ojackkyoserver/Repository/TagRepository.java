@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface TagRepository extends JpaRepository<Tag, Integer> {
-    List<Tag> findByName(String name);
+    Tag findByName(String name);
     boolean existsByName(String name);
 }

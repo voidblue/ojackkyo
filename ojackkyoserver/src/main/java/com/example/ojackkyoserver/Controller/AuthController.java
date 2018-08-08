@@ -22,7 +22,6 @@ public class AuthController {
     UserRepository userRepository;
     @PostMapping("/login")
     public HashMap login(@RequestBody Auth auth, HttpServletResponse res){
-        System.out.println("???" + auth);
         String jwtString = null;
         try{
             Optional<User> user = userRepository.findByUid(auth.getUid());
