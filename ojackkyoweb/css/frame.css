@@ -1,8 +1,7 @@
 body {
   margin: 0;
+  background-color: #ABA7CD;
 }
-
-
 
 header {
   background-color: #5a5e8f;
@@ -32,12 +31,28 @@ header {
 
 .search {
   display: inline-block;
+  height: 1.8rem;
+  background-color: white;
+  border-radius: 2px;
 }
 
-.search input {
+.search_bar {
   background-color: white;
   border: 0;
   border-radius: 2px;
+  width: 180px;
+  resize: none;
+  height: 1rem;
+}
+
+.btn {
+  margin-left: -34px;
+}
+
+.btn_img {
+  width: 20px;
+  height: 19px;
+  padding-bottom: 2px;
 }
 
 button {

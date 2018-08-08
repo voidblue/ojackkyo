@@ -20,6 +20,7 @@ public class PostActivity extends AppCompatActivity {
 
         String post_name = intent.getExtras().getString("name");
         String post_kind = intent.getExtras().getString("kind");
+
         kind.setText(post_kind);
         name.setText(post_name);
     }

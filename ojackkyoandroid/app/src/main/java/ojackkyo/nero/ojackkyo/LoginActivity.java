@@ -1,33 +1,29 @@
 package ojackkyo.nero.ojackkyo;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import java.util.concurrent.ExecutionException;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-
-import static android.content.ContentValues.TAG;
+import ojackkyo.nero.ojackkyo.connection.Connection;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btn;
+    UserInfo userInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        userInfo = (UserInfo)getApplicationContext();
 
         btn = (Button) findViewById(R.id.login_btn);
         btn.setOnClickListener(this);
@@ -39,10 +35,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (id) {
             case R.id.login_btn:
                 Connection connection = new Connection();
-                String[] strings = {"id", "password"};
-                connection.execute(strings);
+                JsonObject jsonObject = new JsonObject();
+                jsonObject.addProperty("uid","test");
+                jsonObject.addProperty("password","test");
+
+                JsonObject resultObject = null;
+                try {
+                    Gson gson = new Gson();
+                    String result = (String) connection.execute(jsonObject,"auth/login","POST", null).get();
+                    JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
+                    resultObject = jsonElement.getAsJsonObject();
+
+                    userInfo.setToken(resultObject.get("token").toString());
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
+                LoginActivity.this.finish();
         }
     }
 }

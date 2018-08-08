@@ -1,6 +1,5 @@
 package ojackkyo.nero.ojackkyo;
 
-import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,27 +8,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
-import static android.content.ContentValues.TAG;
+import ojackkyo.nero.ojackkyo.connection.*;
 
 public class EditTextActivity extends AppCompatActivity {
 
     private Spinner boardSpinner;
     private EditText edit_title, edit_text;
     private Button write_btn;
-    private int viewd = 0;
-    private String authorNickname = "test";
+    UserInfo userInfo;
 
     ArrayList<String> board_types = new ArrayList<String>();
 
@@ -38,10 +33,11 @@ public class EditTextActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_text);
 
+        board_types.add("통합게시판");
         board_types.add("자유게시판");
         board_types.add("구직게시판");
-        board_types.add("익명게시판");
         board_types.add("질문게시판");
+        userInfo = (UserInfo) getApplicationContext();
 
 
         boardSpinner = findViewById(R.id.board_type);
@@ -61,7 +57,38 @@ public class EditTextActivity extends AppCompatActivity {
                 final String title = edit_title.getText().toString();
                 final String text = edit_text.getText().toString();
                 final String board_type = boardSpinner.getSelectedItem().toString();
-                Toast.makeText(getApplicationContext(), board_type + " " + title + " " + text + " " + viewd + " " + authorNickname, Toast.LENGTH_LONG).show();
+
+                JsonObject resultObject = null;
+                Connection connection = new Connection();
+                JsonObject jsonObject = new JsonObject();
+
+                jsonObject.addProperty("title", title);
+                jsonObject.addProperty("text", text);
+                JsonArray jsonArray = new JsonArray();
+                JsonObject tag = new JsonObject();
+                tag.addProperty("name", boardSpinner.getSelectedItem().toString().substring(0, 2));
+                JsonObject tag1 = new JsonObject();
+                tag1.addProperty("name","구직");
+                jsonArray.add(tag);
+                jsonArray.add(tag1);
+                jsonObject.add("tags", jsonArray);
+
+                Log.e("게시글 작성", board_type + " " + title + " " + text);
+                try {
+                    Gson gson = new Gson();
+                    String result = (String) connection.execute(jsonObject, "article", "POST", userInfo.getToken()).get();
+
+                    Log.e("result", result);
+                    JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
+                    resultObject = jsonElement.getAsJsonObject();
+
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                EditTextActivity.this.finish();
             }
         });
     }

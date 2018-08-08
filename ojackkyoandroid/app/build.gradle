@@ -31,5 +31,6 @@ dependencies {
     compile 'com.github.ksoichiro:android-observablescrollview:1.5.2'
     compile 'com.jakewharton:butterknife:8.8.1'
     compile 'com.jpardogo.materialtabstrip:library:1.1.1'
+    compile 'com.google.code.gson:gson:2.8.0'
     implementation 'com.android.support:design:26.1.0'
 }

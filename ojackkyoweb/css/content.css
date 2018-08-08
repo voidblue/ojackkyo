@@ -1,0 +1,96 @@
+.middle {
+  text-align: center;
+}
+
+.wrapper {
+  display: inline-block;
+  background-color: white;
+  padding: 20px;
+  width: 60rem;
+  height: 45rem;
+}
+
+.title_box {
+  padding-top: 30px;
+}
+
+.title {
+  font-weight: bold;
+  font-size: 40px;
+}
+
+.detail {
+  text-align: right;
+  font-size: 18px;
+}
+
+.content {
+  margin: auto;
+  width: 90%;
+  height: 13rem;
+  margin-top: 35px;
+  margin-bottom: 35px;
+  text-align: left;
+}
+
+.comment_box {
+  font-size: 18px;
+  width: 90%;
+  margin: auto;
+  height: 12rem;
+}
+
+.comment {
+  background-color: gray;
+  margin: auto;
+  margin-bottom: 7px;
+  text-align: left;
+  padding: 5px;
+}
+
+.cm_writer {
+  display: inline-block;
+  width: 19%;
+  padding-left: 5px;
+}
+
+.cm_content {
+  display: inline-block;
+  width: 60%;
+  padding-left: 5px;
+}
+
+.cm_time {
+  display: inline-block;
+  width: 18%;
+  padding-left: 5px;
+}
+
+.cm_write {
+  width: 90%;
+  margin: auto;
+  text-align: left;
+}
+
+.write {
+  /* display: inline-block; */
+}
+
+input[name="write"] {
+  width: 83%;
+  border: 0;
+  background-color: gray;
+  height: 60px;
+  font-size: 18px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+button[name="wr_button"] {
+  border: 0px;
+  background-color: gray;
+  width: 14%;
+  font-size: 18px;
+  height: 80px;
+  border-radius: 4px;
+}
