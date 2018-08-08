@@ -5,6 +5,7 @@ import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.hibernate.annotations.Synchronize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
@@ -24,17 +25,21 @@ public class AuthController {
         String jwtString = null;
         try{
             Optional<User> user = userRepository.findByUid(auth.getUid());
-            if(user.get().getPassword().equals(auth.getPassword())){
-                jwtString = Jwts.builder()
-                        .setHeaderParam("typ", "JWT")
-                        .setHeaderParam("issueDate", System.currentTimeMillis())
-                        .setSubject("")
-                        .claim("uid", user.get().getUid())
-                        .claim("id", user.get().getId())
-                        .claim("nickname", user.get().getNickname())
+            if(user.isPresent()) {
+                if (user.get().getPassword().equals(auth.getPassword())) {
+                    jwtString = Jwts.builder()
+                            .setHeaderParam("typ", "JWT")
+                            .setHeaderParam("issueDate", System.currentTimeMillis())
+                            .setSubject("")
+                            .claim("uid", user.get().getUid())
+                            .claim("id", user.get().getId())
+                            .claim("nickname", user.get().getNickname())
 //                        .claim("imageName", user.get().getImageName())
-                        .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
-                        .compact();
+                            .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
+                            .compact();
+                } else {
+                    res.setStatus(404);
+                }
             }else{
                 res.setStatus(404);
             }
@@ -47,17 +52,4 @@ public class AuthController {
 
     }
 
-    @GetMapping("/duplicationCheck/{uid}")
-    public HashMap duplicationCheck(@PathVariable String uid, HttpServletResponse res){
-        if(userRepository.existsByUid(uid)) {
-            HashMap hashMap = new HashMap();
-            hashMap.put("결과", "중복되지 않았습니다.");
-            return hashMap;
-        }else{
-            HashMap hashMap = new HashMap();
-            res.setStatus(404, "아이디가 중복되었습니다.");
-            return null;
-        }
-
-    }
 }

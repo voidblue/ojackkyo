@@ -13,8 +13,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import ojackkyo.nero.ojackkyo.fragment.ScrollViewFragment;
@@ -27,7 +25,7 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // 게시판 갯수
-    int pageCount = 8;
+    int pageCount = 4;
 
     Toolbar toolbar;
     HollyViewPager hollyViewPager;
@@ -38,7 +36,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         hollyViewPager = (HollyViewPager) findViewById(R.id.hollyViewPager);
