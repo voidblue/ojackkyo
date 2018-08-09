@@ -2,7 +2,7 @@ function btnLogin(){
     $.ajax({
         headers : {"token":sessionStorage.getItem("token")},
         url: ip +'/auth/login',
-        contentType : 'application/json',
+        contentType : 'application/json; charset=UTF-8',
         type: 'POST',
         async: false,
         data : JSON.stringify({

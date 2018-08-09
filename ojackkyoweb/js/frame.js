@@ -1,4 +1,5 @@
 $("#footer").offset({top:$(document).scrollTop() + $(window).height()-convertRemToPixels(3)})
+
 $(window).scroll(function(){
     $("#footer").offset({top:$(document).scrollTop() + $(window).height()-convertRemToPixels(3)})
 })
