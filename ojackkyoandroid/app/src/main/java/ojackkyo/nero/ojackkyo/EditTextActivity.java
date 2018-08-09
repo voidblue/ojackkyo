@@ -15,6 +15,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
@@ -66,13 +67,24 @@ public class EditTextActivity extends AppCompatActivity {
                 jsonObject.addProperty("title", title);
                 jsonObject.addProperty("text", text);
                 JsonArray jsonArray = new JsonArray();
-                
-                // 게시글 태그 추가하기
-                JsonObject tag = new JsonObject();
-                tag.addProperty("name", boardSpinner.getSelectedItem().toString().substring(0, 2));
-                jsonArray.add(tag);
 
+                ArrayList<String> tags_list = new ArrayList();
+                ArrayList<String> list = new ArrayList();
+
+                String[] tags = text.split("#");
+                Collections.addAll(tags_list, tags);
+                tags_list.remove(0);
+                for (int i = 0; i < tags_list.size(); i++) {
+                    list.add(tags_list.get(i).split(" ")[0]);
+
+                    // 게시글 태그 추가하기
+                    JsonObject tag = new JsonObject();
+                    tag.addProperty("name", list.get(i));
+                    jsonArray.add(tag);
+                    Log.e("태그 테스트 - 최종", list.get(i));
+                }
                 jsonObject.add("tags", jsonArray);
+
                 try {
                     Gson gson = new Gson();
                     String result = (String) connection.execute(jsonObject, "article", "POST", userInfo.getToken()).get();
