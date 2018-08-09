@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         hollyViewPager = (HollyViewPager) findViewById(R.id.hollyViewPager);
-        fb = (FloatingActionButton)findViewById(R.id.edit_text);
+        fb = (FloatingActionButton) findViewById(R.id.edit_text);
         fb.setOnClickListener(this);
 
         setSupportActionBar(toolbar);
@@ -94,15 +94,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.user_info:
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer) ;
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
                 if (!drawer.isDrawerOpen(Gravity.END)) {
                     drawer.openDrawer(Gravity.END);
-                }else {
+                } else {
                     onBackPressed();
                 }
                 Toast.makeText(getApplicationContext(), "사용자정보 버튼 클릭됨", Toast.LENGTH_LONG).show();
                 break;
-
         }
         return true;
     }
@@ -117,11 +116,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
-        switch (id){
+        switch (id) {
             case R.id.edit_text:
                 Intent intent = new Intent(this, EditTextActivity.class);
                 startActivity(intent);

@@ -23,7 +23,7 @@ import static android.content.ContentValues.TAG;
  * Created by wjdal on 2018-08-02.
  */
 
-public class Connection_list extends AsyncTask{
+public class Connection_list extends AsyncTask {
 
     private String path = "";
     private String method = "";
@@ -31,7 +31,7 @@ public class Connection_list extends AsyncTask{
     @Override
     protected String doInBackground(Object[] objects) {
 
-        String serverURL = "http://117.17.102.131:4000/"+objects[1];  // 그거 1개
+        String serverURL = "http://117.17.102.131:4000/" + objects[1];  // 그거 1개
         try {
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
@@ -71,7 +71,7 @@ public class Connection_list extends AsyncTask{
             }
 
             Gson gson = new Gson();
-            JsonElement jsonElement = gson.fromJson(sb.toString(),JsonElement.class);
+            JsonElement jsonElement = gson.fromJson(sb.toString(), JsonElement.class);
             JsonArray result = jsonElement.getAsJsonArray();
 
             bufferedReader.close();

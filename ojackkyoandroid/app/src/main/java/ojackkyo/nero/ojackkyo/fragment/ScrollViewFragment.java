@@ -27,9 +27,9 @@ public class ScrollViewFragment extends Fragment {
     private ListView listView;
     private ListViewAdapter adapter;
 
-    public static ScrollViewFragment newInstance(String title){
+    public static ScrollViewFragment newInstance(String title) {
         Bundle args = new Bundle();
-        args.putString("title",title);
+        args.putString("title", title);
         ScrollViewFragment fragment = new ScrollViewFragment();
 
         fragment.setArguments(args);
@@ -39,16 +39,16 @@ public class ScrollViewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ObservableScrollView view = (ObservableScrollView)inflater.inflate(R.layout.fragment_scroll, container, false);
+        ObservableScrollView view = (ObservableScrollView) inflater.inflate(R.layout.fragment_scroll, container, false);
 
         // 게시판 목록 수정
-        listView = (ListView)view.findViewById(R.id.listview);
+        listView = (ListView) view.findViewById(R.id.listview);
         adapter = new ListViewAdapter();
 
         listView.setAdapter(null);
 
         // 해당 게시판에 게시글 갯수
-        for(int i = 0; i<30;i++){
+        for (int i = 0; i < 30; i++) {
             // 제목 넣어주면 될듯
             adapter.addVO("test " + i);
         }
@@ -59,7 +59,7 @@ public class ScrollViewFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), PostActivity.class);
                 // 게시판 내용 넘겨주기
-                intent.putExtra("id",1);
+                intent.putExtra("id", 1);
                 startActivity(intent);
             }
         });

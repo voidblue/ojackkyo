@@ -49,11 +49,12 @@ public class ListViewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    
+
     @Override
     public long getItemId(int position) {
         return position;
     }
+
     @Override
     public Object getItem(int position) {
         return listVO.get(position);
