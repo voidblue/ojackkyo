@@ -12,7 +12,7 @@ function btnLogin(){
          success : function(data){
             console.log(data.token);
             sessionStorage.setItem("token", data.token);
-            window.location.replace("frame.html"); 
+            window.location.replace("board.html"); 
          },
          error : function(data) {
              alert("ID,PW를 확인하세요");
