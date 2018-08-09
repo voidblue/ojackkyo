@@ -8,6 +8,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -23,7 +25,7 @@ import static android.content.ContentValues.TAG;
  * Created by wjdal on 2018-08-02.
  */
 
-public class Connection_list extends AsyncTask {
+public class Connection_list extends AsyncTask{
 
     private String path = "";
     private String method = "";
@@ -31,24 +33,24 @@ public class Connection_list extends AsyncTask {
     @Override
     protected String doInBackground(Object[] objects) {
 
-        String serverURL = "http://117.17.102.131:4000/" + objects[1];  // 그거 1개
+        String serverURL = "http://117.17.102.131:4000/article/list/search?tag=" + objects[0];  // 그거 1개
         try {
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             httpURLConnection.setRequestProperty("content-type", "application/json; charset=utf-8");
-            httpURLConnection.setRequestProperty("token", (String) objects[3]);
+            httpURLConnection.setRequestProperty("token", (String) objects[1]);
             httpURLConnection.setReadTimeout(5000);
             httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setRequestMethod((String) objects[2]); // 방식 2개
+            httpURLConnection.setRequestMethod("GET"); // 방식 2개
             httpURLConnection.connect();
 
-            JsonObject jsonobject = (JsonObject) objects[0]; // 객체 이름 3개
+//            JsonObject jsonobject = (JsonObject) objects[0]; // 객체 이름 3개
 
-            OutputStream outputStream = httpURLConnection.getOutputStream();
-            outputStream.write(jsonobject.toString().getBytes("UTF-8"));
-            outputStream.flush();
-            outputStream.close();
+//            OutputStream outputStream = httpURLConnection.getOutputStream();
+//            outputStream.write(jsonobject.toString().getBytes("UTF-8"));
+//            outputStream.flush();
+//            outputStream.close();
 
             int responseStatusCode = httpURLConnection.getResponseCode();
 
@@ -70,11 +72,17 @@ public class Connection_list extends AsyncTask {
                 sb.append(line);
             }
 
-            Gson gson = new Gson();
-            JsonElement jsonElement = gson.fromJson(sb.toString(), JsonElement.class);
-            JsonArray result = jsonElement.getAsJsonArray();
+            Log.e(TAG, "스트링빌더 : " + sb.toString() );
+
+//            Gson gson = new Gson();
+//            JsonElement jsonElement = gson.fromJson(sb.toString(),JsonElement.class);
+//            JsonArray result = jsonElement.getAsJsonArray();
+
+            JSONObject result = new JSONObject(sb.toString());
 
             bufferedReader.close();
+
+            Log.e(TAG, "결과 : " + result );
 
             return result.toString();
 

@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -60,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //                if(position%2==0)
 //                    return new RecyclerViewFragment();
 //                else
+                Log.e("스크롤뷰는???", "getItem: " + position );
                 return ScrollViewFragment.newInstance((String) getPageTitle(position));
             }
 
