@@ -53,6 +53,9 @@ public class ArticleController {
             List articles = new ArrayList();
             List<TagArticleMap> map = tagArticleMapRepository.findAllByTagName(tag);
             List<Integer> ids = new ArrayList<>();
+            for(TagArticleMap e : map){
+                ids.add(e.getArticle());
+            }
             return articleRepository.findByIdIn(ids, pageable);
         }else if (authorsNickname != null && !authorsNickname.equals("null")){
             Page<Article> articles = articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
@@ -95,19 +98,19 @@ public class ArticleController {
     public Article create(@RequestBody Article article, HttpServletRequest req, HttpServletResponse res){
         String token = req.getHeader("token");
         article.setViewed(0);
-        System.out.println(token);
         article.setId(null);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         article.setTimeCreated(sdf.format(new Date()));
         final Article[] result = {null};
         final ArrayList[] gTags = new ArrayList[1];
         AuthContext.askLoginedAndRun(token, res, ()->{
+            System.out.println(article);
             article.setAuthorsNickname((String) AuthContext.decodeToken(token).getBody().get("nickname"));
             result[0] = (Article) articleRepository.save(article);
             if(article.getTags() != null) {
                 ArrayList<Tag> tags = article.getTags();
+                gTags[0] = tags;
                 for (Tag e : tags) {
-                    gTags[0] = tags;
                     if (tagRepository.existsByName(e.getName())) {
                         Tag innerTag = tagRepository.findByName(e.getName());
                         e.setId(innerTag.getId());
@@ -121,10 +124,18 @@ public class ArticleController {
                 }
             }
         });
-        for (Object e : gTags[0]){
-            ((TagArticleMap)e).setArticle(result[0].getId());
+        if(gTags[0] != null) {
+            ArrayList<Tag> tagsForCreate = new ArrayList<>();
+            ArrayList<TagArticleMap> tams = new ArrayList<>();
+            for (Object e : gTags[0]) {
+                TagArticleMap tam = new TagArticleMap();
+                tam.setArticle(result[0].getId());
+                tam.setTagName(((Tag) e).getName());
+                tams.add(tam);
+                tagsForCreate.add((Tag) e);
+            }
+            tagArticleMapRepository.saveAll(tams);
         }
-        tagArticleMapRepository.saveAll(gTags[0]);
         return result[0];
     }
 

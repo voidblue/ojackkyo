@@ -44,7 +44,7 @@ public class UserController {
         }
 
     }
-    @GetMapping("/nicknameCheck/{uid}")
+    @GetMapping("/nicknameCheck/{nickname}")
     public HashMap duplicationCheck(@PathVariable String nickname, HttpServletResponse res){
         if(!userRepository.existsByNickname(nickname)) {
             HashMap hashMap = new HashMap();
@@ -64,6 +64,26 @@ public class UserController {
             res.sendError(400, "중복 키 에러입니다.");
             return null;
         }else {
+            String[] basicTags = {"자유", "구직", "질의응답"};
+            String[] tags = user.getTags();
+            if(tags!=null) {
+                if (tags.length >= 6) {
+                    res.sendError(400, "태그가 너무 많습니다.");
+                    return null;
+                } else {
+                    String[] signInTag = new String[tags.length + 3];
+                    for (int i = 0; i < tags.length; i++) {
+                        signInTag[i] = tags[i];
+                        user.setNullTags(signInTag);
+                    }
+                    for (int i = tags.length; i < signInTag.length; i++) {
+                        signInTag[i] = basicTags[i-signInTag.length];
+                        user.setNullTags(signInTag);
+                    }
+                }
+            }else{
+                user.setNullTags(basicTags);
+            }
             return userRepository.save(user);
         }
     }

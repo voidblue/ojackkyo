@@ -3,6 +3,7 @@ package com.example.ojackkyoserver.Controller;
 import com.example.ojackkyoserver.Model.Auth;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
+import io.jsonwebtoken.JwtBuilder;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.hibernate.annotations.Synchronize;
@@ -11,6 +12,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -26,6 +28,7 @@ public class AuthController {
         try{
             Optional<User> user = userRepository.findByUid(auth.getUid());
             if(user.isPresent()) {
+//                System.out.println(Arrays.toString(user.get().getNotNullTags().toArray()));
                 if (user.get().getPassword().equals(auth.getPassword())) {
                     jwtString = Jwts.builder()
                             .setHeaderParam("typ", "JWT")
@@ -34,7 +37,7 @@ public class AuthController {
                             .claim("uid", user.get().getUid())
                             .claim("id", user.get().getId())
                             .claim("nickname", user.get().getNickname())
-//                        .claim("imageName", user.get().getImageName())
+                            .claim("tags", Arrays.toString(user.get().notNullTags().toArray()))
                             .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
                             .compact();
                 } else {
