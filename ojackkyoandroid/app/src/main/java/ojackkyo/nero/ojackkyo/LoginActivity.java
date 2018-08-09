@@ -29,6 +29,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         login_btn = (Button) findViewById(R.id.login_btn);
         reg_btn = (Button)findViewById(R.id.reg);
+
         reg_btn.setOnClickListener(this);
         login_btn.setOnClickListener(this);
 
@@ -69,10 +70,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 Intent main_intent = new Intent(this, MainActivity.class);
                 startActivity(main_intent);
                 LoginActivity.this.finish();
+                break;
 
             case R.id.reg:
                 Intent reg_intent = new Intent(this, RegActivity.class);
                 startActivity(reg_intent);
+                break;
 
         }
     }

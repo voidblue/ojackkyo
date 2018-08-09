@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    // 게시판 갯수
+    // 게시판 갯수 --> 총 태그 갯수
     int pageCount = 4;
 
     Toolbar toolbar;
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public CharSequence getPageTitle(int position) {
                 return "" + position + "게시판";
-            }
+            } //태그 이름
         });
     }
 

@@ -69,7 +69,7 @@ public class EditTextActivity extends AppCompatActivity {
 
                 ArrayList<String> tags_list = new ArrayList();
                 ArrayList<String> list = new ArrayList();
-
+                list.add("통합");
                 String[] tags = text.split("#");
                 Collections.addAll(tags_list, tags);
                 tags_list.remove(0);
