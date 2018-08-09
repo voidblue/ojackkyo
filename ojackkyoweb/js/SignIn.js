@@ -26,6 +26,18 @@ function SignIn(){
     })
 }
 
+$('#inputPWChk').keyup(function () {
+    var inputPW = $('#inputPW').val();
+    var inputPWChk = $('#inputPWChk').val();			 		 
+
+    if (inputPW==inputPWChk) {
+        $('#pwChk').html("PASSWARD가 일치합니다.");
+    } else {
+        $('#pwChk').html("PASSWARD가 일치하지 않습니다.");
+    }
+
+});
+
 $("#btnID").click(function(){
     $.ajax({
         url: ip +'/user/uidCheck/' + $("#inputID").val(),
