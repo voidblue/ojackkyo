@@ -5,12 +5,12 @@ if(sessionStorage.getItem("token") == null){
 
 }
 else{
-    b64claims = sessionStorage.getItem("token").split(".")[1];    
+    b64claims = sessionStorage.getItem("token").split(".")[1];
     claims = JSON.parse(b64DecodeUnicode(b64claims));
-    
+
     console.log(claims);
     arrayTag=claims.tags.split('=');
-    
+
     for(var i=0; i<arrayTag.length; i++){
         arrayTag[i] = arrayTag[i].split('}')[0];
 
@@ -28,7 +28,7 @@ else{
                 obj = data.content
                 console.log(obj)
                 $.each(obj, function (key, value){
-                    innerstr += '<button onclick="showArticle('+value.id+')" >\
+                    innerstr += '<button class="content_btn" onclick="showArticle('+value.id+')" >\
                     <div class="content">'+value.title+'</div>\
                     </a>'
                 })
@@ -40,7 +40,7 @@ else{
                     <a href="write.html">\
                         <button type="button" name="write">글쓰기</button>\
                     </a>\
-                </div>'      
+                </div>'
             },
             error : function(data) {
                 console.log(data)
