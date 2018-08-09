@@ -15,11 +15,7 @@
     + [Android](https://ovenapp.io/view/A1kYDhqwPgk23cXvKHKM9Mw2TS99OrrK)
 
 
-<<<<<<< HEAD
-###Web
-=======
 ## Web
->>>>>>> 22cac8987b891de88d5079a274b997cc232ce857
 * 7/12 - 웹, 안드로이드 폴더 생성 (원정민)
 * 7/24 - 웹 수정(ip주소 변경 등) (신영재)
 * 7/25 - 로그인 페이지 html, css 완성 git push 완료 (박윤지)
