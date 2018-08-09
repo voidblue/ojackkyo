@@ -30,6 +30,7 @@ public class UserInfo extends Application {
         this.token = token.substring(1,token.length() -1);
         text = this.token.split("\\.", 0);
         정보 = new String(Base64.decode(text[1], Base64.DEFAULT));
+        Log.e("정보", 정보);
         setNickname();
     }
 

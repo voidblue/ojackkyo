@@ -47,7 +47,9 @@ public class ScrollViewFragment extends Fragment {
 
         listView.setAdapter(null);
 
+        // 해당 게시판에 게시글 갯수
         for(int i = 0; i<30;i++){
+            // 제목 넣어주면 될듯
             adapter.addVO("test " + i);
         }
         listView.setAdapter(adapter);
@@ -57,8 +59,7 @@ public class ScrollViewFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getContext(), PostActivity.class);
                 // 게시판 내용 넘겨주기
-                intent.putExtra("kind", getArguments().getString("title"));
-                intent.putExtra("name","test" + position);
+                intent.putExtra("id",1);
                 startActivity(intent);
             }
         });

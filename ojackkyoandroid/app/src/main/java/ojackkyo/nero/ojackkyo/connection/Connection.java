@@ -48,10 +48,15 @@ public class Connection extends AsyncTask {
 
             JsonObject jsonobject = (JsonObject) objects[0]; // 객체 이름 3개
 
-            OutputStream outputStream = httpURLConnection.getOutputStream();
-            outputStream.write(jsonobject.toString().getBytes("UTF-8"));
-            outputStream.flush();
-            outputStream.close();
+            if (((String) objects[2]).equals("GET") ||((String) objects[2]).equals("DELETE") ) {
+
+            } else {
+
+                OutputStream outputStream = httpURLConnection.getOutputStream();
+                outputStream.write(jsonobject.toString().getBytes("UTF-8"));
+                outputStream.flush();
+                outputStream.close();
+            }
 
 
             int responseStatusCode = httpURLConnection.getResponseCode();
@@ -80,24 +85,6 @@ public class Connection extends AsyncTask {
                 return result.toString();
 
             } else {
-                inputStream = httpURLConnection.getInputStream();
-                Log.d(TAG, "********************HTTP_OK**********************");
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                Gson gson = new Gson();
-                JsonElement jsonElement = gson.fromJson(sb.toString(), JsonElement.class);
-                JsonObject result = jsonElement.getAsJsonObject();
-
-                bufferedReader.close();
 
                 Log.e("에러 테스트", String.valueOf(responseStatusCode));
                 return "bb";
