@@ -7,7 +7,7 @@
   background-color: white;
   padding: 20px;
   width: 60rem;
-  height: 45rem;
+  max-height: 100%;
 }
 
 .title_box {
@@ -19,9 +19,28 @@
   font-size: 40px;
 }
 
+.hr1 {
+  background-color: gray;
+  border: 0;
+  height: 1.5px;
+  margin-bottom: 5px;
+  width: 95%;
+}
+
 .detail {
-  text-align: right;
+  text-align: left;
   font-size: 18px;
+  padding-left: 15px;
+  margin: auto;
+  width: 95%;
+}
+
+.hr2 {
+  background-color: #E1E1E1;
+  border: 0;
+  height: 1px;
+  margin-top: 2px;
+  width: 95%;
 }
 
 .content {
@@ -31,6 +50,13 @@
   margin-top: 35px;
   margin-bottom: 35px;
   text-align: left;
+}
+
+.hr3 {
+  background-color: #E1E1E1;
+  border: 0;
+  height: 1px;
+  margin-bottom: : 10px;
 }
 
 .comment_box {
