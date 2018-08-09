@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     Button btn;
     UserInfo userInfo;
+    EditText id_input, pw_input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +29,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         btn = (Button) findViewById(R.id.login_btn);
         btn.setOnClickListener(this);
+
+        id_input = (EditText)findViewById(R.id.input_id);
+        pw_input = (EditText)findViewById(R.id.input_pw);
     }
 
     @Override
@@ -35,11 +40,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (id) {
             case R.id.login_btn:
 
-                
+                String user_id = id_input.getText().toString();
+                String user_pw = pw_input.getText().toString();
+
                 Connection connection = new Connection();
                 JsonObject jsonObject = new JsonObject();
-                jsonObject.addProperty("uid","test");
-                jsonObject.addProperty("password","test");
+                jsonObject.addProperty("uid",user_id);
+                jsonObject.addProperty("password",user_pw);
 
                 JsonObject resultObject = null;
                 try {

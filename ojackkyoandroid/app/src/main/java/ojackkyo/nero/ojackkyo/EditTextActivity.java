@@ -16,6 +16,7 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+import java.util.logging.Level;
 
 import ojackkyo.nero.ojackkyo.connection.*;
 
@@ -65,15 +66,13 @@ public class EditTextActivity extends AppCompatActivity {
                 jsonObject.addProperty("title", title);
                 jsonObject.addProperty("text", text);
                 JsonArray jsonArray = new JsonArray();
+                
+                // 게시글 태그 추가하기
                 JsonObject tag = new JsonObject();
                 tag.addProperty("name", boardSpinner.getSelectedItem().toString().substring(0, 2));
-                JsonObject tag1 = new JsonObject();
-                tag1.addProperty("name","구직");
                 jsonArray.add(tag);
-                jsonArray.add(tag1);
-                jsonObject.add("tags", jsonArray);
 
-                Log.e("게시글 작성", board_type + " " + title + " " + text);
+                jsonObject.add("tags", jsonArray);
                 try {
                     Gson gson = new Gson();
                     String result = (String) connection.execute(jsonObject, "article", "POST", userInfo.getToken()).get();
