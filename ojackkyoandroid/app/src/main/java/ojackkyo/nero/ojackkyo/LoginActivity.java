@@ -34,6 +34,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int id = v.getId();
         switch (id) {
             case R.id.login_btn:
+
+                
                 Connection connection = new Connection();
                 JsonObject jsonObject = new JsonObject();
                 jsonObject.addProperty("uid","test");

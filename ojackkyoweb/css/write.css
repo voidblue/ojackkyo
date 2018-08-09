@@ -2,9 +2,7 @@ body {
   margin: 0;
 }
 .body {
-  /* text-align: center; */
   background-color: #ABA7CD;
-  /*position: absolute;*/
   min-height: 51rem;
   width: 100%;
   text-align: center;
@@ -18,7 +16,7 @@ body {
   background-color: white;
   margin: 0 auto;
   width: 60rem;
-  height: 45rem;
+  max-height: 100%;
 }
 
 .content {
