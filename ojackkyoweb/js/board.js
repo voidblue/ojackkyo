@@ -28,7 +28,7 @@ else{
                 obj = data.content
                 console.log(obj)
                 $.each(obj, function (key, value){
-                    innerstr += '<a href="content.html" >\
+                    innerstr += '<button onclick="showArticle('+value.id+')" >\
                     <div class="content">'+value.title+'</div>\
                     </a>'
                 })
@@ -60,3 +60,8 @@ function b64DecodeUnicode(str) {
     }).join(''));
 }
 //디코드 함수//
+
+
+function showArticle(id){
+    window.location.href = "content.html?id=" + id
+}
