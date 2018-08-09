@@ -1,6 +1,9 @@
 $("#footer").offset({top:$(document).scrollTop() + $(window).height()-convertRemToPixels(3)})
 $(window).scroll(function(){
-    $("#footer").offset({top:$(document).scrollTop() + $(window).height()-convertRemToPixels(3)})
+    var limit = $(document).scrollTop() +$(window).height()-convertRemToPixels(3);
+    if(limit < convertRemToPixels(51)){
+      $("#footer").offset({top:$(document).scrollTop() + $(window).height()-convertRemToPixels(3)})
+    }
 })
 
 $("#header").offset({top:$(document).scrollTop()});
