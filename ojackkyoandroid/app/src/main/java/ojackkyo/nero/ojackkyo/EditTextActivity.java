@@ -17,7 +17,6 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.ExecutionException;
-import java.util.logging.Level;
 
 import ojackkyo.nero.ojackkyo.connection.*;
 

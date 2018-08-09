@@ -48,7 +48,7 @@ public class Connection extends AsyncTask {
 
             JsonObject jsonobject = (JsonObject) objects[0]; // 객체 이름 3개
 
-            if (((String) objects[2]).equals("GET") ||((String) objects[2]).equals("DELETE") ) {
+            if (((String) objects[2]).equals("GET") || ((String) objects[2]).equals("DELETE")) {
 
             } else {
 

@@ -20,11 +20,12 @@ import ojackkyo.nero.ojackkyo.connection.Connection;
 public class PostActivity extends AppCompatActivity {
     TextView name, kind, context;
     UserInfo userInfo;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post);
-        userInfo = (UserInfo)getApplicationContext();
+        userInfo = (UserInfo) getApplicationContext();
 
         Connection connection = new Connection();
         JsonObject jsonObject = new JsonObject();
@@ -33,9 +34,9 @@ public class PostActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int id_index = intent.getExtras().getInt("id");
 
-        name = (TextView)findViewById(R.id.title);
-        kind = (TextView)findViewById(R.id.kind);
-        context = (TextView)findViewById(R.id.context);
+        name = (TextView) findViewById(R.id.title);
+        kind = (TextView) findViewById(R.id.kind);
+        context = (TextView) findViewById(R.id.context);
 
 
         Log.e("게시글 보기", String.valueOf(id_index));
@@ -46,14 +47,13 @@ public class PostActivity extends AppCompatActivity {
             JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
             resultObject = jsonElement.getAsJsonObject();
 
-            String post_context = resultObject.get("text").toString().substring(1,resultObject.get("text").toString().length()-1);
+            String post_context = resultObject.get("text").toString().substring(1, resultObject.get("text").toString().length() - 1);
             String post_kind = resultObject.get("tags").toString();
-            String post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length()-1);
+            String post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length() - 1);
 
             context.setText(post_context);
             kind.setText(post_kind);
             name.setText(post_name);
-
 
 
         } catch (InterruptedException e) {

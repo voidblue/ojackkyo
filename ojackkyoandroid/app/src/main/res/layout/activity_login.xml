@@ -27,6 +27,7 @@
             android:layout_height="30dp"
             android:background="#ffffff"
             android:textColorHint="#000000"
+
             android:layout_margin="20dp"
             android:hint="아이디를 입력하세요" />
 
