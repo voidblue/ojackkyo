@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FFC000"
+    android:background="#73779E"
     tools:context="ojackkyo.nero.ojackkyo.SplashActivity">
 
     <ImageView

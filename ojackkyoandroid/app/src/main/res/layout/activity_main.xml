@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        tools:background="#3FFF" />
+        tools:background="#73779E" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"
@@ -42,6 +42,7 @@
 
             <android.support.design.widget.FloatingActionButton
                 android:id="@+id/edit_text"
+                android:backgroundTint="@color/floating"
                 android:layout_width="70dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
