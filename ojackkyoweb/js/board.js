@@ -19,7 +19,7 @@ else{
     for(var i=1; i<arrayTag.length; i++){
         innerstr = "";
         $.ajax({
-            url: ip +'/article/list/search?tag=' + arrayTag[i],
+            url: ip +'/article/list/search?tag=' + arrayTag[i] +'&sort=timeCreated,desc',
             contentType : 'application/json',
             type: 'GET',
             async: false,

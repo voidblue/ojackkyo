@@ -1,22 +1,14 @@
-html {
-  height: 100%;
-}
 
-body {
-  margin: 0;
-}
 .body {
-  background-color: #ABA7CD;
   min-height: 51rem;
   width: 100%;
-  text-align: center;
+  /* text-align: center; */
   height: 100%;
-
 }
 
 .write_box {
   text-align: left;
-  display: inline-block;
+  /* display: inline-block; */
   background-color: white;
   margin: 0 auto;
   width: 60rem;
@@ -27,7 +19,9 @@ body {
   padding-top: 50px;
   padding-left: 150px;
   padding-right: 150px;
+  padding-bottom: 5px;
   font-size: 20px;
+
 }
 
 input[name = type] {

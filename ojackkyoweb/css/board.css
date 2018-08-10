@@ -1,3 +1,7 @@
+html {
+  /* background-image: url("../img/back.png"); */
+}
+
 .middle {
   padding: 15px;
 }
@@ -56,10 +60,10 @@ button[name="write"] {
   display: block;
   margin: auto;
   width: 88%;
-  /* background-color: gray; */
+  margin-top: 12px;
   padding: 10px;
   font-size: 15px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
 }
 
 button:hover {
