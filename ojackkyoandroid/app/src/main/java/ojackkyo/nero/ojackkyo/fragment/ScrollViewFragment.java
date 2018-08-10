@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.ListResourceBundle;
 import java.util.concurrent.ExecutionException;
 
 import butterknife.ButterKnife;
@@ -45,7 +46,7 @@ public class ScrollViewFragment extends Fragment {
     UserInfo userInfo;
 
     ArrayList<String> titleList = new ArrayList<String>();
-    ArrayList<String> idList = new ArrayList<>();
+    ArrayList<Integer> idList = new ArrayList<>();
 
     String[] tag;
     static int count = 0;
@@ -98,7 +99,7 @@ public class ScrollViewFragment extends Fragment {
 
             try {
                 titleList.add(listResult.getString("title"));
-                idList.add(listResult.getString("id"));
+                idList.add(listResult.getInt("id"));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -126,8 +127,9 @@ public class ScrollViewFragment extends Fragment {
 
                 Log.e("item", "onItemClick: "  + adapter.getItemId(position));
                 int id1 = (int) adapter.getItemId(position);
+
                 // 게시판 내용 넘겨주기
-                intent.putExtra("id", id1);
+                intent.putExtra("id", idList.get(id1));
                 startActivity(intent);
             }
         });
