@@ -23,7 +23,6 @@ import ojackkyo.nero.ojackkyo.connection.*;
 
 public class EditTextActivity extends AppCompatActivity {
 
-    private Spinner boardSpinner;
     private EditText edit_title, edit_text;
     private Button write_btn;
     UserInfo userInfo;
@@ -41,12 +40,6 @@ public class EditTextActivity extends AppCompatActivity {
         board_types.add("질문게시판");
         userInfo = (UserInfo) getApplicationContext();
 
-
-        boardSpinner = findViewById(R.id.board_type);
-        ArrayAdapter<String> boardAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, board_types);
-        boardAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        boardSpinner.setAdapter(boardAdapter);
-
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_text = (EditText) findViewById(R.id.edit_text);
         write_btn = (Button) findViewById(R.id.write_btn);
@@ -57,7 +50,6 @@ public class EditTextActivity extends AppCompatActivity {
 
                 final String title = edit_title.getText().toString();
                 final String text = edit_text.getText().toString();
-                final String board_type = boardSpinner.getSelectedItem().toString();
 
                 JsonObject resultObject = null;
                 Connection connection = new Connection();

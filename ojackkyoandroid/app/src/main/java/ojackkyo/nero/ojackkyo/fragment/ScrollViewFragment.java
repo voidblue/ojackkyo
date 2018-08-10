@@ -49,7 +49,7 @@ public class ScrollViewFragment extends Fragment {
     ArrayList<Integer> idList = new ArrayList<>();
 
     String[] tag;
-    static int count = 0;
+    static int count;
 
     public static ScrollViewFragment newInstance(String title){
         Bundle args = new Bundle();
@@ -57,6 +57,7 @@ public class ScrollViewFragment extends Fragment {
         ScrollViewFragment fragment = new ScrollViewFragment();
 
         fragment.setArguments(args);
+        count=0;
         return fragment;
     }
 
