@@ -51,7 +51,6 @@ public class ScrollViewFragment extends Fragment {
     String[] tag;
     static int count = 0;
 
-
     public static ScrollViewFragment newInstance(String title){
         Bundle args = new Bundle();
         args.putString("title",title);

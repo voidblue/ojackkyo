@@ -35,7 +35,7 @@ public class Connection_list extends AsyncTask{
     @Override
     protected String doInBackground(Object[] objects) {
 
-        String serverURL = "http://117.17.102.131:4000/article/list/search?tag=" + objects[0];  // 그거 1개
+        String serverURL = "http://117.17.102.131:4000/article/list/search?tag=" + objects[0] + "&sort=timeCreated,desc";  // 그거 1개
         try {
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();

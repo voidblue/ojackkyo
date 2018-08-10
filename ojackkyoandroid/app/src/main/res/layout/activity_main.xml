@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        tools:background="#73779E" />
+        tools:background="#5A5E8F" />
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"

@@ -1,5 +1,6 @@
 package ojackkyo.nero.ojackkyo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -50,7 +51,6 @@ public class EditTextActivity extends AppCompatActivity {
         edit_text = (EditText) findViewById(R.id.edit_text);
         write_btn = (Button) findViewById(R.id.write_btn);
 
-
         write_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,7 +76,8 @@ public class EditTextActivity extends AppCompatActivity {
                 tags_list.remove(0);
                 for (int i = 0; i < tags_list.size(); i++) {
                     list.add(tags_list.get(i).split(" ")[0]);
-
+                }
+                for (int i = 0; i<list.size();i++){
                     // 게시글 태그 추가하기
                     JsonObject tag = new JsonObject();
                     tag.addProperty("name", list.get(i));
@@ -99,8 +100,17 @@ public class EditTextActivity extends AppCompatActivity {
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
+                Intent intent = new Intent(EditTextActivity.this, MainActivity.class);
+                startActivity(intent);
                 EditTextActivity.this.finish();
             }
         });
+    }
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(EditTextActivity.this, MainActivity.class);
+        startActivity(intent);
+        EditTextActivity.this.finish();
     }
 }
