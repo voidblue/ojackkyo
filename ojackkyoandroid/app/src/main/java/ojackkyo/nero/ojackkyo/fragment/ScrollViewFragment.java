@@ -34,7 +34,6 @@ public class ScrollViewFragment extends Fragment {
 
     ObservableScrollView scrollView;
     TextView title;
-    static int count=0;
 
 
 
@@ -48,7 +47,8 @@ public class ScrollViewFragment extends Fragment {
     ArrayList<String> titleList = new ArrayList<String>();
     ArrayList<String> idList = new ArrayList<>();
 
-    String tag[] = {"통합", "자유", "구직", "질의응답"};
+    String[] tag;
+    static int count = 0;
 
 
     public static ScrollViewFragment newInstance(String title){
@@ -66,16 +66,20 @@ public class ScrollViewFragment extends Fragment {
         ObservableScrollView view = (ObservableScrollView)inflater.inflate(R.layout.fragment_scroll, container, false);
         userInfo = (UserInfo) getActivity().getApplicationContext();
 
+        tag = userInfo.setTag();
         Connection_list connection_list = new Connection_list();
         try {
 
-            Object list =  connection_list.execute(tag[0],userInfo.getToken()).get();
+            Object list =  connection_list.execute(tag[count],userInfo.getToken()).get();
+            count = count + 1;
+            Log.e("count", "count: " + count );
 
             listResult = new JSONObject(list.toString());
 
             contentList = listResult.getJSONArray("content");
 
             Log.e("ddd", "결과: " + contentList.length());
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -83,7 +87,6 @@ public class ScrollViewFragment extends Fragment {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
 
 
         for(int i = 0; i< contentList.length(); i++){
@@ -101,7 +104,7 @@ public class ScrollViewFragment extends Fragment {
             }
         }
 
-        Log.e("타이틀 결과", "타이틀결과 " + titleList.get(1) );
+//        Log.e("타이틀 결과", "타이틀결과 " + titleList.get(1) );
 
         // 게시판 목록 수정
         listView = (ListView)view.findViewById(R.id.listview);
@@ -128,8 +131,7 @@ public class ScrollViewFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
-            return view;
+         return view;
     }
 
 

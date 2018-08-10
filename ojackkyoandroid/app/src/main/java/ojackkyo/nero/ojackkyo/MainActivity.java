@@ -26,17 +26,25 @@ import butterknife.ButterKnife;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     // 게시판 갯수 --> 총 태그 갯수
-    int pageCount = 4;
+    int pageCount;
 
     Toolbar toolbar;
     HollyViewPager hollyViewPager;
     FloatingActionButton fb;
+
+    UserInfo userInfo;
+    String[] tag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+        userInfo = (UserInfo) getApplicationContext();
+
+        tag = userInfo.setTag(); //userinfo에서 tag 배열 호출
+        pageCount =tag.length;
+        Log.e("pagecount : ", "   " + pageCount );
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         hollyViewPager = (HollyViewPager) findViewById(R.id.hollyViewPager);
@@ -55,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
+
         hollyViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -72,7 +81,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             @Override
             public CharSequence getPageTitle(int position) {
-                return "" + position + "게시판";
+
+                return "" + tag[position] + "게시판";
             } //태그 이름
         });
     }
