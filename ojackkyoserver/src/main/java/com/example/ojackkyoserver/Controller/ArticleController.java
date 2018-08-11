@@ -32,15 +32,16 @@ public class ArticleController {
     @Autowired
     TagRepository tagRepository;
     @GetMapping("/{id}")
-    public Article get(@PathVariable Integer id){
-        Article article;
+    public Article get(@PathVariable Integer id, HttpServletResponse res){
+        Article article = null;
         Optional<Article> optArticle = articleRepository.findById(id);
-        if(optArticle.isPresent()) {
+        try {
             article = optArticle.get();
             article.setViewed(article.getViewed() + 1);
             articleRepository.save(article);
-        }else{
-            article = null;
+        }catch (NullPointerException e){
+            System.out.println("id : " + id + " message : " + e.getMessage());
+            res.setStatus(404, "존재하지 않는 자원입니다.");
         }
         return article;
     }
@@ -97,9 +98,16 @@ public class ArticleController {
     @PostMapping
     public Article create(@RequestBody Article article, HttpServletRequest req, HttpServletResponse res){
         String token = req.getHeader("token");
+        if(article.getTitle().equals("")){
+            res.setStatus(404,"제목이 없습니다. ");
+            return null;
+        }
         article.setViewed(0);
         article.setId(null);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        TimeZone time = TimeZone.getTimeZone("Asia/Seoul");
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        sdf.setTimeZone(time);
         article.setTimeCreated(sdf.format(new Date()));
         final Article[] result = {null};
         final ArrayList[] gTags = new ArrayList[1];
