@@ -116,7 +116,7 @@ button img {
   color: #ABA7CD;
   font-size: 29px;
   margin-left: 15%;
-  vertical-align: middle;
+  vertical-align: baseline;
 }
 
 .junior {
@@ -124,7 +124,7 @@ button img {
   color: #ABA7CD;
   font-size: 29px;
   margin-left: 15%;
-  vertical-align: middle;
+  vertical-align: baseline;
 }
 
 .btn_more {
