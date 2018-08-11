@@ -19,7 +19,7 @@ function convertRemToPixels(rem) {
 
 $("#header").html('\
 <div class="logo">\
-  <a href="#">오 작 교</a>\
+  <a href="board.html">오 작 교</a>\
 </div>\
 <div class="user">\
   <div class="search">\
