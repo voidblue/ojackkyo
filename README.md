@@ -10,6 +10,7 @@
 + [Web](https://github.com/voidblue/ojackkyo#web)
 + [Android](https://github.com/voidblue/ojackkyo#android)
 + [Server](https://github.com/voidblue/ojackkyo#server)
+
 ### 참고 링크
 + [깃허브](https://github.com/voidblue/ojackkyo)
 + [트렐로](https://trello.com/b/qI51iyVZ/%EC%98%A4%EC%9E%91%EA%B5%90)
@@ -51,6 +52,7 @@
 * 8/11 - 태그마다 게시판 생성 완료 (허지원)
 * 8/11 - 게시글 보기 오류 수정 (허지원)
 * 8/11 - 이미지 및 디자인 수정 (원정민)
+* 8/13 - 게시글 보기 자동 줄 바꿈 (원정민)
 
 ## Server
 * 8/3 - tag관련 처리는 모두 articleController에서 하도록 변경, article에 tag배열을 넣어주면 됨 (김재윤)
