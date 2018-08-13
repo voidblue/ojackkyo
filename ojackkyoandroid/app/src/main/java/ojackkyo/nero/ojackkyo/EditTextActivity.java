@@ -43,6 +43,7 @@ public class EditTextActivity extends AppCompatActivity {
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_text = (EditText) findViewById(R.id.edit_text);
         write_btn = (Button) findViewById(R.id.write_btn);
+        edit_text.setHorizontallyScrolling(false);
 
         write_btn.setOnClickListener(new View.OnClickListener() {
             @Override
