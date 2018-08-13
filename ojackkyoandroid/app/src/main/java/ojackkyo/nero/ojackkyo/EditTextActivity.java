@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 
 import ojackkyo.nero.ojackkyo.connection.*;
 
-public class EditTextActivity extends AppCompatActivity {
+public class EditTextActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText edit_title, edit_text;
     private Button write_btn, back_btn;
@@ -43,21 +43,30 @@ public class EditTextActivity extends AppCompatActivity {
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_text = (EditText) findViewById(R.id.edit_text);
         write_btn = (Button) findViewById(R.id.write_btn);
-        back_btn = (Button)findViewById(R.id.back_btn);
+        back_btn = (Button) findViewById(R.id.back_btn);
         edit_text.setHorizontallyScrolling(false);
 
-        back_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        back_btn.setOnClickListener(this);
+        write_btn.setOnClickListener(this);
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(EditTextActivity.this, MainActivity.class);
+        startActivity(intent);
+        EditTextActivity.this.finish();
+    }
+
+    @Override
+    public void onClick(View v) {
+        int id = v.getId();
+        switch (id) {
+            case R.id.back_btn:
                 onBackPressed();
                 finish();
-            }
-        });
+                break;
 
-        write_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+            case R.id.write_btn:
                 final String title = edit_title.getText().toString();
                 final String text = edit_text.getText().toString();
 
@@ -79,7 +88,7 @@ public class EditTextActivity extends AppCompatActivity {
                 for (int i = 0; i < tags_list.size(); i++) {
                     list.add(tags_list.get(i).split(" ")[0]);
                 }
-                for (int i = 0; i<list.size();i++){
+                for (int i = 0; i < list.size(); i++) {
                     // 게시글 태그 추가하기
                     JsonObject tag = new JsonObject();
                     tag.addProperty("name", list.get(i));
@@ -105,14 +114,8 @@ public class EditTextActivity extends AppCompatActivity {
                 Intent intent = new Intent(EditTextActivity.this, MainActivity.class);
                 startActivity(intent);
                 EditTextActivity.this.finish();
-            }
-        });
-    }
+                break;
 
-    @Override
-    public void onBackPressed(){
-        Intent intent = new Intent(EditTextActivity.this, MainActivity.class);
-        startActivity(intent);
-        EditTextActivity.this.finish();
+        }
     }
 }

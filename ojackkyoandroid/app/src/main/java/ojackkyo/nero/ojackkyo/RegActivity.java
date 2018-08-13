@@ -30,6 +30,6 @@ public class RegActivity extends AppCompatActivity {
                 return true;
             }
         });
-        webView.loadUrl("https://www.naver.com");
+        webView.loadUrl("https://www.daum.net");
     }
 }
