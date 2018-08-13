@@ -7,7 +7,7 @@
 * __8월 16일 결과 발표__
 
 ### 개발 상황
-+ [WEb](https://github.com/voidblue/ojackkyo#web)
++ [Web](https://github.com/voidblue/ojackkyo#web)
 + [Android](https://github.com/voidblue/ojackkyo#Android)
 + [Server](https://github.com/voidblue/ojackkyo#Server)
 ### 참고 링크
