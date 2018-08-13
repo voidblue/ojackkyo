@@ -6,10 +6,11 @@ $.ajax({
      success : function(data){
         console.log(data.text);
         $("#title").html(data.title);
-        text = data.text
+        console.log(data.text.includes("\n"))
+        text = data.text.replace(/\n/g,"<br />")
 
-        console.log(data.text);
-        $("#contents").text(data.text);
+        console.log(text);
+        $("#contents").html(text);
         var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0]   + " | 조회수 " + data.viewed;
         $("#details").html(str)
      },
