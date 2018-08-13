@@ -9,6 +9,7 @@
     tools:context="ojackkyo.nero.ojackkyo.EditTextActivity">
 
     <Button
+        android:id="@+id/back_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:text="back" />

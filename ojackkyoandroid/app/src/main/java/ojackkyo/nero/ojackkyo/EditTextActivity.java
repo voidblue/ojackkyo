@@ -24,7 +24,7 @@ import ojackkyo.nero.ojackkyo.connection.*;
 public class EditTextActivity extends AppCompatActivity {
 
     private EditText edit_title, edit_text;
-    private Button write_btn;
+    private Button write_btn, back_btn;
     UserInfo userInfo;
 
     ArrayList<String> board_types = new ArrayList<String>();
@@ -43,7 +43,16 @@ public class EditTextActivity extends AppCompatActivity {
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_text = (EditText) findViewById(R.id.edit_text);
         write_btn = (Button) findViewById(R.id.write_btn);
+        back_btn = (Button)findViewById(R.id.back_btn);
         edit_text.setHorizontallyScrolling(false);
+
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
 
         write_btn.setOnClickListener(new View.OnClickListener() {
             @Override
