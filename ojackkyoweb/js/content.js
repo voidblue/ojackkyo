@@ -4,9 +4,12 @@ $.ajax({
     type: 'GET',
     async: false,
      success : function(data){
-        console.log(data.token);
+        console.log(data.text);
         $("#title").html(data.title);
-        $("#contents").html(data.text);
+        text = data.text
+
+        console.log(data.text);
+        $("#contents").text(data.text);
         var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0]   + " | 조회수 " + data.viewed;
         $("#details").html(str)
      },
