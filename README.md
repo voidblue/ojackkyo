@@ -8,8 +8,8 @@
 
 ### 개발 상황
 + [Web](https://github.com/voidblue/ojackkyo#web)
-+ [Android](https://github.com/voidblue/ojackkyo#Android)
-+ [Server](https://github.com/voidblue/ojackkyo#Server)
++ [Android](https://github.com/voidblue/ojackkyo#android)
++ [Server](https://github.com/voidblue/ojackkyo#server)
 ### 참고 링크
 + [깃허브](https://github.com/voidblue/ojackkyo)
 + [트렐로](https://trello.com/b/qI51iyVZ/%EC%98%A4%EC%9E%91%EA%B5%90)
