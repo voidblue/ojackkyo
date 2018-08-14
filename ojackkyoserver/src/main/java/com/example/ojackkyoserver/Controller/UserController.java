@@ -2,6 +2,7 @@ package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
+import com.example.ojackkyoserver.Service.AuthContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

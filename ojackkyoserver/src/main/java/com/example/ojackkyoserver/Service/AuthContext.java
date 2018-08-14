@@ -1,4 +1,4 @@
-package com.example.ojackkyoserver.Controller;
+package com.example.ojackkyoserver.Service;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

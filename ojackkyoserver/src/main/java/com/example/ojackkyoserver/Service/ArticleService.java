@@ -1,7 +1,5 @@
 package com.example.ojackkyoserver.Service;
 
-import com.example.ojackkyoserver.Controller.ArticleController;
-import com.example.ojackkyoserver.Controller.AuthContext;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
@@ -12,16 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
