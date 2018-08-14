@@ -6,9 +6,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#DDCDE7"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
     tools:context="ojackkyo.nero.ojackkyo.EditTextActivity">
 
     <Button
+        android:id="@+id/back_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:text="back"/>
@@ -16,7 +19,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:gravity="center">
+        android:gravity="center"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -50,9 +55,10 @@
 
     <EditText
         android:id="@+id/edit_text"
-        android:inputType="text"
+        android:inputType="textMultiLine"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:scrollHorizontally="false"
         android:gravity="top"
         android:textColor="#000000"
         android:hint="내용을 입력하세요"/>

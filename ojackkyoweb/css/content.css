@@ -60,6 +60,7 @@
 }
 
 .comment_box {
+  white-space: pre-line;
   font-size: 18px;
   width: 90%;
   margin: auto;

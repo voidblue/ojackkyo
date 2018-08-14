@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +22,7 @@ import ojackkyo.nero.ojackkyo.connection.Connection;
 public class PostActivity extends AppCompatActivity {
     TextView name, context;
     UserInfo userInfo;
+    Button back_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,15 @@ public class PostActivity extends AppCompatActivity {
 
         name = (TextView) findViewById(R.id.title);
         context = (TextView) findViewById(R.id.context);
+        back_btn = (Button) findViewById(R.id.back_btn);
 
+        back_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+                finish();
+            }
+        });
 
         Log.e("게시글 보기", String.valueOf(id_index));
         try {
@@ -46,10 +57,11 @@ public class PostActivity extends AppCompatActivity {
             JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
             resultObject = jsonElement.getAsJsonObject();
 
-            String post_context = resultObject.get("text").toString().substring(1, resultObject.get("text").toString().length() - 1);
+            String post_context = resultObject.get("text").toString().replace("\\n", "\n");
+            String real_context = post_context.substring(1, post_context.length() - 1);
             String post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length() - 1);
 
-            context.setText(post_context);
+            context.setText(real_context);
             name.setText(post_name);
 
 
