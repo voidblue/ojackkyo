@@ -51,7 +51,7 @@ public class ArticleController {
 
     @PostMapping
     public Article create(@RequestBody Article article){
-        return create(article);
+        return articleService.create(article);
     }
 
 
