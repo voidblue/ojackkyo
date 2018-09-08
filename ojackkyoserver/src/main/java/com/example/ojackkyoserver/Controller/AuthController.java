@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
 
@@ -38,6 +39,7 @@ public class AuthController {
                             .claim("id", user.get().getId())
                             .claim("nickname", user.get().getNickname())
                             .claim("tags", Arrays.toString(user.get().notNullTags().toArray()))
+                            .setExpiration(new Date(new Date().getTime() + 604800))
                             .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
                             .compact();
                 } else {

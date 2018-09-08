@@ -1,5 +1,7 @@
 package com.example.ojackkyoserver.Service;
 
+import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
@@ -7,6 +9,7 @@ import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -20,33 +23,41 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUEST;
+
 @Service
+@Scope(value = SCOPE_REQUEST)
 public class ArticleService {
     @Autowired
-    ArticleRepository articleRepository;
+    private ArticleRepository articleRepository;
     @Autowired
-    TagArticleMapRepository tagArticleMapRepository;
+    private TagArticleMapRepository tagArticleMapRepository;
     @Autowired
-    TagRepository tagRepository;
+    private TagRepository tagRepository;
+    @Autowired
+    private AuthService authService;
+
+    private HttpServletRequest req;
+    private HttpServletResponse res;
+
+    ArticleService(){
+        req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        res =  ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+
+    }
 
 
-
-
-    public Article get(@PathVariable Integer id){
-        HttpServletResponse res = getCurrentResponse();
-
-        Article article = null;
+    public Article get(@PathVariable Integer id) throws NoResourcePresentException {
         Optional<Article> optArticle = articleRepository.findById(id);
 
         if(optArticle.isPresent()){
-            article = optArticle.get();
+            Article article = optArticle.get();
             article.setViewed(article.getViewed() + 1);
             articleRepository.save(article);
+            return article;
         }else {
-            System.out.println("id : " + id + " message : ");
-            res.setStatus(404, "존재하지 않는 자원입니다.");
+            throw new NoResourcePresentException();
         }
-        return article;
     }
     public Page<Article> getListByTag(String tag, Pageable pageable) {
         List<TagArticleMap> map = tagArticleMapRepository.findAllByTagName(tag);
@@ -94,14 +105,10 @@ public class ArticleService {
         return articleRepository.findByIdIn(ids, pageable);
     }
 
-    public Article create(@RequestBody Article article) {
-        HttpServletRequest req = getCurrentRequest();
-        HttpServletResponse res = getCurrentResponse();
-
+    public Article create(@RequestBody Article article) throws MalFormedResourceException {
         String token = req.getHeader("token");
-        if(article.getTitle().equals("")){
-            res.setStatus(404,"제목이 없습니다. ");
-            return null;
+        if(article.getTitle().equals("") || article.getText().equals("")){
+            throw new MalFormedResourceException();
         }
         article.setViewed(0);
         article.setId(null);
@@ -110,27 +117,29 @@ public class ArticleService {
         sdf.setTimeZone(time);
         article.setTimeCreated(sdf.format(new Date()));
 
+        //TODO resultHolder 말고 다른 방법 없나???
         final Article[] resultHolder = {null};
-        AuthContext.askLoginedAndRun(token, res, ()->{
-            System.out.println(article);
-            article.setAuthorsNickname((String) AuthContext.decodeToken(token).getBody().get("nickname"));
+        authService.askLoginedAndRun(token, res, ()->{
+            article.setAuthorsNickname((String) authService.getDecodedToken(token).getBody().get("nickname"));
             resultHolder[0] = (Article) articleRepository.save(article);
             ArrayList<Tag> tags = article.getTags();
             if(tags != null) {
-                saveTagsToTagArticleMap(tags, resultHolder[0].getId());
+                saveTagsToTagArticleMap(tags, article.getId());
             }
+
         });
 
         return resultHolder[0];
     }
 
-    public Article update(Article article) {
-        HttpServletRequest req = getCurrentRequest();
-        HttpServletResponse res = getCurrentResponse();
+    public Article update(Article article) throws MalFormedResourceException {
         String token = req.getHeader("token");
+        if(article.getTitle().equals("") || article.getText().equals("")){
+            throw new MalFormedResourceException();
+        }
 
         final Article[] resultHolder = {null};
-        AuthContext.askAuthorityAndRun(article.getAuthorsNickname(), token, res, ()->{
+        authService.askAuthorityAndRun(article.getAuthorsNickname(), token, ()->{
             if(articleRepository.existsById(article.getId())){
                 resultHolder[0] = (Article) articleRepository.save(article);
             }else{
@@ -140,19 +149,17 @@ public class ArticleService {
         return resultHolder[0];
     }
 
-    public void delete(Integer id) {
-        HttpServletRequest req = getCurrentRequest();
-        HttpServletResponse res = getCurrentResponse();
+    public void delete(Integer id) throws NoResourcePresentException {
         String token = req.getHeader("token");
 
         Optional<Article> optArticle = articleRepository.findById(id);
         if(optArticle.isPresent()){
             Article article = optArticle.get();
-            AuthContext.askAuthorityAndRun(article.getAuthorsNickname(), token, res, ()->{
+            authService.askAuthorityAndRun(article.getAuthorsNickname(), token, ()->{
                 articleRepository.deleteById(id);
             });
         }else{
-            res.setStatus(404, "이미 없는 자원입니다.");
+            throw new NoResourcePresentException();
         }
     }
 
@@ -184,10 +191,5 @@ public class ArticleService {
 
     }
 
-    public static HttpServletRequest getCurrentRequest() {
-        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-    }
-    public static HttpServletResponse getCurrentResponse() {
-        return ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
-    }
+
 }
