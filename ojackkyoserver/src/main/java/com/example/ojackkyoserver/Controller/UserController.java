@@ -2,7 +2,7 @@ package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
-import com.example.ojackkyoserver.Service.AuthContext;
+import com.example.ojackkyoserver.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +19,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    AuthService authService;
+
 
     @GetMapping("/{id}")
     public User get(@PathVariable Integer id){
@@ -93,7 +96,7 @@ public class UserController {
     @PutMapping
     public User update(@RequestBody User user, HttpServletRequest req, HttpServletResponse res){
         User[] userholder = new User[1];
-        AuthContext.askAuthorityAndRun(user.getUid(), req.getHeader("token"), res, ()->{
+        authService.askAuthorityAndRun(user.getUid(), req.getHeader("token"), ()->{
             if (userRepository.existsByUid(user.getUid())){
                 userholder[0] = userRepository.save(user);
             }else{
