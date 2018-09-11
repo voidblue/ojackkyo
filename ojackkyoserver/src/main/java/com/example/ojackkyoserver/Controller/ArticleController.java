@@ -33,6 +33,7 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
+    @GetMapping(value = "/{id}")
     public Article get(@PathVariable Integer id){
         try {
             return articleService.get(id);
