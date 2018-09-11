@@ -23,10 +23,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUEST;
 
 @Service
-@Scope(value = SCOPE_REQUEST)
+@Scope(value = SCOPE_SINGLETON )
 public class ArticleService {
     @Autowired
     private ArticleRepository articleRepository;
@@ -36,16 +37,6 @@ public class ArticleService {
     private TagRepository tagRepository;
     @Autowired
     private AuthService authService;
-
-    private HttpServletRequest req;
-    private HttpServletResponse res;
-
-    ArticleService(){
-        req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-        res =  ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
-
-    }
-
 
     public Article get(@PathVariable Integer id) throws NoResourcePresentException {
         Optional<Article> optArticle = articleRepository.findById(id);
@@ -106,6 +97,8 @@ public class ArticleService {
     }
 
     public Article create(@RequestBody Article article) throws MalFormedResourceException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
         String token = req.getHeader("token");
         if(article.getTitle().equals("") || article.getText().equals("")){
             throw new MalFormedResourceException();
@@ -119,7 +112,7 @@ public class ArticleService {
 
         //TODO resultHolder 말고 다른 방법 없나???
         final Article[] resultHolder = {null};
-        authService.askLoginedAndRun(token, res, ()->{
+        authService.askLoginedAndRun(token, ()->{
             article.setAuthorsNickname((String) authService.getDecodedToken(token).getBody().get("nickname"));
             resultHolder[0] = (Article) articleRepository.save(article);
             ArrayList<Tag> tags = article.getTags();
@@ -132,24 +125,28 @@ public class ArticleService {
         return resultHolder[0];
     }
 
-    public Article update(Article article) throws MalFormedResourceException {
+    public Article update(Article article) throws MalFormedResourceException, NoResourcePresentException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
         String token = req.getHeader("token");
         if(article.getTitle().equals("") || article.getText().equals("")){
             throw new MalFormedResourceException();
         }
 
         final Article[] resultHolder = {null};
-        authService.askAuthorityAndRun(article.getAuthorsNickname(), token, ()->{
-            if(articleRepository.existsById(article.getId())){
+        if(articleRepository.existsById(article.getId())) {
+            authService.askAuthorityAndRun(article.getAuthorsNickname(), token, () -> {
                 resultHolder[0] = (Article) articleRepository.save(article);
-            }else{
-                res.setStatus(404, "존재하지 않은 자원에 대한 수정입니다.");
-            }
-        });
+            });
+        }else{
+            throw new NoResourcePresentException();
+        }
         return resultHolder[0];
     }
 
     public void delete(Integer id) throws NoResourcePresentException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
         String token = req.getHeader("token");
 
         Optional<Article> optArticle = articleRepository.findById(id);
@@ -176,7 +173,7 @@ public class ArticleService {
                 tagRepository.save(e);
             }
         }
-        if(tags != null) {
+        if(tags.size() == 0) {
             ArrayList<Tag> tagsForCreate = new ArrayList<>();
             ArrayList<TagArticleMap> tams = new ArrayList<>();
             for (Object e : tags) {
