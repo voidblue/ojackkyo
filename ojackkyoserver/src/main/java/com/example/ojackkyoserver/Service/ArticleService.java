@@ -11,11 +11,6 @@ import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import lombok.AllArgsConstructor;
-import org.apache.http.HttpHost;
-import org.apache.http.util.EntityUtils;
-import org.elasticsearch.client.Request;
-import org.elasticsearch.client.Response;
-import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -77,21 +72,21 @@ public class ArticleService {
     }
 
     public Page<Article> getListByText(String text, Pageable pageable) {
-        String elasticSearchHost = "127.0.0.1/ojackkyo/article";
-        int elasticSearchPort = 6000;
-        RestClient restClient = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort)).build();
-        Request request = new Request("GET", elasticSearchHost);
-        request.addParameter("text", text);
-
-        Response response = null;
-        String resBody = null;
-        try {
-            response  = restClient.performRequest(request);
-            resBody =  EntityUtils.toString(response.getEntity());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        System.out.println(resBody);
+//        String elasticSearchHost = "127.0.0.1/ojackkyo/article";
+//        int elasticSearchPort = 6000;
+//        RestClient restClient = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort)).build();
+//        Request request = new Request("GET", elasticSearchHost);
+//        request.addParameter("text", text);
+//
+//        Response response = null;
+//        String resBody = null;
+//        try {
+//            response  = restClient.performRequest(request);
+//            resBody =  EntityUtils.toString(response.getEntity());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(resBody);
         String[] words = text.split(" ");
 
         List<Article> Articles = articleRepository.findAll();
