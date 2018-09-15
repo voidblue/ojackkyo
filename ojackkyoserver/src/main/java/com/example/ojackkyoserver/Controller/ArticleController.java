@@ -33,10 +33,12 @@ public class ArticleController {
     @Autowired
     ArticleService articleService;
 
-    public Article get(@PathVariable Integer id){
+    @GetMapping(value = "/{id}")
+    public Article get(@PathVariable Integer id, HttpServletResponse res){
         try {
             return articleService.get(id);
         } catch (NoResourcePresentException e) {
+            res.setStatus(404, e.getMessage());
             return null;
         }
     }
