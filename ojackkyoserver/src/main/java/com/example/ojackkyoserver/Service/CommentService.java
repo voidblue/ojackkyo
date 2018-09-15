@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
@@ -54,7 +55,8 @@ public class CommentService {
     public Comment create(Comment comment) throws MalFormedResourceException, NoResourcePresentException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         String token = req.getHeader("token");
-        System.out.println(comment);
+        comment.setId(null);
+
         if(comment.getContents().equals("") || comment.getTitle().equals("")){
             throw new MalFormedResourceException();
         }
@@ -74,11 +76,58 @@ public class CommentService {
         authService.askLoginedAndRun(token, ()->{
             final String authorNickname = (String) authService.getDecodedToken(token).getBody().get("nickname");
             //authService에서 이 유저가 유효한지 이미 검사함
-            User author = userRepository.findByNickname(authorNickname);
+            final User author = userRepository.findByNickname(authorNickname);
             comment.setAuthor(author);
             holder[0] = commentRepository.save(comment);
         });
         System.out.println(holder[0]);
         return holder[0];
+    }
+
+    public Comment update(Comment comment) throws NoResourcePresentException, MalFormedResourceException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String token = req.getHeader("token");
+
+        if(comment.getContents().equals("") || comment.getTitle().equals("")){
+            throw new MalFormedResourceException();
+        }
+        Article article = (Article) articleRepository.findById(comment.getArticleId()).get();
+        comment.setArticle(article);
+
+
+        AtomicBoolean isUpdated = new AtomicBoolean(false);
+        if(commentRepository.existsById(comment.getId())) {
+            System.out.println(comment.getAuthorsNickname());
+            authService.askAuthorityAndRun(comment.getAuthorsNickname(), token , () -> {
+                final String authorNickname = (String) authService.getDecodedToken(token).getBody().get("nickname");
+                //authService에서 이 유저가 유효한지 이미 검사함
+                User author = userRepository.findByNickname(authorNickname);
+                comment.setAuthor(author);
+                //TODO 왜 업데이트문에서는 자기 엔터티를 제대로 못들어오지??
+                commentRepository.save(comment);
+                isUpdated.set(true);
+            });
+        }else{
+            throw new NoResourcePresentException();
+        }
+        if(isUpdated.get()) {
+            return commentRepository.findById(comment.getId()).get();
+        }else {
+            return null;
+        }
+    }
+
+    public void delete(Integer id) throws NoResourcePresentException {
+        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        String token = req.getHeader("token");
+
+        if(commentRepository.existsById(id)){
+            Comment comment = commentRepository.findById(id).get();
+            authService.askAuthorityAndRun(comment.getAuthorsNickname(), token, ()->{
+                commentRepository.deleteById(id);
+            });
+        }else{
+            throw new NoResourcePresentException();
+        }
     }
 }

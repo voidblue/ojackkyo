@@ -52,4 +52,27 @@ public class CommentController {
             return null;
         }
     }
+
+    @PutMapping
+    public Comment update(@RequestBody Comment comment, HttpServletResponse res){
+        try {
+            return commentService.update(comment);
+        } catch (NoResourcePresentException e) {
+            res.setStatus(404, e.getMessage());
+            return null;
+        } catch (MalFormedResourceException e) {
+            res.setStatus(400, e.getMessage());
+            return null;
+        }
+    }
+
+    @DeleteMapping(value ="/{id}")
+    public void delete(@PathVariable Integer id, HttpServletResponse res){
+        try {
+            commentService.delete(id);
+        } catch (NoResourcePresentException e) {
+            res.setStatus(404, e.getMessage());
+        }
+
+    }
 }

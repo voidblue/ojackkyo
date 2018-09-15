@@ -16,6 +16,7 @@ public class Comment {
     private Integer id;
     private String title;
     private String contents;
+    @Column(updatable = false)
     private String timeCreated;
 
     @Transient
@@ -27,7 +28,7 @@ public class Comment {
     User author;
 
 
-    public String getAuthorNickname(){
+    public String getAuthorsNickname(){
         if(authorsNickname == null) {
             return author.getNickname();
         }else{

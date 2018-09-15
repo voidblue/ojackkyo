@@ -10,6 +10,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.util.Arrays;
+
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
 @Service
@@ -30,9 +32,13 @@ public class AuthService {
             String nickname = (String) claims.getBody().get("nickname");
             resourceOwnerCheck(nicknameFromEntityModel, nickname);
             runnable.run();
-        } catch (NullTokenException|UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
+        } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+            for(StackTraceElement x : e.getStackTrace()){
+                System.out.println(x);
+            }
             res.setStatus(400, e.getMessage());
-        } catch (ExpiredJwtException e){
+        } catch (NullTokenException|ExpiredJwtException e){
             res.setStatus(401, e.getMessage());
         } catch (NoPermissionException e) {
             res.setStatus(403, e.getMessage());
@@ -44,9 +50,9 @@ public class AuthService {
             nullTokenCheck(token);
             getDecodedToken(token);
             runnable.run();
-        } catch (NullTokenException|UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
+        } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
             res.setStatus(400, e.getMessage());
-        } catch (ExpiredJwtException e){
+        } catch (NullTokenException|ExpiredJwtException e){
             res.setStatus(401, e.getMessage());
         }
     }
