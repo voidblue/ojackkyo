@@ -1,6 +1,8 @@
 package com.example.ojackkyoserver;
 
 import com.example.ojackkyoserver.Model.Comment;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -15,7 +18,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.awt.*;
+import java.awt.print.Pageable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.nullValue;
@@ -58,13 +63,14 @@ public class CommentTest {
     }
 
     @Test
-    public void getList(){
+    public void getList() throws JSONException {
 
-        ArrayList<Comment> comments = restTemplate.getForObject(PATH + "/list/search?" + "authorsNickname=test", ArrayList.class);
-        assertThat(comments.size() > 0, is(true));
+        HashMap<String, Integer> comments = restTemplate.getForObject(PATH + "/list/search?" + "articleId=181", HashMap.class);
+        System.out.println(comments.toString());
+        assertThat( comments.get("totalElements") > 0, is(true));
+        HashMap<String, Integer> comments2 = restTemplate.getForObject(PATH + "/list/search?" + "authorsNickname=test", HashMap.class);
+        assertThat(comments2.get("totalElements") > 0, is(true));
 
-        ArrayList<Comment> comments2 = restTemplate.getForObject(PATH + "/list/search?" + "articleId=181", ArrayList.class);
-        assertThat(comments2.size() > 0, is(true));
     }
 
     @Test
