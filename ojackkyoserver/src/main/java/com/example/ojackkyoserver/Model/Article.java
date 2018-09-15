@@ -30,12 +30,16 @@ public class Article {
     String authorsNickname;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", unique = true)
+    @JoinColumn(name = "author_id", insertable = false, updatable = false)
     @JsonIgnore
     User author;
 
     public String getAuthorsNickname(){
-        return author.getNickname();
+        if(authorsNickname == null) {
+            return author.getNickname();
+        }else {
+            return authorsNickname;
+        }
     }
 
 
