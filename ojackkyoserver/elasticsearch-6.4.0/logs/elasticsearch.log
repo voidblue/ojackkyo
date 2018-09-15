@@ -1,4 +1,0 @@
-[2018-09-12T18:37:04,788][INFO ][o.e.x.m.MlDailyMaintenanceService] triggering scheduled [ML] maintenance tasks
-[2018-09-12T18:37:04,820][INFO ][o.e.x.m.a.TransportDeleteExpiredDataAction] [6nXOduo] Deleting expired data
-[2018-09-12T18:37:04,908][INFO ][o.e.x.m.a.TransportDeleteExpiredDataAction] [6nXOduo] Completed deletion of expired data
-[2018-09-12T18:37:04,908][INFO ][o.e.x.m.MlDailyMaintenanceService] Successfully completed [ML] maintenance tasks
