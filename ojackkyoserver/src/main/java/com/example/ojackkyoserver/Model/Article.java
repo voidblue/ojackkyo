@@ -30,7 +30,7 @@ public class Article {
     String authorsNickname;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", insertable = false, updatable = false)
+    @JoinColumn(name = "author_id", updatable = false)
     @JsonIgnore
     User author;
 

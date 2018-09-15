@@ -25,7 +25,8 @@ class RestTestContext {
                 .setHeaderParam("typ", "JWT")
                 .setHeaderParam("issueDate", System.currentTimeMillis())
                 .setSubject("")
-                .claim("uid", "testuser")
+                .claim("uid", "test")
+                .claim("nickname", "test")
                 .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
                 .compact();
         httpHeaders.add("token", jwtString);

@@ -19,24 +19,24 @@ public class Comment {
     private String timeCreated;
 
     @Transient
-    private String authorNickname;
+    private String authorsNickname;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "authorId", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "authorId", updatable = false, nullable = false)
     @JsonIgnore
     User author;
 
 
     public String getAuthorNickname(){
-        if(authorNickname == null) {
+        if(authorsNickname == null) {
             return author.getNickname();
         }else{
-            return authorNickname;
+            return authorsNickname;
         }
     }
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "articleId", insertable = false, updatable = false, nullable = false)
+    @JoinColumn(name = "articleId", updatable = false, nullable = false)
     @JsonIgnore
     private Article article;
 
