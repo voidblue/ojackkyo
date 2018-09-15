@@ -34,10 +34,11 @@ public class ArticleController {
     ArticleService articleService;
 
     @GetMapping(value = "/{id}")
-    public Article get(@PathVariable Integer id){
+    public Article get(@PathVariable Integer id, HttpServletResponse res){
         try {
             return articleService.get(id);
         } catch (NoResourcePresentException e) {
+            res.setStatus(404, e.getMessage());
             return null;
         }
     }

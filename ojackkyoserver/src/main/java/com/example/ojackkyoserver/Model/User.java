@@ -2,6 +2,7 @@ package com.example.ojackkyoserver.Model;
 
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
@@ -21,6 +22,7 @@ public class User {
     String password;
     String StudentCode;
     String name;
+    @UniqueElements
     String nickname;
     String callNumber;
     String email;

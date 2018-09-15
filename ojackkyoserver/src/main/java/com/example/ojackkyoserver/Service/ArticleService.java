@@ -5,10 +5,17 @@ import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
+import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ojackkyoserver.Repository.UserRepository;
+import lombok.AllArgsConstructor;
+import org.apache.http.HttpHost;
+import org.apache.http.util.EntityUtils;
+import org.elasticsearch.client.Request;
+import org.elasticsearch.client.Response;
+import org.elasticsearch.client.RestClient;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,28 +26,24 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
-import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUEST;
 
 @Service
 @Scope(value = SCOPE_SINGLETON )
+@AllArgsConstructor
 public class ArticleService {
-    @Autowired
     private ArticleRepository articleRepository;
-    @Autowired
     private TagArticleMapRepository tagArticleMapRepository;
-    @Autowired
     private TagRepository tagRepository;
-    @Autowired
     private AuthService authService;
+    private UserRepository userRepository;
 
     public Article get(@PathVariable Integer id) throws NoResourcePresentException {
         Optional<Article> optArticle = articleRepository.findById(id);
-
         if(optArticle.isPresent()){
             Article article = optArticle.get();
             article.setViewed(article.getViewed() + 1);
@@ -56,15 +59,39 @@ public class ArticleService {
         for(TagArticleMap e : map){
             ids.add(e.getArticle());
         }
+        System.out.println(articleRepository.findByIdIn(ids, pageable    ));
         return articleRepository.findByIdIn(ids, pageable);
     }
 
     public Page<Article> getListByNickname(String authorsNickname, Pageable pageable) {
-        Page<Article> articles = articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
+        System.out.println(authorsNickname);
+        User author = userRepository.findByNickname(authorsNickname);
+        System.out.println(author);
+        Page<Article> articles = articleRepository.findAllByAuthor(author, pageable);
+        System.out.println(articles);
+        Iterator i = articles.iterator();
+        while(i.hasNext()){
+            System.out.println(i.next());
+        }
         return articles;
     }
 
     public Page<Article> getListByText(String text, Pageable pageable) {
+        String elasticSearchHost = "127.0.0.1/ojackkyo/article";
+        int elasticSearchPort = 6000;
+        RestClient restClient = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort)).build();
+        Request request = new Request("GET", elasticSearchHost);
+        request.addParameter("text", text);
+
+        Response response = null;
+        String resBody = null;
+        try {
+            response  = restClient.performRequest(request);
+            resBody =  EntityUtils.toString(response.getEntity());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        System.out.println(resBody);
         String[] words = text.split(" ");
 
         List<Article> Articles = articleRepository.findAll();
@@ -113,13 +140,14 @@ public class ArticleService {
         //TODO resultHolder 말고 다른 방법 없나???
         final Article[] resultHolder = {null};
         authService.askLoginedAndRun(token, ()->{
-            article.setAuthorsNickname((String) authService.getDecodedToken(token).getBody().get("nickname"));
+            String authorsNickname = (String) authService.getDecodedToken(token).getBody().get("nickname");
+            //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
+            article.setAuthor(userRepository.findByNickname(authorsNickname));
             resultHolder[0] = (Article) articleRepository.save(article);
             ArrayList<Tag> tags = article.getTags();
             if(tags != null) {
                 saveTagsToTagArticleMap(tags, article.getId());
             }
-
         });
 
         return resultHolder[0];

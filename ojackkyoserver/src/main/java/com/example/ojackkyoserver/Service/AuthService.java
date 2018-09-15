@@ -46,7 +46,7 @@ public class AuthService {
         }
     }
 
-    //TODO 그때그때 해시해서 비교 vs 객체를 스코프로 해서 하나의 객체는 한번의 디코드만 하게
+    //TODO 그때그때 해시해서 비교 vs 객체를 스코프로 해서 하나의 객체는 한번의 디코드만 하게d각 클래스
     public Jws<Claims> getDecodedToken(String token) throws MalformedJwtException, SignatureException, IllegalArgumentException{
         return Jwts.parser()
                 .setSigningKey("portalServiceFinalExam")
