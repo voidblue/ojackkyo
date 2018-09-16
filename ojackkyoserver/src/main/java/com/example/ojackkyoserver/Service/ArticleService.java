@@ -135,7 +135,7 @@ public class ArticleService {
         //TODO resultHolder 말고 다른 방법 없나???
         final Article[] resultHolder = {null};
         authService.askLoginedAndRun(token, ()->{
-            String authorsNickname = (String) authService.getDecodedToken(token).getBody().get("nickname");
+            String authorsNickname = (String) authService.getDecodedToken(token).get("nickname");
             //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
             article.setAuthor(userRepository.findByNickname(authorsNickname));
             resultHolder[0] = (Article) articleRepository.save(article);
