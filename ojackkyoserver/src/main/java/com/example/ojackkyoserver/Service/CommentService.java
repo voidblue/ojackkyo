@@ -74,7 +74,7 @@ public class CommentService {
 
         Comment[] holder = new Comment[1];
         authService.askLoginedAndRun(token, ()->{
-            final String authorNickname = (String) authService.getDecodedToken(token).getBody().get("nickname");
+            final String authorNickname = (String) authService.getDecodedToken(token).get("nickname");
             //authService에서 이 유저가 유효한지 이미 검사함
             final User author = userRepository.findByNickname(authorNickname);
             comment.setAuthor(author);
@@ -99,7 +99,7 @@ public class CommentService {
         if(commentRepository.existsById(comment.getId())) {
             System.out.println(comment.getAuthorsNickname());
             authService.askAuthorityAndRun(comment.getAuthorsNickname(), token , () -> {
-                final String authorNickname = (String) authService.getDecodedToken(token).getBody().get("nickname");
+                final String authorNickname = (String) authService.getDecodedToken(token).get("nickname");
                 //authService에서 이 유저가 유효한지 이미 검사함
                 User author = userRepository.findByNickname(authorNickname);
                 comment.setAuthor(author);
