@@ -1,7 +1,9 @@
 package com.example.ojackkyoserver.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
@@ -21,9 +23,12 @@ public class User {
     String password;
     String StudentCode;
     String name;
+    @UniqueElements
     String nickname;
     String callNumber;
     String email;
+    @JsonIgnore
+    Integer updateTimes;
     String sns;
     String tag1;
     String tag2;

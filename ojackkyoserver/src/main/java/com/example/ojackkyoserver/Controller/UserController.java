@@ -2,6 +2,7 @@ package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
+import com.example.ojackkyoserver.Service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -18,6 +20,9 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    AuthService authService;
+
 
     @GetMapping("/{id}")
     public User get(@PathVariable Integer id){
@@ -60,7 +65,8 @@ public class UserController {
 
     @PostMapping
     public User create(@RequestBody User user, HttpServletResponse res) throws IOException {
-        if (userRepository.existsByUid(user.getUid())){
+        user.setUpdateTimes(0);
+        if (userRepository.existsByUid(user.getUid()) || userRepository.existsByNickname(user.getNickname())){
             res.sendError(400, "중복 키 에러입니다.");
             return null;
         }else {
@@ -92,8 +98,10 @@ public class UserController {
     @PutMapping
     public User update(@RequestBody User user, HttpServletRequest req, HttpServletResponse res){
         User[] userholder = new User[1];
-        AuthContext.askAuthorityAndRun(user.getUid(), req.getHeader("token"), res, ()->{
+        authService.askAuthorityAndRun(user.getUid(), req.getHeader("token"), ()->{
             if (userRepository.existsByUid(user.getUid())){
+                User userForUpdateTimes = userRepository.findById(user.getId()).get();
+                user.setUpdateTimes(userForUpdateTimes.getUpdateTimes()+1);
                 userholder[0] = userRepository.save(user);
             }else{
                 userholder[0] = null;

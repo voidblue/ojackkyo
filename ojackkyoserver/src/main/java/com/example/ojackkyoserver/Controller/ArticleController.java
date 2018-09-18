@@ -1,15 +1,18 @@
 package com.example.ojackkyoserver.Controller;
 
+import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
 import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
+import com.example.ojackkyoserver.Service.ArticleService;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,165 +23,79 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
+
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/article")
+@Scope(SCOPE_SINGLETON)
 public class ArticleController {
+    @Autowired
+    ArticleService articleService;
 
-    @Autowired
-    ArticleRepository articleRepository;
-    @Autowired
-    TagArticleMapRepository tagArticleMapRepository;
-    @Autowired
-    TagRepository tagRepository;
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public Article get(@PathVariable Integer id, HttpServletResponse res){
-        Article article = null;
-        Optional<Article> optArticle = articleRepository.findById(id);
         try {
-            article = optArticle.get();
-            article.setViewed(article.getViewed() + 1);
-            articleRepository.save(article);
-        }catch (NullPointerException e){
-            System.out.println("id : " + id + " message : " + e.getMessage());
-            res.setStatus(404, "존재하지 않는 자원입니다.");
+            return articleService.get(id);
+        } catch (NoResourcePresentException e) {
+            res.setStatus(404, e.getMessage());
+            return null;
         }
-        return article;
     }
 
     @GetMapping("/list/search")
     public Page<Article> get(@RequestParam(defaultValue = "null") String tag,
                              @RequestParam(defaultValue = "null") String authorsNickname,
                              @RequestParam(defaultValue = "null")String text, Pageable pageable){
-        if(tag != null && !tag.equals("null")){
-            List articles = new ArrayList();
-            List<TagArticleMap> map = tagArticleMapRepository.findAllByTagName(tag);
-            List<Integer> ids = new ArrayList<>();
-            for(TagArticleMap e : map){
-                ids.add(e.getArticle());
-            }
-            return articleRepository.findByIdIn(ids, pageable);
-        }else if (authorsNickname != null && !authorsNickname.equals("null")){
-            Page<Article> articles = articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
-            return articles;
-        }else if (text != null && !text.equals("null")){
-            String[] words = text.split(" ");
-
-            ArrayList fullResult = new ArrayList();
-            List<Article> Articles = articleRepository.findAll();
-
-            for (Article e : Articles){
-                for (String w : words) {
-                    if (e.getTitle().contains(w)) {e.setSearchPriority(e.getSearchPriority()+2);}
-                    else if(e.getText().contains(w)) {e.setSearchPriority(e.getSearchPriority()+1);}
-                }
-                if(e.getSearchPriority()>1){
-                    fullResult.add(e);
-                }
-            }
-            fullResult.sort((Comparator) (o, t1) -> {
-                if (((Article)o).getSearchPriority() < ((Article)t1).getSearchPriority() ){
-                    return 1;
-                }else if (((Article)o).getSearchPriority() == ((Article)t1).getSearchPriority() ){
-                    return 0;
-                }else {return -1;}
-            });
-            ArrayList result = new ArrayList();
-            for (int i = pageable.getPageSize() * pageable.getPageNumber() ; i < (pageable.getPageSize()+1) * pageable.getPageNumber() ; i++){
-                result.add(fullResult.get(i));
-            }
-            return articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
-
+        if(!tag.equals("null")){
+            return articleService.getListByTag(tag, pageable);
+        }else if (!authorsNickname.equals("null")){
+            return articleService.getListByNickname(authorsNickname, pageable);
+        }else if (!text.equals("null")){
+            return articleService.getListByText(text, pageable);
         }else{
             return null;
         }
 
     }
+
+
 
     @PostMapping
-    public Article create(@RequestBody Article article, HttpServletRequest req, HttpServletResponse res){
-        String token = req.getHeader("token");
-        if(article.getTitle().equals("")){
-            res.setStatus(404,"제목이 없습니다. ");
+    public Article create(@RequestBody Article article, HttpServletResponse res){
+        try {
+            return articleService.create(article);
+        } catch (MalFormedResourceException e) {
+            res.setStatus(400, e.getMessage());
             return null;
         }
-        article.setViewed(0);
-        article.setId(null);
-        TimeZone time = TimeZone.getTimeZone("Asia/Seoul");
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        sdf.setTimeZone(time);
-        article.setTimeCreated(sdf.format(new Date()));
-        final Article[] result = {null};
-        final ArrayList[] gTags = new ArrayList[1];
-        AuthContext.askLoginedAndRun(token, res, ()->{
-            System.out.println(article);
-            article.setAuthorsNickname((String) AuthContext.decodeToken(token).getBody().get("nickname"));
-            result[0] = (Article) articleRepository.save(article);
-            if(article.getTags() != null) {
-                ArrayList<Tag> tags = article.getTags();
-                gTags[0] = tags;
-                for (Tag e : tags) {
-                    if (tagRepository.existsByName(e.getName())) {
-                        Tag innerTag = tagRepository.findByName(e.getName());
-                        e.setId(innerTag.getId());
-                        e.setReferredTimes(innerTag.getReferredTimes() + 1);
-                        tagRepository.save(e);
-                    } else {
-                        e.setReferredTimes(1);
-                        e.setName(e.getName());
-                        tagRepository.save(e);
-                    }
-                }
-            }
-        });
-        if(gTags[0] != null) {
-            ArrayList<Tag> tagsForCreate = new ArrayList<>();
-            ArrayList<TagArticleMap> tams = new ArrayList<>();
-            for (Object e : gTags[0]) {
-                TagArticleMap tam = new TagArticleMap();
-                tam.setArticle(result[0].getId());
-                tam.setTagName(((Tag) e).getName());
-                tams.add(tam);
-                tagsForCreate.add((Tag) e);
-            }
-            tagArticleMapRepository.saveAll(tams);
-        }
-        return result[0];
     }
+
+
 
     @PutMapping
-    public Article update(@RequestBody Article article, HttpServletRequest req, HttpServletResponse res){
-        String token = req.getHeader("token");
-        final Article[] result = {null};
-        AuthContext.askAuthorityAndRun(article.getAuthorsNickname(), token, res, ()->{
-            if(articleRepository.existsById(article.getId())){
-                result[0] = (Article) articleRepository.save(article);
-            }else{
-                try {
-                    res.sendError(404, "존재하지 않은 자원에 대한 수정입니다.");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        return result[0];
-    }
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id, HttpServletRequest req, HttpServletResponse res){
-        String token = req.getHeader("token");
-        Optional<Article> optArticle = articleRepository.findById(id);
-        if(optArticle.isPresent()){
-            Article article = optArticle.get();
-            AuthContext.askAuthorityAndRun(article.getAuthorsNickname(), token, res, ()->{
-                articleRepository.deleteById(id);
-            });
-        }else{
-            res.setStatus(404, "이미 없는 자원입니다.");
+    public Article update(@RequestBody Article article, HttpServletResponse res){
+        try {
+            return articleService.update(article);
+        } catch (MalFormedResourceException|NoResourcePresentException e) {
+            res.setStatus(400, e.getMessage());
+            return null;
         }
     }
 
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Integer id, HttpServletResponse res){
+        try {
+            articleService.delete(id);
+        } catch (NoResourcePresentException e) {
+            res.setStatus(400,e.getMessage());
+        }
+    }
+
+
+
+    //TODO article에 파일 매핑기켜줘야함!
     @PostMapping("/file")
     public void fileupload(@RequestParam MultipartFile file, @RequestParam Integer articleId){
         File path = new File("files/article/"+articleId + "/" + file.getOriginalFilename());

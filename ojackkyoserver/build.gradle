@@ -30,6 +30,7 @@ dependencies {
     runtime('mysql:mysql-connector-java')
     compileOnly('org.projectlombok:lombok')
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    compile 'org.elasticsearch.client:elasticsearch-rest-client:6.4.0'
     compile group: 'io.jsonwebtoken', name: 'jjwt', version: '0.7.0'
 }
 
