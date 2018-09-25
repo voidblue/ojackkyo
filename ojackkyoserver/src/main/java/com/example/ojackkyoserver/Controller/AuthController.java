@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
     @PostMapping("/login")
-    public HashMap login(@RequestBody Auth auth, HttpServletResponse res){
+    public HashMap login(@RequestBody Auth auth, HttpServletResponse res) throws IOException {
         Optional<User> user = userRepository.findByUid(auth.getUid());
         try {
             LoginCheck(user, auth);
@@ -46,7 +47,7 @@ public class AuthController {
             hashMap.put("token", jwtString);
             return hashMap;
         } catch (InvalidLoginException e) {
-            res.setStatus(400, e.getMessage());
+            res.sendError(400, e.getMessage());
             return null;
         }
 

@@ -14,6 +14,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.Arrays;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
@@ -31,7 +33,6 @@ public class AuthService {
     */
 
     public void askAuthorityAndRun(String nicknameFromEntityModel, String token, Runnable runnable) {
-        HttpServletResponse res = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
         try {
             nullTokenCheck(token);
             Claims claims = getDecodedToken(token);
@@ -40,15 +41,14 @@ public class AuthService {
             updatedUserCheck(claims,nickname);
             runnable.run();
         } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
-            System.out.println(e.getMessage());
             for(StackTraceElement x : e.getStackTrace()){
                 System.out.println(x);
             }
-            res.setStatus(400, e.getMessage());
+            sendErrorWithCatchingIOException(e, 400);
         } catch (NullTokenException|ExpiredJwtException|TokenExpiredException e){
-            res.setStatus(401, e.getMessage());
+            sendErrorWithCatchingIOException(e, 401);
         } catch (NoPermissionException e) {
-            res.setStatus(403, e.getMessage());
+            sendErrorWithCatchingIOException(e, 403);
         }
     }
     public void askLoginedAndRun(String token, Runnable runnable){
@@ -60,9 +60,9 @@ public class AuthService {
             updatedUserCheck(claims, nickname);
             runnable.run();
         } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
-            res.setStatus(400, e.getMessage());
+            sendErrorWithCatchingIOException(e, 400);
         } catch (NullTokenException|ExpiredJwtException|TokenExpiredException e){
-            res.setStatus(401, e.getMessage());
+            sendErrorWithCatchingIOException(e, 401);
         }
     }
 
@@ -77,6 +77,15 @@ public class AuthService {
     private void nullTokenCheck(String token) throws NullTokenException {
         if(token == null){
             throw new NullTokenException();
+        }
+    }
+
+    private void sendErrorWithCatchingIOException(Throwable e, int statusCode){
+        HttpServletResponse res = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+        try {
+            res.sendError(statusCode, e.getMessage());
+        } catch (IOException e1) {
+            e1.printStackTrace();
         }
     }
 
