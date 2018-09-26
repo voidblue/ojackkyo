@@ -224,6 +224,8 @@ public class ArticleService {
                     byte fileData[] = image.getBytes();
                     fos = new FileOutputStream(PATH + "/" + image.getOriginalFilename());
                     fos.write(fileData);
+                    article.setImageName(image.getOriginalFilename());
+                    articleRepository.save(article);
                 } catch (IOException e) {
                     HttpServletResponse res = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
                     try {
