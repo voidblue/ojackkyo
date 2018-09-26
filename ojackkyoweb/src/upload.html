@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+    <form action="http://127.0.0.1:4000/article/image" method="POST" accept-charset="UTF-8" id="imageForm" name="imageData" enctype="multipart/form-data">
+        <div class="img-area flexcenter-align">
+        <div class="img form-name">첨부 이미지</div>
+        <input type="file" name="image" class="img img-content left-space"></input>
+        <img src="" class="preview-img" alt="preview-img" style="display: none">
+        <div class="btn-area flexcenter"></div>
+
+        <button id="btn_submit" class="send-btn form-btn-style" onclick = "return false">작성완료</button>
+        <button class="cancel-btn form-btn-style" type="button">취소</button>
+
+    </form>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="../js/upload.js"></script>
+</body>
+</html>
