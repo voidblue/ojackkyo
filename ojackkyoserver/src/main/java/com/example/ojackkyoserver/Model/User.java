@@ -28,7 +28,7 @@ public class User {
     String callNumber;
     String email;
     @JsonIgnore
-    Integer updateTimes;
+    Integer updatedTimes;
     String sns;
     String tag1;
     String tag2;

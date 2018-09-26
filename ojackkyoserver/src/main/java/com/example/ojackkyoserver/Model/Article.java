@@ -22,12 +22,14 @@ public class Article {
     String title;
     String timeCreated;
     Integer viewed;
+    String imageName;
     @Transient @JsonIgnore
     Integer searchPriority;
     @Transient
     ArrayList<Tag> tags;
     @Transient
     String authorsNickname;
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", updatable = false)

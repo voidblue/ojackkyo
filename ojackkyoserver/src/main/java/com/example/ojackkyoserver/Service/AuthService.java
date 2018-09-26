@@ -4,9 +4,7 @@ import com.example.ojackkyoserver.Exceptions.*;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import io.jsonwebtoken.*;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -14,7 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 
-import java.util.Arrays;
+import java.io.IOException;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
@@ -31,7 +29,6 @@ public class AuthService {
     */
 
     public void askAuthorityAndRun(String nicknameFromEntityModel, String token, Runnable runnable) {
-        HttpServletResponse res = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
         try {
             nullTokenCheck(token);
             Claims claims = getDecodedToken(token);
@@ -40,15 +37,11 @@ public class AuthService {
             updatedUserCheck(claims,nickname);
             runnable.run();
         } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
-            System.out.println(e.getMessage());
-            for(StackTraceElement x : e.getStackTrace()){
-                System.out.println(x);
-            }
-            res.setStatus(400, e.getMessage());
+            sendErrorWithCatchingIOException(e, 400);
         } catch (NullTokenException|ExpiredJwtException|TokenExpiredException e){
-            res.setStatus(401, e.getMessage());
+            sendErrorWithCatchingIOException(e, 401);
         } catch (NoPermissionException e) {
-            res.setStatus(403, e.getMessage());
+            sendErrorWithCatchingIOException(e, 403);
         }
     }
     public void askLoginedAndRun(String token, Runnable runnable){
@@ -60,9 +53,9 @@ public class AuthService {
             updatedUserCheck(claims, nickname);
             runnable.run();
         } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
-            res.setStatus(400, e.getMessage());
+            sendErrorWithCatchingIOException(e, 400);
         } catch (NullTokenException|ExpiredJwtException|TokenExpiredException e){
-            res.setStatus(401, e.getMessage());
+            sendErrorWithCatchingIOException(e, 401);
         }
     }
 
@@ -80,6 +73,15 @@ public class AuthService {
         }
     }
 
+    private void sendErrorWithCatchingIOException(Throwable e, int statusCode){
+        HttpServletResponse res = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+        try {
+            res.sendError(statusCode, e.getMessage());
+        } catch (IOException e1) {
+            e1.printStackTrace();
+        }
+    }
+
 
     private void resourceOwnerCheck(String nicknameFromEntityModel, String nicknameInToken) throws NoPermissionException {
         if(!nicknameFromEntityModel.equals(nicknameInToken)){
@@ -88,9 +90,9 @@ public class AuthService {
     }
 
     private void updatedUserCheck(Claims claims, String nickname) throws TokenExpiredException {
-        String updatedTimes = (String) claims.get("updateTimes");
+        Integer updatedTimes = (Integer) claims.get("updatedTimes");
         User user = userRepository.findByNickname(nickname);
-        if(!user.getUpdateTimes().toString().equals(updatedTimes)){
+        if(!user.getUpdatedTimes().equals(updatedTimes)){
             throw new TokenExpiredException();
         }
     }

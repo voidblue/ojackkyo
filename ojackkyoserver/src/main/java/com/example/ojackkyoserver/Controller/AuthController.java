@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
@@ -26,7 +27,7 @@ public class AuthController {
     @Autowired
     UserRepository userRepository;
     @PostMapping("/login")
-    public HashMap login(@RequestBody Auth auth, HttpServletResponse res){
+    public HashMap login(@RequestBody Auth auth, HttpServletResponse res) throws IOException {
         Optional<User> user = userRepository.findByUid(auth.getUid());
         try {
             LoginCheck(user, auth);
@@ -37,16 +38,16 @@ public class AuthController {
                     .claim("uid", user.get().getUid())
                     .claim("id", user.get().getId())
                     .claim("nickname", user.get().getNickname())
-                    .claim("updateTimes", user.get().getUpdateTimes())
+                    .claim("updatedTimes", user.get().getUpdatedTimes())
                     .claim("tags", Arrays.toString(user.get().notNullTags().toArray()))
-                    .setExpiration(new Date(new Date().getTime() + 604800))
+                    .setExpiration(new Date(new Date().getTime() + 604800*1000))
                     .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
                     .compact();
             HashMap<String ,String> hashMap = new HashMap<>();
             hashMap.put("token", jwtString);
             return hashMap;
         } catch (InvalidLoginException e) {
-            res.setStatus(400, e.getMessage());
+            res.sendError(400, e.getMessage());
             return null;
         }
 

@@ -19,8 +19,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
-
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
 @Service
@@ -95,7 +93,7 @@ public class CommentService {
         comment.setArticle(article);
 
 
-        AtomicBoolean isUpdated = new AtomicBoolean(false);
+        Boolean[] isUpdated = {false};
         if(commentRepository.existsById(comment.getId())) {
             System.out.println(comment.getAuthorsNickname());
             authService.askAuthorityAndRun(comment.getAuthorsNickname(), token , () -> {
@@ -105,12 +103,12 @@ public class CommentService {
                 comment.setAuthor(author);
                 //TODO 왜 업데이트문에서는 자기 엔터티를 제대로 못들어오지??
                 commentRepository.save(comment);
-                isUpdated.set(true);
+                isUpdated[0] = true;
             });
         }else{
             throw new NoResourcePresentException();
         }
-        if(isUpdated.get()) {
+        if(isUpdated[0]) {
             return commentRepository.findById(comment.getId()).get();
         }else {
             return null;

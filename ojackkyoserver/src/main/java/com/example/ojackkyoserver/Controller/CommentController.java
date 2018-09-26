@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -19,11 +20,11 @@ public class CommentController {
     CommentService commentService;
 
     @GetMapping(value = "/{id}")
-    public Comment get(@PathVariable Integer id, HttpServletResponse res){
+    public Comment get(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             return commentService.get(id);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
+            res.sendError(404, e.getMessage());
             return null;
         }
     }
@@ -42,37 +43,37 @@ public class CommentController {
     }
 
     @PostMapping
-    public Comment create(@RequestBody Comment comment, HttpServletResponse res){
+    public Comment create(@RequestBody Comment comment, HttpServletResponse res) throws IOException {
         try {
             return commentService.create(comment);
         } catch (MalFormedResourceException e) {
-            res.setStatus(400, e.getMessage());
+            res.sendError(400, e.getMessage());
             return null;
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, "댓글을 쓰고자 하는 게시글이 없습니다.");
+            res.sendError(404, "댓글을 쓰고자 하는 게시글이 없습니다.");
             return null;
         }
     }
 
     @PutMapping
-    public Comment update(@RequestBody Comment comment, HttpServletResponse res){
+    public Comment update(@RequestBody Comment comment, HttpServletResponse res) throws IOException {
         try {
             return commentService.update(comment);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
+            res.sendError(404, e.getMessage());
             return null;
         } catch (MalFormedResourceException e) {
-            res.setStatus(400, e.getMessage());
+            res.sendError(400, e.getMessage());
             return null;
         }
     }
 
     @DeleteMapping(value ="/{id}")
-    public void delete(@PathVariable Integer id, HttpServletResponse res){
+    public void delete(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             commentService.delete(id);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
+            res.sendError(404, e.getMessage());
         }
 
     }

@@ -34,11 +34,11 @@ public class ArticleController {
     ArticleService articleService;
 
     @GetMapping(value = "/{id}")
-    public Article get(@PathVariable Integer id, HttpServletResponse res){
+    public Article get(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             return articleService.get(id);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
+            res.sendError(404, e.getMessage());
             return null;
         }
     }
@@ -62,11 +62,11 @@ public class ArticleController {
 
 
     @PostMapping
-    public Article create(@RequestBody Article article, HttpServletResponse res){
+    public Article create(@RequestBody Article article, HttpServletResponse res) throws IOException {
         try {
             return articleService.create(article);
         } catch (MalFormedResourceException e) {
-            res.setStatus(400, e.getMessage());
+            res.sendError(400, e.getMessage());
             return null;
         }
     }
@@ -74,11 +74,11 @@ public class ArticleController {
 
 
     @PutMapping
-    public Article update(@RequestBody Article article, HttpServletResponse res){
+    public Article update(@RequestBody Article article, HttpServletResponse res) throws IOException {
         try {
             return articleService.update(article);
         } catch (MalFormedResourceException|NoResourcePresentException e) {
-            res.setStatus(400, e.getMessage());
+            res.sendError(400, e.getMessage());
             return null;
         }
     }
@@ -96,18 +96,9 @@ public class ArticleController {
 
 
     //TODO article에 파일 매핑기켜줘야함!
-    @PostMapping("/file")
-    public void fileupload(@RequestParam MultipartFile file, @RequestParam Integer articleId){
-        File path = new File("files/article/"+articleId + "/" + file.getOriginalFilename());
-        if(!path.exists()){
-            path.mkdirs();
-        }
-        try {
-            file.transferTo(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    @PostMapping("/image")
+    public void fileupload(@RequestParam String token ,@RequestParam MultipartFile image, @RequestParam Integer articleId){
+        articleService.saveImage(token, image, articleId);
     }
 
 }

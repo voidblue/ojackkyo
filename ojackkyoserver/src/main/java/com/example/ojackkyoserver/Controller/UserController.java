@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -37,27 +36,26 @@ public class UserController {
     }
 
     @GetMapping("/uidCheck/{uid}")
-    public HashMap uidCheck(@PathVariable String uid, HttpServletResponse res){
+    public HashMap uidCheck(@PathVariable String uid, HttpServletResponse res) throws IOException {
         if(!userRepository.existsByUid(uid)) {
             HashMap hashMap = new HashMap();
             hashMap.put("결과", "중복되지 않았습니다.");
             return hashMap;
         }else{
             HashMap hashMap = new HashMap();
-            res.setStatus(404, "아이디가 중복되었습니다.");
+            res.sendError(404, "아이디가 중복되었습니다.");
             return null;
         }
 
     }
     @GetMapping("/nicknameCheck/{nickname}")
-    public HashMap duplicationCheck(@PathVariable String nickname, HttpServletResponse res){
+    public HashMap duplicationCheck(@PathVariable String nickname, HttpServletResponse res) throws IOException {
         if(!userRepository.existsByNickname(nickname)) {
             HashMap hashMap = new HashMap();
             hashMap.put("결과", "중복되지 않았습니다.");
             return hashMap;
         }else{
-            HashMap hashMap = new HashMap();
-            res.setStatus(404, "아이디가 중복되었습니다.");
+            res.sendError(404, "아이디가 중복되었습니다.");
             return null;
         }
 
@@ -65,7 +63,7 @@ public class UserController {
 
     @PostMapping
     public User create(@RequestBody User user, HttpServletResponse res) throws IOException {
-        user.setUpdateTimes(0);
+        user.setUpdatedTimes(0);
         if (userRepository.existsByUid(user.getUid()) || userRepository.existsByNickname(user.getNickname())){
             res.sendError(400, "중복 키 에러입니다.");
             return null;
@@ -101,7 +99,7 @@ public class UserController {
         authService.askAuthorityAndRun(user.getUid(), req.getHeader("token"), ()->{
             if (userRepository.existsByUid(user.getUid())){
                 User userForUpdateTimes = userRepository.findById(user.getId()).get();
-                user.setUpdateTimes(userForUpdateTimes.getUpdateTimes()+1);
+                user.setUpdatedTimes(userForUpdateTimes.getUpdatedTimes()+1);
                 userholder[0] = userRepository.save(user);
             }else{
                 userholder[0] = null;
