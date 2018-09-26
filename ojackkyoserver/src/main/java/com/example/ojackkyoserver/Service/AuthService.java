@@ -4,9 +4,7 @@ import com.example.ojackkyoserver.Exceptions.*;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import io.jsonwebtoken.*;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -14,9 +12,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletResponse;
 
-import java.io.IOError;
 import java.io.IOException;
-import java.util.Arrays;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
@@ -41,9 +37,6 @@ public class AuthService {
             updatedUserCheck(claims,nickname);
             runnable.run();
         } catch (UnsupportedJwtException|MalformedJwtException|SignatureException|IllegalArgumentException e) {
-            for(StackTraceElement x : e.getStackTrace()){
-                System.out.println(x);
-            }
             sendErrorWithCatchingIOException(e, 400);
         } catch (NullTokenException|ExpiredJwtException|TokenExpiredException e){
             sendErrorWithCatchingIOException(e, 401);
@@ -97,9 +90,9 @@ public class AuthService {
     }
 
     private void updatedUserCheck(Claims claims, String nickname) throws TokenExpiredException {
-        String updatedTimes = (String) claims.get("updateTimes");
+        Integer updatedTimes = (Integer) claims.get("updatedTimes");
         User user = userRepository.findByNickname(nickname);
-        if(!user.getUpdateTimes().toString().equals(updatedTimes)){
+        if(!user.getUpdatedTimes().equals(updatedTimes)){
             throw new TokenExpiredException();
         }
     }

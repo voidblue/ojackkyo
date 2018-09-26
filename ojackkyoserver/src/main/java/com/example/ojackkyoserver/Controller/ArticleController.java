@@ -96,18 +96,9 @@ public class ArticleController {
 
 
     //TODO article에 파일 매핑기켜줘야함!
-    @PostMapping("/file")
-    public void fileupload(@RequestParam MultipartFile file, @RequestParam Integer articleId){
-        File path = new File("files/article/"+articleId + "/" + file.getOriginalFilename());
-        if(!path.exists()){
-            path.mkdirs();
-        }
-        try {
-            file.transferTo(path);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+    @PostMapping("/image")
+    public void fileupload(@RequestParam String token ,@RequestParam MultipartFile image, @RequestParam Integer articleId){
+        articleService.saveImage(token, image, articleId);
     }
 
 }

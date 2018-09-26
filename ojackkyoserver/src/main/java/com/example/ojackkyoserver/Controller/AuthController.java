@@ -38,9 +38,9 @@ public class AuthController {
                     .claim("uid", user.get().getUid())
                     .claim("id", user.get().getId())
                     .claim("nickname", user.get().getNickname())
-                    .claim("updateTimes", user.get().getUpdateTimes())
+                    .claim("updatedTimes", user.get().getUpdatedTimes())
                     .claim("tags", Arrays.toString(user.get().notNullTags().toArray()))
-                    .setExpiration(new Date(new Date().getTime() + 604800))
+                    .setExpiration(new Date(new Date().getTime() + 604800*1000))
                     .signWith(SignatureAlgorithm.HS512, "portalServiceFinalExam")
                     .compact();
             HashMap<String ,String> hashMap = new HashMap<>();

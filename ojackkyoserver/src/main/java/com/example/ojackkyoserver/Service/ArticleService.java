@@ -11,6 +11,7 @@ import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Cleanup;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,9 +20,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -210,6 +213,41 @@ public class ArticleService {
         }
 
     }
+    final static String PATH = System.getProperty("user.dir") + "/out/production/resources/static/article/images/";
 
+    public void saveImage(String token, MultipartFile image, Integer articleId){
+        if(articleRepository.existsById(articleId)) {
+            Article article = (Article) articleRepository.findById(articleId).get();
+            authService.askAuthorityAndRun(article.getAuthorsNickname(), token, ()->{
+                FileOutputStream fos = null;
+                try {
+                    byte fileData[] = image.getBytes();
+                    fos = new FileOutputStream(PATH + "/" + image.getOriginalFilename());
+                    fos.write(fileData);
+                } catch (IOException e) {
+                    HttpServletResponse res = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getResponse();
+                    try {
+                        res.sendError(500, e.getMessage());
+                        e.printStackTrace();
+                    } catch (IOException e1) {
+                        e1.printStackTrace();
+                    }
+                }finally {
+                    if(fos!=null){
+                        try {
+                            fos.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+
+            });
+
+        }
+
+
+    }
 
 }
