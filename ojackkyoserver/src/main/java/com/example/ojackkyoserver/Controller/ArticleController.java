@@ -1,7 +1,9 @@
 package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.Exceptions.NoPermissionException;
 import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.Exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
@@ -9,6 +11,7 @@ import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
 import com.example.ojackkyoserver.Service.ArticleService;
+import io.jsonwebtoken.JwtException;
 import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -65,7 +68,7 @@ public class ArticleController {
     public Article create(@RequestBody Article article, HttpServletResponse res) throws IOException {
         try {
             return articleService.create(article);
-        } catch (MalFormedResourceException e) {
+        } catch (MalFormedResourceException|JwtException e) {
             res.sendError(400, e.getMessage());
             return null;
         }
@@ -77,19 +80,24 @@ public class ArticleController {
     public Article update(@RequestBody Article article, HttpServletResponse res) throws IOException {
         try {
             return articleService.update(article);
-        } catch (MalFormedResourceException|NoResourcePresentException e) {
+        } catch (MalFormedResourceException|NoResourcePresentException|JwtException e) {
             res.sendError(400, e.getMessage());
+            return null;
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
             return null;
         }
     }
 
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id, HttpServletResponse res){
+    public void delete(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             articleService.delete(id);
-        } catch (NoResourcePresentException e) {
-            res.setStatus(400,e.getMessage());
+        } catch (NoResourcePresentException|JwtException e) {
+            res.sendError(400,e.getMessage());
+        } catch (NoPermissionException e) {
+            e.printStackTrace();
         }
     }
 
@@ -97,8 +105,15 @@ public class ArticleController {
 
     //TODO article에 파일 매핑기켜줘야함!
     @PostMapping("/image")
-    public void fileupload(@RequestParam String token ,@RequestParam MultipartFile image, @RequestParam Integer articleId){
-        articleService.saveImage(token, image, articleId);
+    public void fileupload(@RequestParam String token ,@RequestParam MultipartFile image, @RequestParam Integer articleId,
+                           HttpServletResponse res) throws IOException {
+        try {
+            articleService.saveImage(token, image, articleId);
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
+        } catch (NoResourcePresentException e) {
+            res.sendError(404, e.getMessage());
+        }
     }
 
 }

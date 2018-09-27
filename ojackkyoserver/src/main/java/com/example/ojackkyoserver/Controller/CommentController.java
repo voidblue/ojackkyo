@@ -1,9 +1,11 @@
 package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.Exceptions.NoPermissionException;
 import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
 import com.example.ojackkyoserver.Model.Comment;
 import com.example.ojackkyoserver.Service.CommentService;
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,7 +48,7 @@ public class CommentController {
     public Comment create(@RequestBody Comment comment, HttpServletResponse res) throws IOException {
         try {
             return commentService.create(comment);
-        } catch (MalFormedResourceException e) {
+        } catch (MalFormedResourceException|JwtException e) {
             res.sendError(400, e.getMessage());
             return null;
         } catch (NoResourcePresentException e) {
@@ -62,8 +64,11 @@ public class CommentController {
         } catch (NoResourcePresentException e) {
             res.sendError(404, e.getMessage());
             return null;
-        } catch (MalFormedResourceException e) {
+        } catch (MalFormedResourceException|JwtException e) {
             res.sendError(400, e.getMessage());
+            return null;
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
             return null;
         }
     }
@@ -74,6 +79,10 @@ public class CommentController {
             commentService.delete(id);
         } catch (NoResourcePresentException e) {
             res.sendError(404, e.getMessage());
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
+        } catch (JwtException e){
+            res.sendError(400, e.getMessage());
         }
 
     }

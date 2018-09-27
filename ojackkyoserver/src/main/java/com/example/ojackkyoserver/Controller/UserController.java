@@ -1,8 +1,10 @@
 package com.example.ojackkyoserver.Controller;
 
+import com.example.ojackkyoserver.Exceptions.NoPermissionException;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
-import com.example.ojackkyoserver.Service.AuthService;
+import com.example.ojackkyoserver.Service.JwtContext;
+import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
+import java.util.jar.JarException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -20,7 +23,7 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
     @Autowired
-    AuthService authService;
+    JwtContext jwtContext;
 
 
     @GetMapping("/{id}")
@@ -94,24 +97,28 @@ public class UserController {
 
     //TODO 코드 개선
     @PutMapping
-    public User update(@RequestBody User user, HttpServletRequest req, HttpServletResponse res){
-        User[] userholder = new User[1];
-        authService.askAuthorityAndRun(user.getUid(), req.getHeader("token"), ()->{
+    public User update(@RequestBody User user, HttpServletResponse res) throws IOException {
+        User result = null;
+        try {
+            jwtContext.entityOwnerCheck(user.getNickname());
             if (userRepository.existsByUid(user.getUid())){
                 User userForUpdateTimes = userRepository.findById(user.getId()).get();
                 user.setUpdatedTimes(userForUpdateTimes.getUpdatedTimes()+1);
-                userholder[0] = userRepository.save(user);
+                userRepository.save(user);
+                result = userRepository.getOne(user.getId());
             }else{
-                userholder[0] = null;
                 try {
                     res.sendError(400, "수정할 유저가 없습니다.");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        });
-        System.out.println(userholder[0]);
-        return userholder[0];
+        } catch (JwtException e){
+            res.sendError(400, e.getMessage());
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
+        }
+        return result;
     }
 
     //TODO 계정 삭제는 논의 후 진행
