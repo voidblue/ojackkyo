@@ -33,45 +33,35 @@ public class UserTest {
 
 
     @Test
+    @Deprecated
     public void get(){
-        String uid = "testuser";
-        String password = "1234";
+        String uid = "test";
+        String password = "test";
 
-        User user = restTemplate.getForObject(PATH + "/" + 1, User.class);
+        User user = restTemplate.getForObject(PATH + "/" + 17, User.class);
 
         assertThat(user.getUid(), is(uid));
         assertThat(user.getPassword(), is(password));
 
 
     }
-
+    //토큰에 의해 개별 테스트가 힘들기 때문에 CUD 순서로 통합테스트
     @Test
     public void create(){
         //TODO DB에서 테스트유저 꼭 지우고 테스트할것!
         User userForCreate = new User();
-        userForCreate.setUid("testuser");
+        userForCreate.setUid("testForCUD");
         userForCreate.setPassword("1234");
-        User user = restTemplate.postForObject(PATH + "/", userForCreate, User.class);
-        System.out.println(user);
-        validate(userForCreate, user);
-    }
+        userForCreate.setNickname("testForCUD");
+        User createdUser = restTemplate.postForObject(PATH + "/", userForCreate, User.class);
+        System.out.println(createdUser);
+        validate(userForCreate, createdUser);
 
-    @Test
-    public void duplicatedUidCreate(){
-        User userForCreate = new User();
-        userForCreate.setUid("duplicateuser");
-        userForCreate.setPassword("1234");
-        User user = restTemplate.postForObject(PATH + "/", userForCreate, User.class);
+        duplicateCheckTest();
 
-        assertThat(user ,is(nullValue()));
+        User userForUpdate = createdUser;
 
-    }
-
-
-    @Test
-    //TODO testuser 지우고 테스트할것!
-    public void update(){
-        User userForUpdate = getCreatedUser();
+        userForUpdate.setNickname("test");
         userForUpdate.setPassword("4321");
         context.notoken(PATH , HttpMethod.PUT, userForUpdate);
         context.notOwner(PATH, HttpMethod.PUT, userForUpdate);
@@ -81,6 +71,17 @@ public class UserTest {
 
         validate(user.getBody(), userForUpdate);
 
+    }
+
+    private void duplicateCheckTest() {
+        User userForDuplicationTest = new User();
+        userForDuplicationTest.setNickname("test");
+        userForDuplicationTest.setUid("testForCUD");
+        userForDuplicationTest.setPassword("1234");
+        HttpEntity entityForDuplicationTest = new HttpEntity(userForDuplicationTest,context.getSimpleHttpHeader());
+        context.getSimpleHttpHeader();
+        ResponseEntity<User> CreateFailUser = restTemplate.exchange(PATH + "/", HttpMethod.PUT, (HttpEntity<?>) entityForDuplicationTest, User.class);
+        assertThat(CreateFailUser.getStatusCode().value() ,is(404));
     }
 
     @Test

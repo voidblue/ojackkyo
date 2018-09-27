@@ -23,6 +23,11 @@ class RestTestContext {
         this.restTemplate = restTemplate;
 
     }
+    HttpHeaders getSimpleHttpHeader(){
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+        return  httpHeaders;
+    }
 
     HttpHeaders getHttpHeadersWithToken() {
         HttpHeaders httpHeaders = new HttpHeaders();

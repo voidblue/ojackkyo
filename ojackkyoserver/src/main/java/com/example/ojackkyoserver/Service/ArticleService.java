@@ -212,7 +212,6 @@ public class ArticleService {
             jwtContext.entityOwnerCheck(article.getAuthorsNickname(), token);
 
             image.transferTo(new File(PATH + "/" + image.getOriginalFilename()));
-
             article.setImageName(image.getOriginalFilename());
             articleRepository.save(article);
         }else{
