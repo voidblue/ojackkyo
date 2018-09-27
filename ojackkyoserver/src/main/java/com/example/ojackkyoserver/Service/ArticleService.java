@@ -116,7 +116,7 @@ public class ArticleService {
         return articleRepository.findByIdIn(ids, pageable);
     }
 
-    public Article create(@RequestBody Article article) throws MalFormedResourceException, JwtException {
+    public Article create(@RequestBody Article article) throws MalFormedResourceException, JwtException, NullTokenException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 
 
@@ -150,7 +150,7 @@ public class ArticleService {
     }
 
     public Article update(Article article) throws MalFormedResourceException, NoResourcePresentException,
-                                                    NoPermissionException, JwtException {
+            NoPermissionException, JwtException, NullTokenException {
         if(article.getTitle().equals("") || article.getText().equals("")){
             throw new MalFormedResourceException();
         }
@@ -164,7 +164,7 @@ public class ArticleService {
         }
     }
 
-    public void delete(Integer id) throws NoResourcePresentException, NoPermissionException, JwtException {
+    public void delete(Integer id) throws NoResourcePresentException, NoPermissionException, JwtException, NullTokenException {
         Optional<Article> optArticle = articleRepository.findById(id);
         if(optArticle.isPresent()){
             Article article = optArticle.get();
@@ -204,7 +204,7 @@ public class ArticleService {
     }
     final static String PATH = System.getProperty("user.dir") + "/out/production/resources/static/article/images/";
 
-    public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException {
+    public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException, NullTokenException {
         if(articleRepository.existsById(articleId)) {
             Article article = (Article) articleRepository.findById(articleId).get();
 

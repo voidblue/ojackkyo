@@ -25,26 +25,24 @@ public class JwtContext {
     @Autowired
     UserRepository userRepository;
 
-    public void entityOwnerCheck(String nicknameFromEntityModel, String token) throws NoPermissionException, JwtException {
+    public void entityOwnerCheck(String nicknameFromEntityModel, String token) throws NoPermissionException, JwtException, NullTokenException {
         nullTokenCheck(token);
         Claims claims = getDecodedToken(token);
         String nickname = (String) claims.get("nickname");
         resourceOwnerCheck(nicknameFromEntityModel, nickname);
-        updatedUserCheck(claims,nickname);
-
+        updatedUserCheck(claims);
     }
-    public void loginCheck(String token) throws JwtException {
+    public void loginCheck(String token) throws JwtException, NullTokenException {
         nullTokenCheck(token);
         Claims claims = getDecodedToken(token);
-        String nickname = (String) claims.get("nickname");
-        updatedUserCheck(claims, nickname);
+        updatedUserCheck(claims);
     }
 
-    public void entityOwnerCheck(String nicknameFromEntityModel) throws NoPermissionException, JwtException {
+    public void entityOwnerCheck(String nicknameFromEntityModel) throws NoPermissionException, JwtException, NullTokenException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         entityOwnerCheck(nicknameFromEntityModel, req.getHeader("token"));
     }
-    public void loginCheck() throws JwtException {
+    public void loginCheck() throws JwtException, NullTokenException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         loginCheck(req.getHeader("token"));
     }
@@ -56,7 +54,6 @@ public class JwtContext {
                 .parseClaimsJws(token).getBody();
     }
     public Claims getDecodedToken() throws MalformedJwtException, SignatureException, IllegalArgumentException{
-
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         return getDecodedToken(req.getHeader("token"));
     }
@@ -74,10 +71,13 @@ public class JwtContext {
         }
     }
 
-    private void updatedUserCheck(Claims claims, String nickname) throws ExpiredByUserUpdateException {
-        Integer updatedTimes = (Integer) claims.get("updatedTimes");
-        User user = userRepository.findByNickname(nickname);
-        if(!user.getUpdatedTimes().equals(updatedTimes)){
+    private void updatedUserCheck(Claims claims) throws ExpiredByUserUpdateException {
+        System.out.println(claims.toString());
+        Long lastUpdatedTime = (Long) claims.get("lastUpdatedTime");
+        Long timeCreated = (Long) claims.get("timeCreated");
+
+        System.out.println(lastUpdatedTime);
+        if(lastUpdatedTime > timeCreated){
             throw new ExpiredByUserUpdateException();
         }
     }

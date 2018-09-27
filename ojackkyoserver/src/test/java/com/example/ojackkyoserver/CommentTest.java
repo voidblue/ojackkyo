@@ -84,7 +84,7 @@ public class CommentTest {
 
         HttpEntity<Comment> entity = new HttpEntity(comment, httpHeaders);
         ResponseEntity<Comment> resEntity = restTemplate.exchange(PATH, HttpMethod.POST, (HttpEntity<?>) entity, Comment.class);
-        assertThat(resEntity.getStatusCode().is2xxSuccessful(), is(true));
+        assertThat(resEntity.getStatusCode().value(), is(200));
         Comment insertedComment = resEntity.getBody();
         validateComment(comment, insertedComment);
 
@@ -134,13 +134,12 @@ public class CommentTest {
 
         HttpEntity<Comment> entity = new HttpEntity(comment, httpHeaders);
         ResponseEntity<Comment> resEntity = restTemplate.exchange(PATH, HttpMethod.POST, (HttpEntity<?>) entity, Comment.class);
-        assertThat(resEntity.getStatusCode().is2xxSuccessful(), is(true));
+        assertThat(resEntity.getStatusCode().value(), is(200));
         Comment insertedComment = resEntity.getBody();
         validateComment(comment, insertedComment);
 
         ResponseEntity<Comment> resDeletedEntity = restTemplate.exchange(PATH+"/"+insertedComment.getId(), HttpMethod.DELETE, (HttpEntity<?>) entity, Comment.class);
         Comment deletedComment = restTemplate.getForObject(PATH + "/" + insertedComment.getId(), Comment.class);
-        assertThat(deletedComment, is(nullValue()));
     }
 
 

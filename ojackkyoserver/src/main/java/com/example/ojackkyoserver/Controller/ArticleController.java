@@ -71,6 +71,9 @@ public class ArticleController {
         } catch (MalFormedResourceException|JwtException e) {
             res.sendError(400, e.getMessage());
             return null;
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
+            return null;
         }
     }
 
@@ -86,6 +89,9 @@ public class ArticleController {
         } catch (NoPermissionException e) {
             res.sendError(403, e.getMessage());
             return null;
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
+            return null;
         }
     }
 
@@ -97,7 +103,9 @@ public class ArticleController {
         } catch (NoResourcePresentException|JwtException e) {
             res.sendError(400,e.getMessage());
         } catch (NoPermissionException e) {
-            e.printStackTrace();
+            res.sendError(403, e.getMessage());
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
         }
     }
 
@@ -113,6 +121,8 @@ public class ArticleController {
             res.sendError(403, e.getMessage());
         } catch (NoResourcePresentException e) {
             res.sendError(404, e.getMessage());
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
         }
     }
 

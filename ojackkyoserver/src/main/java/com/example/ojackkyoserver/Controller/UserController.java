@@ -1,6 +1,7 @@
 package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Exceptions.NoPermissionException;
+import com.example.ojackkyoserver.Exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import com.example.ojackkyoserver.Service.JwtContext;
@@ -11,6 +12,10 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.jar.JarException;
@@ -66,7 +71,7 @@ public class UserController {
 
     @PostMapping
     public User create(@RequestBody User user, HttpServletResponse res) throws IOException {
-        user.setUpdatedTimes(0);
+        user.setLastUpdatedTime(System.currentTimeMillis());
         if (userRepository.existsByUid(user.getUid()) || userRepository.existsByNickname(user.getNickname())){
             res.sendError(400, "중복 키 에러입니다.");
             return null;
@@ -102,8 +107,7 @@ public class UserController {
         try {
             jwtContext.entityOwnerCheck(user.getNickname());
             if (userRepository.existsByUid(user.getUid())){
-                User userForUpdateTimes = userRepository.findById(user.getId()).get();
-                user.setUpdatedTimes(userForUpdateTimes.getUpdatedTimes()+1);
+                user.setLastUpdatedTime(System.currentTimeMillis());
                 userRepository.save(user);
                 result = userRepository.getOne(user.getId());
             }else{
@@ -117,13 +121,12 @@ public class UserController {
             res.sendError(400, e.getMessage());
         } catch (NoPermissionException e) {
             res.sendError(403, e.getMessage());
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
         }
         return result;
     }
 
     //TODO 계정 삭제는 논의 후 진행
-//    @DeleteMapping("/{id}")
-//    public void Delete(@PathVariable Integer id){
-//
-//    }
+
 }
