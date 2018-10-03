@@ -131,6 +131,7 @@ public class ArticleService {
         sdf.setTimeZone(time);
         article.setTimeCreated(sdf.format(new Date()));
 
+
         //TODO resultHolder 말고 다른 방법 없나???
 
 

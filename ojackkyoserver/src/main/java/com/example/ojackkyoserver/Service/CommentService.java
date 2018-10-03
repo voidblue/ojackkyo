@@ -10,7 +10,6 @@ import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.CommentRepository;
 import com.example.ojackkyoserver.Repository.UserRepository;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Scope;
