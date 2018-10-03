@@ -58,7 +58,6 @@ public class ArticleService {
         for(TagArticleMap e : map){
             ids.add(e.getArticle());
         }
-        System.out.println(articleRepository.findByIdIn(ids, pageable    ));
         return articleRepository.findByIdIn(ids, pageable);
     }
 
@@ -132,6 +131,7 @@ public class ArticleService {
         sdf.setTimeZone(time);
         article.setTimeCreated(sdf.format(new Date()));
 
+<<<<<<< HEAD
         jwtContext.loginCheck(token);
         String authorsNickname = (String) jwtContext.getDecodedToken(token).get("nickname");
         //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
@@ -146,6 +146,26 @@ public class ArticleService {
         return result;
     }
 
+=======
+        //TODO resultHolder 말고 다른 방법 없나???
+
+
+
+        jwtContext.loginCheck(token);
+        String authorsNickname = (String) jwtContext.getDecodedToken(token).get("nickname");
+        //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
+        article.setAuthor(userRepository.findByNickname(authorsNickname));
+        Article result = (Article) articleRepository.save(article);
+        ArrayList<Tag> tags = article.getTags();
+        if(tags != null) {
+            saveTagsToTagArticleMap(tags, article.getId());
+        }
+
+
+        return result;
+    }
+
+>>>>>>> 1c13dcd815c7471923a5e6da2c3a95167aeb3169
     public Article update(Article article) throws MalFormedResourceException, NoResourcePresentException,
             NoPermissionException, JwtException, NullTokenException {
         if(article.getTitle().equals("") || article.getText().equals("")){
@@ -200,11 +220,19 @@ public class ArticleService {
 
     }
     final static String PATH = System.getProperty("user.dir") + "/out/production/resources/static/article/images/";
+<<<<<<< HEAD
 
     public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException, NullTokenException {
         if(articleRepository.existsById(articleId)) {
             Article article = (Article) articleRepository.findById(articleId).get();
 
+=======
+
+    public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException, NullTokenException {
+        if(articleRepository.existsById(articleId)) {
+            Article article = (Article) articleRepository.findById(articleId).get();
+
+>>>>>>> 1c13dcd815c7471923a5e6da2c3a95167aeb3169
             //form에 의한 통신에서 header를 가져올 수 없기 때문에 token을 직접 넣어줘야함
             jwtContext.entityOwnerCheck(article.getAuthorsNickname(), token);
 

@@ -23,7 +23,10 @@ public class CommentController {
     CommentService commentService;
 
     @GetMapping(value = "/{id}")
+<<<<<<< HEAD
 
+=======
+>>>>>>> 1c13dcd815c7471923a5e6da2c3a95167aeb3169
     public Comment get(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             return commentService.get(id);

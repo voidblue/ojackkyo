@@ -23,7 +23,6 @@ public class User {
     String password;
     String StudentCode;
     String name;
-    @UniqueElements
     String nickname;
     String callNumber;
     String email;
