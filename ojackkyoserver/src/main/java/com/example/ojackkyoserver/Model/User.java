@@ -1,7 +1,9 @@
 package com.example.ojackkyoserver.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.ToString;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.persistence.*;
 import java.lang.reflect.Array;
@@ -24,6 +26,8 @@ public class User {
     String nickname;
     String callNumber;
     String email;
+    @JsonIgnore
+    Long lastUpdatedTime;
     String sns;
     String tag1;
     String tag2;
@@ -44,7 +48,7 @@ public class User {
         for(int i = 0 ; i < tags.length ; i++){
             try {
                 System.out.println(fields[i+9].getName());
-                fields[i+9].set(this, tags[i]);
+                fields[i+10].set(this, tags[i]);
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
@@ -55,7 +59,7 @@ public class User {
     public List<HashMap> notNullTags(){
         ArrayList result = new ArrayList();
         Field[] fields = getClass().getDeclaredFields();
-        for(int i = 9 ; i < 19 ; i++){
+        for(int i = 10 ; i < 20 ; i++){
             try {
                 if(fields[i].get(this) != null) {
                     HashMap hashMap = new HashMap();

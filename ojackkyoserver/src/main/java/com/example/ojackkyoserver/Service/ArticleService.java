@@ -1,14 +1,19 @@
 package com.example.ojackkyoserver.Service;
 
 import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.Exceptions.NoPermissionException;
 import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.Exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
+import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.ArticleRepository;
 import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
 import com.example.ojackkyoserver.Repository.TagRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.ojackkyoserver.Repository.UserRepository;
+import io.jsonwebtoken.JwtException;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,30 +22,27 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
-import static org.springframework.web.context.WebApplicationContext.SCOPE_REQUEST;
 
 @Service
 @Scope(value = SCOPE_SINGLETON )
+@AllArgsConstructor
 public class ArticleService {
-    @Autowired
     private ArticleRepository articleRepository;
-    @Autowired
     private TagArticleMapRepository tagArticleMapRepository;
-    @Autowired
     private TagRepository tagRepository;
-    @Autowired
-    private AuthService authService;
+    private JwtContext jwtContext;
+    private UserRepository userRepository;
 
     public Article get(@PathVariable Integer id) throws NoResourcePresentException {
         Optional<Article> optArticle = articleRepository.findById(id);
-
         if(optArticle.isPresent()){
             Article article = optArticle.get();
             article.setViewed(article.getViewed() + 1);
@@ -60,11 +62,29 @@ public class ArticleService {
     }
 
     public Page<Article> getListByNickname(String authorsNickname, Pageable pageable) {
-        Page<Article> articles = articleRepository.findAlLByAuthorsNickname(authorsNickname, pageable);
+        User author = userRepository.findByNickname(authorsNickname);
+        Page<Article> articles = articleRepository.findAllByAuthor(author, pageable);
         return articles;
     }
 
+    //TODO 나중에 엘라스틱 서치 이용할것
+    @Deprecated
     public Page<Article> getListByText(String text, Pageable pageable) {
+//        String elasticSearchHost = "127.0.0.1/ojackkyo/article";
+//        int elasticSearchPort = 6000;
+//        RestClient restClient = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort)).build();
+//        Request request = new Request("GET", elasticSearchHost);
+//        request.addParameter("text", text);
+//
+//        Response response = null;
+//        String resBody = null;
+//        try {
+//            response  = restClient.performRequest(request);
+//            resBody =  EntityUtils.toString(response.getEntity());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        System.out.println(resBody);
         String[] words = text.split(" ");
 
         List<Article> Articles = articleRepository.findAll();
@@ -96,8 +116,9 @@ public class ArticleService {
         return articleRepository.findByIdIn(ids, pageable);
     }
 
-    public Article create(@RequestBody Article article) throws MalFormedResourceException {
+    public Article create(@RequestBody Article article) throws MalFormedResourceException, JwtException, NullTokenException {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+
 
         String token = req.getHeader("token");
         if(article.getTitle().equals("") || article.getText().equals("")){
@@ -111,50 +132,44 @@ public class ArticleService {
         article.setTimeCreated(sdf.format(new Date()));
 
         //TODO resultHolder 말고 다른 방법 없나???
-        final Article[] resultHolder = {null};
-        authService.askLoginedAndRun(token, ()->{
-            article.setAuthorsNickname((String) authService.getDecodedToken(token).getBody().get("nickname"));
-            resultHolder[0] = (Article) articleRepository.save(article);
-            ArrayList<Tag> tags = article.getTags();
-            if(tags != null) {
-                saveTagsToTagArticleMap(tags, article.getId());
-            }
 
-        });
 
-        return resultHolder[0];
+
+        jwtContext.loginCheck(token);
+        String authorsNickname = (String) jwtContext.getDecodedToken(token).get("nickname");
+        //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
+        article.setAuthor(userRepository.findByNickname(authorsNickname));
+        Article result = (Article) articleRepository.save(article);
+        ArrayList<Tag> tags = article.getTags();
+        if(tags != null) {
+            saveTagsToTagArticleMap(tags, article.getId());
+        }
+
+
+        return result;
     }
 
-    public Article update(Article article) throws MalFormedResourceException, NoResourcePresentException {
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-
-        String token = req.getHeader("token");
+    public Article update(Article article) throws MalFormedResourceException, NoResourcePresentException,
+            NoPermissionException, JwtException, NullTokenException {
         if(article.getTitle().equals("") || article.getText().equals("")){
             throw new MalFormedResourceException();
         }
 
-        final Article[] resultHolder = {null};
         if(articleRepository.existsById(article.getId())) {
-            authService.askAuthorityAndRun(article.getAuthorsNickname(), token, () -> {
-                resultHolder[0] = (Article) articleRepository.save(article);
-            });
+            jwtContext.entityOwnerCheck(article.getAuthorsNickname());
+            articleRepository.save(article);
+            return (Article) articleRepository.findById(article.getId()).get();
         }else{
             throw new NoResourcePresentException();
         }
-        return resultHolder[0];
     }
 
-    public void delete(Integer id) throws NoResourcePresentException {
-        HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-
-        String token = req.getHeader("token");
-
+    public void delete(Integer id) throws NoResourcePresentException, NoPermissionException, JwtException, NullTokenException {
         Optional<Article> optArticle = articleRepository.findById(id);
         if(optArticle.isPresent()){
             Article article = optArticle.get();
-            authService.askAuthorityAndRun(article.getAuthorsNickname(), token, ()->{
-                articleRepository.deleteById(id);
-            });
+            jwtContext.entityOwnerCheck(article.getAuthorsNickname());
+            articleRepository.deleteById(id);
         }else{
             throw new NoResourcePresentException();
         }
@@ -187,6 +202,23 @@ public class ArticleService {
         }
 
     }
+    final static String PATH = System.getProperty("user.dir") + "/out/production/resources/static/article/images/";
 
+    public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException, NullTokenException {
+        if(articleRepository.existsById(articleId)) {
+            Article article = (Article) articleRepository.findById(articleId).get();
+
+            //form에 의한 통신에서 header를 가져올 수 없기 때문에 token을 직접 넣어줘야함
+            jwtContext.entityOwnerCheck(article.getAuthorsNickname(), token);
+
+            image.transferTo(new File(PATH + "/" + image.getOriginalFilename()));
+            article.setImageName(image.getOriginalFilename());
+            articleRepository.save(article);
+        }else{
+            throw new NoResourcePresentException();
+        }
+
+
+    }
 
 }
