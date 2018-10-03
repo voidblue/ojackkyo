@@ -208,7 +208,7 @@ public class ArticleService {
     public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException, NullTokenException {
         if(articleRepository.existsById(articleId)) {
             Article article = (Article) articleRepository.findById(articleId).get();
-            
+
             //form에 의한 통신에서 header를 가져올 수 없기 때문에 token을 직접 넣어줘야함
             jwtContext.entityOwnerCheck(article.getAuthorsNickname(), token);
 
