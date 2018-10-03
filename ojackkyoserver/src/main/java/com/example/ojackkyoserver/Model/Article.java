@@ -29,11 +29,6 @@ public class Article {
     ArrayList<Tag> tags;
     @Transient
     String authorsNickname;
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 1c13dcd815c7471923a5e6da2c3a95167aeb3169
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id", updatable = false)
     @JsonIgnore
