@@ -16,6 +16,7 @@ function SignIn(){
          success : function(data){
             console.log(data.id);
             window.location.replace("front.html");
+            window.android.regSuccess("success");
             alert("회원가입 성공");
          },
          error : function(data) {
