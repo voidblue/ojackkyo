@@ -1,0 +1,122 @@
+body{
+    background-color: #5a5e8f;
+    margin: 0;
+}
+
+input{
+    padding: 0px;
+    margin-bottom: 10px;
+}
+
+h1{
+    font-size: 3em;
+    margin: 0;
+    margin-top: 10px;
+}
+
+hr{
+    width: 2;
+    size: 100%;
+    margin: 0;
+    margin-bottom: 10px;
+}
+
+.SignIn{
+    border: 0;
+    margin: 0px;
+    padding: 0px;
+    width: 350px;
+    height: 500px;
+    
+}
+
+#inputID{
+    float: left;
+    border: 0px;
+    width: 70%;
+    height: 35px;
+    font-size: 2em;
+}
+
+#btnID{
+    float: right;
+    width: 25%;
+    height: 35px;
+    font-size: 17px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+#btnNickname{
+    float: right;
+    width: 25%;
+    height: 35px;
+    font-size: 17px;
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+}
+
+.inputType{
+    border: 0px;
+    width: 100%;
+    height: 35px;
+    font-size: 2em;
+}
+#pwChk{
+    font-size: 9pt;
+    float: left;
+    margin-bottom: 10px;
+    margin-top:-10px;
+    color: white;
+}
+#inputStdID{
+    border: 0px;
+    width: 49%;
+    height: 35px;
+    font-size: 2em;
+    float: left;
+}
+
+#inputName{
+    border: 0px;
+    width: 49%;
+    height: 35px;
+    font-size: 2em;
+    float: right;
+}
+
+#inputNickname{
+    float: left;
+    border: 0px;
+    width: 70%;
+    height: 35px;
+    font-size: 2em;
+}
+#like{
+    float: left;
+    font-size: 2em;
+    background-color: white;
+    color: gray;
+    width: 40%;
+    height: 38px;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+#chkbox{
+    width: 55%;
+    float: right;
+    text-align: justify;
+    position: relative;
+    font-size: 100%;
+}
+
+#signIn{
+    width: 100%;
+    height: 35px;
+    font-size: 20px;
+    border: 0px;
+    font-family: Arial, Helvetica, sans-serif;
+}
