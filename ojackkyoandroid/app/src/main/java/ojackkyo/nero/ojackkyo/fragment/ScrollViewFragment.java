@@ -76,7 +76,6 @@ public class ScrollViewFragment extends Fragment {
             Log.e("count", "count: " + count );
 
             listResult = new JSONObject(list.toString());
-
             contentList = listResult.getJSONArray("content");
 
             Log.e("ddd", "결과: " + contentList.length());
