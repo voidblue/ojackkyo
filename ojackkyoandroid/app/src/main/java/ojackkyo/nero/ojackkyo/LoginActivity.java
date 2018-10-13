@@ -74,7 +74,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.reg:
                 Intent reg_intent = new Intent(this, RegActivity.class);
+                reg_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(reg_intent);
+                break;
+            case R.id.find:
+                Intent find_intent = new Intent(this, RegActivity.class);
+                startActivity(find_intent);
                 break;
 
         }

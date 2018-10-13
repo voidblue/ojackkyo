@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import ojackkyo.nero.ojackkyo.fragment.ScrollViewFragment;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Toolbar toolbar;
     HollyViewPager hollyViewPager;
     FloatingActionButton fb;
+    Button logoutBtn;
 
     UserInfo userInfo;
     String[] tag;
@@ -41,7 +43,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
+
         userInfo = (UserInfo) getApplicationContext();
+
+        View user_info_view = (View)findViewById(R.id.user_info);
+        logoutBtn = (Button)user_info_view.findViewById(R.id.logoutBtn);
+        logoutBtn.setOnClickListener(this);
 
         tag = userInfo.setTag(); //userinfo에서 tag 배열 호출
         pageCount =tag.length;
@@ -49,6 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         hollyViewPager = (HollyViewPager) findViewById(R.id.hollyViewPager);
+
         fb = (FloatingActionButton) findViewById(R.id.edit_text);
         fb.setOnClickListener(this);
 
@@ -63,7 +71,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return 0;
             }
         });
-
 
         hollyViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
@@ -104,12 +111,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.search:
                 // User chose the "Settings" item, show the app settings UI...
                 Toast.makeText(getApplicationContext(), "검색버튼 버튼 클릭됨", Toast.LENGTH_LONG).show();
+                userInfo.reset();
+                Intent intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
+                MainActivity.this.finish();
                 break;
 
             case R.id.user_info:
                 DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
-                if (!drawer.isDrawerOpen(Gravity.END)) {
-                    drawer.openDrawer(Gravity.END);
+                if (!drawer.isDrawerOpen(Gravity.START)) {
+                    drawer.openDrawer(Gravity.START);
                 } else {
                     onBackPressed();
                 }
@@ -122,8 +133,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
-        if (drawer.isDrawerOpen(Gravity.END)) {
-            drawer.closeDrawer(Gravity.END);
+        if (drawer.isDrawerOpen(Gravity.START)) {
+            drawer.closeDrawer(Gravity.START);
         } else {
             if ( pressedTime == 0 ) {
             Toast.makeText(MainActivity.this, " 한 번 더 누르면 종료됩니다." , Toast.LENGTH_LONG).show();
@@ -150,8 +161,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (id) {
             case R.id.edit_text:
                 Intent intent = new Intent(this, EditTextActivity.class);
-                startActivity(intent);
                 MainActivity.this.finish();
+                break;
+
+            case R.id.logoutBtn:
+                Toast.makeText(this,"로그아웃 버튼 클릭",Toast.LENGTH_LONG).show();
+                break;
         }
     }
 }

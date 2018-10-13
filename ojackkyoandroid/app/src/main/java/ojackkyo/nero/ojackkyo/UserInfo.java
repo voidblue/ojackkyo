@@ -28,6 +28,13 @@ public class UserInfo extends Application {
         return token;
     }
 
+    public void reset(){
+        this.token = "";
+        this.정보 = "";
+        this.nickname = "";
+        this.text = null;
+    }
+
     public void setToken(String token) {
         this.token = token.substring(1, token.length() - 1);
         text = this.token.split("\\.", 0);

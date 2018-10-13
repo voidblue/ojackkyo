@@ -17,6 +17,7 @@ function SignIn(){
             console.log(data.id);
             window.location.replace("front.html");
             alert("회원가입 성공");
+            window.android.regSucess("success");
          },
          error : function(data) {
              console.log(data)
@@ -28,7 +29,7 @@ function SignIn(){
 
 $('#inputPWChk').keyup(function () {
     var inputPW = $('#inputPW').val();
-    var inputPWChk = $('#inputPWChk').val();			 		 
+    var inputPWChk = $('#inputPWChk').val();
 
     if (inputPW==inputPWChk) {
         $('#pwChk').html("PASSWARD가 일치합니다.");
@@ -49,8 +50,8 @@ $("#btnID").click(function(){
         },
         error : function(data) {
             alert("ID가 중복되었습니다.");
-        }   
-        
+        }
+
     })
 })
 
@@ -65,7 +66,7 @@ $("#btnNickname").click(function(){
         },
         error : function(data) {
             alert("닉네임이 중복되었습니다.");
-        }   
-        
+        }
+
     })
 })
