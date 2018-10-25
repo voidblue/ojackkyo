@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>회원가입</title>
+        <link rel="stylesheet" href="../css/SignInSelect.css">
+    </head>
+    <body>
+        <header>
+            <h1 style="text-align: center"> 오작교 </h1>
+            <hr>
+        </header>
+        <section>
+            <div>
+                <div class=SignIn>
+                    <div class="setting"><center><button type="button" class="btn" onclick="javascript:studunt();"> 재학생 </button></center></div>
+                    <div class="setting"><center><button type="button" class="btn" onclick="javascript:graduate();"> 졸업생 </button></center></div>
+                </div>
+            </div>>
+        </section>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+        <script>
+            function studunt(){
+                window.location.href="SignIn.html";
+            }
+            function graduate(){
+                alert("졸업생 회원가입");
+            }
+        </script>
+    </body>
+
+</html>
