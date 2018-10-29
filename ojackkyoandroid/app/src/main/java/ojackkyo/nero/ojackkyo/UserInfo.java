@@ -8,11 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
-import java.util.SimpleTimeZone;
-import java.util.logging.Level;
-
 /**
  * Created by wjdal on 2018-08-06.
  */
@@ -22,7 +17,6 @@ public class UserInfo extends Application {
     private String 정보;
     private String nickname;
     private String[] text;
-
 
     public String getToken() {
         return token;
@@ -61,15 +55,17 @@ public class UserInfo extends Application {
         Gson gson = new Gson();
         JsonObject resultObject;
         JsonElement jSonElement = gson.fromJson(정보, JsonElement.class);
-        resultObject =jSonElement.getAsJsonObject();
+        resultObject = jSonElement.getAsJsonObject();
         String tagString = resultObject.get("tags").toString();
-        tag = tagString.substring(8,tagString.length()-3);
+        tag = tagString.substring(8, tagString.length() - 3);
 
 //        Log.e("태긍ㅇㅇ", "setTag: " + tag );
 //        for(int i=0; i<tag.split("\\}, \\{name=").length; i++){
 //            Log.e("태그", "setTag: " + tag.split("\\}, \\{name=")[i] );
 //        }
         return tag.split("\\}, \\{name=");
-
     }
+
+
+
 }

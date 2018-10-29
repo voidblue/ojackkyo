@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#DDCDE7"
+    android:theme="@style/DHFont"
     tools:context="ojackkyo.nero.ojackkyo.EditTextActivity">
 
     <Button

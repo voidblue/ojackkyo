@@ -3,13 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#73779E"
+    android:background="@color/maincolor"
     tools:context="ojackkyo.nero.ojackkyo.SplashActivity">
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/main"
+        android:src="@drawable/logo"
         android:layout_margin="20dp"
         android:gravity="center"/>
 </LinearLayout>

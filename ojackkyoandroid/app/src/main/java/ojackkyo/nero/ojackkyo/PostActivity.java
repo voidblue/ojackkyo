@@ -50,6 +50,7 @@ public class PostActivity extends AppCompatActivity {
         });
 
         Log.e("게시글 보기", String.valueOf(id_index));
+
         try {
             Gson gson = new Gson();
 
@@ -70,6 +71,5 @@ public class PostActivity extends AppCompatActivity {
         } catch (ExecutionException e) {
             e.printStackTrace();
         }
-
     }
 }
