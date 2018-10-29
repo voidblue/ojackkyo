@@ -16,10 +16,10 @@
         android:src="@drawable/ic_user" />
 
     <TextView
+        android:id="@+id/user_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="00학번 000"
         android:textColor="#ffffff"
         android:layout_margin="5dp"
         android:textSize="20dp" />

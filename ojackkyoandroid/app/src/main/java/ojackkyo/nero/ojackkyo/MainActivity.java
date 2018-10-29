@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ojackkyo.nero.ojackkyo.fragment.ScrollViewFragment;
@@ -32,7 +33,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Toolbar toolbar;
     HollyViewPager hollyViewPager;
     FloatingActionButton fb;
+    DrawerLayout drawer;
     Button logoutBtn;
+    TextView user_name;
 
     UserInfo userInfo;
     String[] tag;
@@ -45,6 +48,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
 
         userInfo = (UserInfo) getApplicationContext();
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer);
+        user_name = (TextView)findViewById(R.id.user_name);
+        user_name.setText(userInfo.getNickname().replaceAll("\"",""));
 
         View user_info_view = (View) findViewById(R.id.user_info);
         logoutBtn = (Button) user_info_view.findViewById(R.id.logoutBtn);
@@ -118,7 +125,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.user_info:
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer);
                 if (!drawer.isDrawerOpen(Gravity.START)) {
                     drawer.openDrawer(Gravity.START);
                 } else {

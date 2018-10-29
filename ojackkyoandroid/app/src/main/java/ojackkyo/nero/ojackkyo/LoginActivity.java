@@ -1,11 +1,15 @@
 package ojackkyo.nero.ojackkyo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +42,16 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         id_input = (EditText) findViewById(R.id.input_id);
         pw_input = (EditText) findViewById(R.id.input_pw);
+
+        pw_input.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    login_btn.performClick();
+                }
+                return false;
+            }
+        });
     }
 
     @Override
@@ -55,23 +69,35 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 jsonObject.addProperty("password", user_pw);
 
                 JsonObject resultObject = null;
+                String result = "";
                 try {
-                    Gson gson = new Gson();
-                    String result = (String) connection.execute(jsonObject, "auth/login", "POST", null).get();
-                    JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
-                    resultObject = jsonElement.getAsJsonObject();
-
-                    userInfo.setToken(resultObject.get("token").toString());
-
+                    result = (String) connection.execute(jsonObject, "auth/login", "POST", null).get();
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
                     e.printStackTrace();
                 }
 
-                Intent main_intent = new Intent(this, MainActivity.class);
-                startActivity(main_intent);
-                LoginActivity.this.finish();
+                if (result.equals("400")) {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("ID/PW를 확인해주세요.");
+                    alert.show();
+                } else {
+                    Gson gson = new Gson();
+                    JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
+                    resultObject = jsonElement.getAsJsonObject();
+                    userInfo.setToken(resultObject.get("token").toString());
+
+                    Intent main_intent = new Intent(this, MainActivity.class);
+                    startActivity(main_intent);
+                    LoginActivity.this.finish();
+                }
                 break;
 
             case R.id.reg:

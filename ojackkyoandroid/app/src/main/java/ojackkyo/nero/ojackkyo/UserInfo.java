@@ -22,7 +22,7 @@ public class UserInfo extends Application {
         return token;
     }
 
-    public void reset(){
+    public void reset() {
         this.token = "";
         this.정보 = "";
         this.nickname = "";
@@ -46,7 +46,8 @@ public class UserInfo extends Application {
         JsonObject resultObject;
         JsonElement jsonElement = gson.fromJson(정보, JsonElement.class);
         resultObject = jsonElement.getAsJsonObject();
-        Log.e("닉네임", "setNickname: " + resultObject.get("nickname").toString() );
+        Log.e("닉네임", "setNickname: " + resultObject.get("nickname").toString());
+        Log.e("학번", "setUid: " + resultObject.get("uid").toString());
         this.nickname = resultObject.get("nickname").toString();
     }
 
@@ -65,7 +66,6 @@ public class UserInfo extends Application {
 //        }
         return tag.split("\\}, \\{name=");
     }
-
 
 
 }
