@@ -1,5 +1,6 @@
 package ojackkyo.nero.ojackkyo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -82,17 +83,22 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                 ArrayList<String> list = new ArrayList();
                 list.add("통합");
 
-                String[] tags = text.split("#");
+                String[] tags = text.replace("\n","").split("#");
                 Collections.addAll(tags_list, tags);
                 tags_list.remove(0);
+                Log.e("태그 테스트", String.valueOf(tags_list));
+
                 for (int i = 0; i < tags_list.size(); i++) {
                     list.add(tags_list.get(i).split(" ")[0]);
                 }
+                Log.e("리스트 테스트", String.valueOf(list));
+
                 for (int i = 0; i < list.size(); i++) {
                     // 게시글 태그 추가하기
                     JsonObject tag = new JsonObject();
                     tag.addProperty("name", list.get(i));
                     jsonArray.add(tag);
+
                     Log.e("태그 테스트 - 최종", list.get(i));
                 }
                 jsonObject.add("tags", jsonArray);
@@ -102,6 +108,7 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                     String result = (String) connection.execute(jsonObject, "article", "POST", userInfo.getToken()).get();
 
                     Log.e("result", result);
+
                     JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
                     resultObject = jsonElement.getAsJsonObject();
 

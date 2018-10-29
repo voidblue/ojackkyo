@@ -3,6 +3,7 @@
     android:layout_width="200dp"
     android:layout_height="match_parent"
     android:background="@drawable/background2"
+    android:theme="@style/DHFont"
     android:orientation="vertical">
 
     <ImageView

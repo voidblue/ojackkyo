@@ -5,15 +5,15 @@
     android:layout_height="match_parent"
     android:background="@drawable/background2"
     android:fitsSystemWindows="true"
+    android:theme="@style/DHFont"
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        tools:background="#5A5E8F" />
-
+        android:theme="@style/DHFont"
+        android:gravity="center"/>
 
     <android.support.v4.widget.DrawerLayout
         android:id="@+id/drawer"
@@ -28,8 +28,8 @@
         <com.github.florent37.hollyviewpager.HollyViewPager
             android:id="@+id/hollyViewPager"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:hvp_headerHeight="80dp" />
+            android:layout_height="match_parent"
+            app:hvp_headerHeight="70dp" />
 
         <include
             layout="@layout/activity_user_info"
