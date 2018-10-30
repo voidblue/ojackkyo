@@ -15,5 +15,4 @@
         android:title="사용자정보"
         android:icon="@drawable/ic_user"
         app:showAsAction="ifRoom"/>
-
 </menu>

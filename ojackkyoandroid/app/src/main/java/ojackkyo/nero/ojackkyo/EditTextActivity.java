@@ -18,7 +18,10 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ojackkyo.nero.ojackkyo.connection.*;
 
@@ -80,26 +83,26 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                 JsonArray jsonArray = new JsonArray();
 
                 ArrayList<String> tags_list = new ArrayList();
-                ArrayList<String> list = new ArrayList();
-                list.add("통합");
+                tags_list.add("통합");
 
-                String[] tags = text.replace("\n","").split("#");
-                Collections.addAll(tags_list, tags);
-                tags_list.remove(0);
+                Pattern MY_PATTERN = Pattern.compile("#(\\w+)");
+                Matcher mat = MY_PATTERN.matcher(text);
+                while (mat.find()) {
+                    tags_list.add(mat.group(1));
+                }
+
+                HashSet<String> datalist = new HashSet(tags_list);
+                tags_list = new ArrayList(datalist);
+
                 Log.e("태그 테스트", String.valueOf(tags_list));
 
                 for (int i = 0; i < tags_list.size(); i++) {
-                    list.add(tags_list.get(i).split(" ")[0]);
-                }
-                Log.e("리스트 테스트", String.valueOf(list));
-
-                for (int i = 0; i < list.size(); i++) {
                     // 게시글 태그 추가하기
                     JsonObject tag = new JsonObject();
-                    tag.addProperty("name", list.get(i));
+                    tag.addProperty("name", tags_list.get(i));
                     jsonArray.add(tag);
 
-                    Log.e("태그 테스트 - 최종", list.get(i));
+                    Log.e("태그 테스트 - 최종", tags_list.get(i));
                 }
                 jsonObject.add("tags", jsonArray);
 
@@ -111,7 +114,6 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
 
                     JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
                     resultObject = jsonElement.getAsJsonObject();
-
 
                 } catch (InterruptedException e) {
                     e.printStackTrace();

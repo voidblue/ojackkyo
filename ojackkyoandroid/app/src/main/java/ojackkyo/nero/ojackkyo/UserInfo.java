@@ -59,13 +59,9 @@ public class UserInfo extends Application {
         resultObject = jSonElement.getAsJsonObject();
         String tagString = resultObject.get("tags").toString();
         tag = tagString.substring(8, tagString.length() - 3);
-
-//        Log.e("태긍ㅇㅇ", "setTag: " + tag );
-//        for(int i=0; i<tag.split("\\}, \\{name=").length; i++){
-//            Log.e("태그", "setTag: " + tag.split("\\}, \\{name=")[i] );
-//        }
         return tag.split("\\}, \\{name=");
     }
 
 
 }
+
