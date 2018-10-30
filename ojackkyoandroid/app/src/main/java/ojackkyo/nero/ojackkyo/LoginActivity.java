@@ -92,6 +92,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     Gson gson = new Gson();
                     JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
                     resultObject = jsonElement.getAsJsonObject();
+                    Log.e("외않되", resultObject.get("token").toString());
                     userInfo.setToken(resultObject.get("token").toString());
 
                     Intent main_intent = new Intent(this, MainActivity.class);
