@@ -80,12 +80,12 @@
         android:layout_margin="5dp"/>
 
     <Button
-        android:id="@+id/write_btn"
+        android:id="@+id/update_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|center"
         android:layout_margin="20dp"
-        android:text="작성하기"/>
+        android:text="수정하기"/>
 
 
 </LinearLayout>
