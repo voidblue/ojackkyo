@@ -1,7 +1,3 @@
-html {
-  /* background-image: url("../img/back.png"); */
-}
-
 .middle {
   padding: 15px;
 }
@@ -66,10 +62,10 @@ button[name="write"] {
   margin-bottom: 12px;
 }
 
-button:hover {
+/* button:hover {
   background-color: gray;
   color: white;
-}
+} */
 
 .question {
   position: relative;
