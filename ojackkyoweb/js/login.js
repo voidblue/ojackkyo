@@ -12,7 +12,7 @@ $("#submit").click(function(){
         success : function(data){
             console.log(data);
             sessionStorage.setItem("token", data);
-            window.location.replace("Main.html")
+            window.location.replace("main.html")
         },
         error : function(a, b, c){  
             console.log(a)

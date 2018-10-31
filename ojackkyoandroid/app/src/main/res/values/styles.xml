@@ -4,8 +4,11 @@
     <style name="AppBaseTheme" parent="@style/Theme.AppCompat.DayNight.DarkActionBar">
     </style>
 
-    <style name="AppTheme" parent="AppBaseTheme">
+    <style name="DHFont" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:fontFamily">@font/dohyeon</item>
+    </style>
 
+    <style name="AppTheme" parent="AppBaseTheme">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryDark">@color/blue</item>
         <item name="colorAccent">@color/blue</item>

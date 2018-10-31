@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/headerFooter.css">
+    <link rel="stylesheet" href="css/write.css">
+    <title>게시판</title>
+  </head>
+  <body class="body" >
+    <header id = "header"></header>
+    <!-- <div class="middle full_width"> -->
+        <div class="write_box">
+          <div class="content">
+            게시판 <input type="text" name="type">
+            <p></p>
+            제목 <input type="text" name="title" id = "title">
+            <p></p>
+            파일첨부
+            <p></p>
+            <textarea name="content_box" wrap="physical" id = "contents"></textarea>
+            <div class="btn_submit">
+              <button type="submit" name="write" onclick="editArticle()">작성하기</button>
+            </div>
+          </div>
+        </div>
+    <!-- </div> -->
+    <footer id = "footer"></footer>
+
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="js/GlobalVarialble.js"></script>
+  <script src="js/write.js"></script>
+  <script src="js/headerFooter.js"></script>
+
+</html>

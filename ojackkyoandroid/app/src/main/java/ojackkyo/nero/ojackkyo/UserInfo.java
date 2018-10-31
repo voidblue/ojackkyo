@@ -8,11 +8,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import org.json.JSONObject;
-
-import java.util.SimpleTimeZone;
-import java.util.logging.Level;
-
 /**
  * Created by wjdal on 2018-08-06.
  */
@@ -23,12 +18,11 @@ public class UserInfo extends Application {
     private String nickname;
     private String[] text;
 
-
     public String getToken() {
         return token;
     }
 
-    public void reset(){
+    public void reset() {
         this.token = "";
         this.정보 = "";
         this.nickname = "";
@@ -52,7 +46,8 @@ public class UserInfo extends Application {
         JsonObject resultObject;
         JsonElement jsonElement = gson.fromJson(정보, JsonElement.class);
         resultObject = jsonElement.getAsJsonObject();
-        Log.e("닉네임", "setNickname: " + resultObject.get("nickname").toString() );
+        Log.e("닉네임", "setNickname: " + resultObject.get("nickname").toString());
+        Log.e("학번", "setUid: " + resultObject.get("uid").toString());
         this.nickname = resultObject.get("nickname").toString();
     }
 
@@ -61,15 +56,12 @@ public class UserInfo extends Application {
         Gson gson = new Gson();
         JsonObject resultObject;
         JsonElement jSonElement = gson.fromJson(정보, JsonElement.class);
-        resultObject =jSonElement.getAsJsonObject();
+        resultObject = jSonElement.getAsJsonObject();
         String tagString = resultObject.get("tags").toString();
-        tag = tagString.substring(8,tagString.length()-3);
-
-//        Log.e("태긍ㅇㅇ", "setTag: " + tag );
-//        for(int i=0; i<tag.split("\\}, \\{name=").length; i++){
-//            Log.e("태그", "setTag: " + tag.split("\\}, \\{name=")[i] );
-//        }
+        tag = tagString.substring(8, tagString.length() - 3);
         return tag.split("\\}, \\{name=");
-
     }
+
+
 }
+
