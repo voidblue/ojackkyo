@@ -1,6 +1,6 @@
 package com.example.ojackkyoserver.Controller;
 
-import com.example.ojackkyoserver.Exceptions.InvalidLoginException;
+import com.example.ojackkyoserver.exceptions.InvalidLoginException;
 import com.example.ojackkyoserver.Model.Auth;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;

@@ -1,7 +1,6 @@
 package com.example.ojackkyoserver.Service;
 
-import com.example.ojackkyoserver.Exceptions.*;
-import com.example.ojackkyoserver.Model.User;
+import com.example.ojackkyoserver.exceptions.*;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,9 +10,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import java.io.IOException;
 
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;
 
@@ -25,7 +21,7 @@ public class JwtContext {
     @Autowired
     UserRepository userRepository;
 
-    public void entityOwnerCheck(String nicknameFromEntityModel, String token) throws NoPermissionException, JwtException, NullTokenException {
+    public void entityOwnerCheck(String nicknameFromEntityModel, String token) {
         nullTokenCheck(token);
         Claims claims = getDecodedToken(token);
         String nickname = (String) claims.get("nickname");
@@ -38,7 +34,7 @@ public class JwtContext {
         updatedUserCheck(claims);
     }
 
-    public void entityOwnerCheck(String nicknameFromEntityModel) throws NoPermissionException, JwtException, NullTokenException {
+    public void entityOwnerCheck(String nicknameFromEntityModel) {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         entityOwnerCheck(nicknameFromEntityModel, req.getHeader("token"));
     }
@@ -48,12 +44,12 @@ public class JwtContext {
     }
 
     //TODO 싱글턴으로 만들어 그때그때 해시해서 비교 vs 객체를 프로토 타입 스코프로 해서 하나의 객체는 한번의 디코드만
-    public Claims getDecodedToken(String token) throws MalformedJwtException, SignatureException, IllegalArgumentException{
+    public Claims getDecodedToken(String token) {
         return Jwts.parser()
                 .setSigningKey("portalServiceFinalExam")
                 .parseClaimsJws(token).getBody();
     }
-    public Claims getDecodedToken() throws MalformedJwtException, SignatureException, IllegalArgumentException{
+    public Claims getDecodedToken() {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
         return getDecodedToken(req.getHeader("token"));
     }
@@ -65,7 +61,7 @@ public class JwtContext {
     }
 
 
-    private void resourceOwnerCheck(String nicknameFromEntityModel, String nicknameInToken) throws NoPermissionException {
+    private void resourceOwnerCheck(String nicknameFromEntityModel, String nicknameInToken){
         if(!nicknameFromEntityModel.equals(nicknameInToken)){
             throw new NoPermissionException();
         }
