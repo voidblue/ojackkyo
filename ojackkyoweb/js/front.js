@@ -13,18 +13,19 @@ function btnLogin(){
              console.log(data);
             console.log(data.token);
             sessionStorage.setItem("token", data.token);
-            window.location.replace("main.html"); 
+            window.location.replace("main.html");
          },
          error : function(data) {
             alert("ID,PW를 확인하세요");
-         }   
-    })   
+         }
+    })
 }
 
 function btnFind(){
+    alert("기능구현 중입니다.");
     window.location.href("#");
 }
 
 function btnSignIn(){
-    window.location.href="SignInSelect.html";
+    window.location.href="SignIn.html";
 }

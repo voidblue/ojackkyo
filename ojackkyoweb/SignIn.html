@@ -1,47 +1,81 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>회원가입</title>
-        <link rel="stylesheet" href="css/SignIn.css">
-    </head>
-    <body>
-        <header>
-            <h1 style="text-align: center"> 오작교 </h1>
-            <hr>
-        </header>
-        <section>
-            <div>
-                <center>
-                        <div class=SignIn>
-                            <input id="inputID" rows="1" required autofocus placeholder="ID입력" name="ID"></input> <button id="btnID">중복확인</button><br>
-                            <input type="password" class="inputType" id="inputPW" rows="1" placeholder="PASSWARD입력" name="passward"></input><br>
-                            <input type="password" class="inputType" id="inputPWChk" rows="1" placeholder="PASSWARD확인"></input><br>
-                            <label id="pwChk">PASSWARD는 숫자와 영어를 조합하여 6~10자로 입력하십시오</label><br>
-                            <input id="inputStdID" rows="1" placeholder="학번" name="stdID"></input>
-                            <input id="inputName" rows="1" placeholder="이름" name="name"></input><br>
-                            <input id="inputNickname" rows="1" placeholder="닉네임입력" name="nickname"></input> 
-                            <button id="btnNickname">중복확인</button><br>
-                            <label id="like">관심분야</label>
-                            <div id="chkbox">
-                                <input type="checkbox" name="chk_info" value="C">C언어
-                                <input type="checkbox" name="chk_info" value="JAVA">JAVA<br>
-                                <input type="checkbox" name="chk_info" value="Android">안드로이드
-                                <input type="checkbox" name="chk_info" value="other">기타    
-                            </div><br>
-                            <input class="inputType" id="inputCal" rows="1" placeholder="연락처" name="phone"></input><br>
-                            <input class="inputType" id="inputEmail" rows="1" placeholder="E-Mail" name="mailAddr"></input><br>
-                            <input class="inputType" id="inputSNS" rows="1" placeholder="SNS주소" name="snsAddr"></input><br>
-                            <center>
-                                <button type="button" id="signIn" onclick="javascript:SignIn();">가입하기</button>
-                            </center>
-                        </div>    
-                </center>
-            </div>
-        </section>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="js/GlobalVarialble.js"></script>
-        <script src="js/SignIn.js"></script>
-    </body>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="css/SignIn.css">
+  </head>
+  <body>
+    <section>
+      <div id="wrap">
+        <img src="img/signin.png" id="signinImg">
+        <div id="SignIn">
 
+          <h3>아이디</h3>
+          <div>
+            <input id="inputID" name="ID" rows="1" required autofocus><button id="btnID">중복확인</button>
+          </div>
+
+          <h3>비밀번호</h3>
+          <input type="password" id="inputPW" class="inputType" name="password" rows="1">
+
+          <h3>비밀번호 확인</h3>
+          <input type="password" id="inputPWChk" class="inputType" name="passwordchk" rows="1">
+          <span id="condition">* 비밀번호는 숫자와 영어를 조합하여 6~10자로 입력하십시오.</span>
+
+          <h3>학번</h3>
+          <input type="number" id="inputStdID" rows="1" name="stdID">
+
+          <h3>이름</h3>
+          <input id="inputName" rows="1" name="name">
+
+          <h3>닉네임</h3>
+          <input id="inputNickname" rows="1" name="nickname"><button id="btnNickname">중복확인</button>
+
+          <h3>연락처</h3>
+          <input type="number" id="inputCal" class="inputType" rows="1" name="phone">
+
+          <h3>E-mail</h3>
+          <input type="email" id="inputEmail" class="inputType" rows="1" name="mailAddr">
+
+          <h3 id="sns">SNS </h3><span id="select">(선택)</span><br>
+          <input id="inputSNS" class="inputType" rows="1" name="snsAddr">
+
+          <h3>관심분야</h3>
+          <div id="grid">
+            <label class="interest"><input type="checkbox" value="C언어">C언어</label>
+            <label class="interest"><input type="checkbox" value="C++">C++</label>
+            <label class="interest"><input type="checkbox" value="C#">C#</label>
+            <label class="interest"><input type="checkbox" value="자바">자바(Java)</label>
+            <label class="interest"><input type="checkbox" value="js">자바스크립트(JS)</label>
+
+            <label class="interest"><input type="checkbox" value="파이썬">파이썬</label>
+            <label class="interest"><input type="checkbox" value="안드로이드">안드로이드</label>
+            <label class="interest"><input type="checkbox" value="iOS">iOS</label>
+            <label class="interest"><input type="checkbox" value="머신러닝">머신러닝</label>
+            <label class="interest"><input type="checkbox" value="보안">보안</label>
+
+            <label class="interest"><input type="checkbox" value="데이터베이스">데이터베이스</label>
+            <label class="interest"><input type="checkbox" value="빅데이터">빅데이터</label>
+            <label class="interest"><input type="checkbox" value="HTML/CSS">HTML/CSS</label>
+            <label class="interest"><input type="checkbox" value="프론트앤드">프론트앤드</label>
+            <label class="interest"><input type="checkbox" value="스프링">스프링</label>
+
+            <label class="interest"><input type="checkbox" value="백앤드">백앤드</label>
+            <label class="interest"><input type="checkbox" value="소공">소프트웨어 공학</label>
+            <label class="interest"><input type="checkbox" value="알고리즘">알고리즘</label>
+            <label class="interest"><input type="checkbox" value="운영체제">운영체제(OS)</label>
+            <label class="interest last"><input type="checkbox" value="기타">기타<input rows="1" id="etc"></label>
+          </div>
+
+          <button type="submit" id="signIn" onclick="javascript:SignIn();">가입하기</button>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/GlobalVarialble.js"></script>
+    <script src="js/SignIn.js"></script>
+  </body>
 </html>

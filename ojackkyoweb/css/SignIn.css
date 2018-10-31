@@ -1,122 +1,188 @@
-body{
-    background-color: #5a5e8f;
+* {
+  box-sizing: border-box;
+}
+
+body {
     margin: 0;
+    background-color: #5C5FBA;
 }
 
-input{
-    padding: 0px;
-    margin-bottom: 10px;
+#wrap {
+  background-color: #ffffff;
+  text-align: center;
+  width: 750px;
+  padding: 50px;
+  margin: auto;
 }
 
-h1{
-    font-size: 3em;
-    margin: 0;
-    margin-top: 10px;
+/* h1 {
+  text-align: center;
+  color: #5C5FBA;
+  font-size: 40px;
+  margin-top: 0;
+} */
+
+#signinImg {
+  display: block;
+  text-align: center;
+  width: 200px;
+  height: 78px;
+  margin: auto;
+  margin-bottom: 40px;
 }
 
-hr{
-    width: 2;
-    size: 100%;
-    margin: 0;
-    margin-bottom: 10px;
+#SignIn {
+  width: 480px;
+  display: inline-block;
+  text-align: left;
+  margin-top: 0;
 }
 
-.SignIn{
-    border: 0;
-    margin: 0px;
-    padding: 0px;
-    width: 350px;
-    height: 500px;
-    
+h3 {
+  font-size: 14px;
+  font-weight: 700;
 }
 
-#inputID{
-    float: left;
-    border: 0px;
-    width: 70%;
-    height: 35px;
-    font-size: 2em;
+#inputID {
+  width: 73%;
+  height: 50px;
+  padding: 10px;
+  font-size: 15px;
 }
 
-#btnID{
-    float: right;
-    width: 25%;
-    height: 35px;
-    font-size: 17px;
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
+#btnID {
+  border: 0;
+  background-color: #5C5FBA;
+  color: #ffffff;
+  font-size: 16px;
+  width: 25%;
+  height: 50px;
+  line-height: 50px;
+  float: right;
 }
 
-#btnNickname{
-    float: right;
-    width: 25%;
-    height: 35px;
-    font-size: 17px;
-    padding: 0px;
-    margin: 0px;
-    border: 0px;
+#inputPW {
+  width: 100%;
+  height: 50px;
 }
 
-.inputType{
-    border: 0px;
-    width: 100%;
-    height: 35px;
-    font-size: 2em;
-}
-#pwChk{
-    font-size: 9pt;
-    float: left;
-    margin-bottom: 10px;
-    margin-top:-10px;
-    color: white;
-}
-#inputStdID{
-    border: 0px;
-    width: 49%;
-    height: 35px;
-    font-size: 2em;
-    float: left;
+#inputPWChk {
+  width: 100%;
+  height: 50px;
 }
 
-#inputName{
-    border: 0px;
-    width: 49%;
-    height: 35px;
-    font-size: 2em;
-    float: right;
+#condition {
+  font-size: 12px;
+  color: red;
 }
 
-#inputNickname{
-    float: left;
-    border: 0px;
-    width: 70%;
-    height: 35px;
-    font-size: 2em;
-}
-#like{
-    float: left;
-    font-size: 2em;
-    background-color: white;
-    color: gray;
-    width: 40%;
-    height: 38px;
-    text-align: left;
-    margin-bottom: 10px;
+#inputStdID {
+  width: 100%;
+  height: 50px;
 }
 
-#chkbox{
-    width: 55%;
-    float: right;
-    text-align: justify;
-    position: relative;
-    font-size: 100%;
+#inputName {
+  width: 100%;
+  height: 50px;
 }
 
-#signIn{
-    width: 100%;
-    height: 35px;
-    font-size: 20px;
-    border: 0px;
-    font-family: Arial, Helvetica, sans-serif;
+#inputNickname {
+  width: 73%;
+  height: 50px;
+}
+
+#btnNickname {
+  border: 0;
+  background-color: #5C5FBA;
+  color: #ffffff;
+  font-size: 16px;
+  width: 25%;
+  height: 50px;
+  line-height: 50px;
+  float: right;
+}
+
+#inputCal {
+  width: 100%;
+  height: 50px;
+}
+
+#inputEmail {
+  width: 100%;
+  height: 50px;
+}
+
+#sns {
+  display: inline-block;
+}
+
+#select {
+  font-size: 12px;
+  color: gray;
+}
+
+#inputSNS {
+  width: 100%;
+  height: 50px;
+}
+
+#grid {
+  border: 0.3px solid #EAEAEA;
+  padding: 10px;
+}
+
+.interest {
+  display: inline-block;
+  width: 32%;
+  height: 40px;
+  line-height: 40px;
+  cursor: pointer;
+}
+
+.last {
+  width: 64%;
+}
+
+#etc {
+  width: 190px;
+  height: 30px;
+  padding-left: 8px;
+  margin-left: 7px;
+  font-size: 16px;
+}
+
+#signIn {
+  width: 100%;
+  height: 50px;
+  border: 0;
+  background-color: #5C5FBA;
+  color: #ffffff;
+  font-size: 18px;
+  margin-top: 30px;
+}
+
+@media (max-width: 750px) {
+    #wrap {
+      width: 440px;
+    }
+
+    #SignIn {
+      width: 340px;
+    }
+
+    .interest {
+      width: 32%;
+      font-size: 12px;
+    }
+
+    .last {
+      width: 64%;
+    }
+
+    #etc {
+      width: 140px;
+      height: 25px;
+      padding-left: 5px;
+      font-size: 12px;
+    }
 }
