@@ -11,4 +11,5 @@ import java.util.List;
 @Repository
 public interface TagArticleMapRepository extends JpaRepository<TagArticleMap, Integer> {
     List<TagArticleMap> findAllByTagName(String tagName);
+    void deleteAllByArticle(Integer articleId);
 }

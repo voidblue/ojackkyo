@@ -1,18 +1,14 @@
 package com.example.ojackkyoserver.Controller;
 
-import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
-import com.example.ojackkyoserver.Exceptions.NoPermissionException;
-import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
-import com.example.ojackkyoserver.Exceptions.NullTokenException;
+import com.example.ojackkyoserver.Controller.Converter.ArticleConverter;
+import com.example.ojackkyoserver.Controller.value.ArticleUpdateParams;
+import com.example.ojackkyoserver.exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.exceptions.NoPermissionException;
+import com.example.ojackkyoserver.exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Article;
-import com.example.ojackkyoserver.Model.Tag;
-import com.example.ojackkyoserver.Model.TagArticleMap;
-import com.example.ojackkyoserver.Repository.ArticleRepository;
-import com.example.ojackkyoserver.Repository.TagArticleMapRepository;
-import com.example.ojackkyoserver.Repository.TagRepository;
 import com.example.ojackkyoserver.Service.ArticleService;
 import io.jsonwebtoken.JwtException;
-import org.apache.catalina.servlet4preview.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
@@ -21,10 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.*;
 
 import static org.springframework.beans.factory.config.ConfigurableBeanFactory.SCOPE_SINGLETON;
 
@@ -33,8 +26,13 @@ import static org.springframework.beans.factory.config.ConfigurableBeanFactory.S
 @RequestMapping("/article")
 @Scope(SCOPE_SINGLETON)
 public class ArticleController {
+    final ArticleService articleService;
+    final ArticleConverter articleConverter;
     @Autowired
-    ArticleService articleService;
+    public ArticleController(ArticleService articleService, ArticleConverter articleConverter) {
+        this.articleService = articleService;
+        this.articleConverter = articleConverter;
+    }
 
     @GetMapping(value = "/{id}")
     public Article get(@PathVariable Integer id, HttpServletResponse res) throws IOException {
@@ -80,19 +78,10 @@ public class ArticleController {
 
 
     @PutMapping
-    public Article update(@RequestBody Article article, HttpServletResponse res) throws IOException {
-        try {
+    public Article update(@RequestBody ArticleUpdateParams params) {
+            Article article  = articleConverter.convertArticleUpdateParamsToDomainArticle(params);
             return articleService.update(article);
-        } catch (MalFormedResourceException|NoResourcePresentException|JwtException e) {
-            res.sendError(400, e.getMessage());
-            return null;
-        } catch (NoPermissionException e) {
-            res.sendError(403, e.getMessage());
-            return null;
-        } catch (NullTokenException e) {
-            res.sendError(401, e.getMessage());
-            return null;
-        }
+
     }
 
 

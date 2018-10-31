@@ -1,9 +1,9 @@
 package com.example.ojackkyoserver.Service;
 
-import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
-import com.example.ojackkyoserver.Exceptions.NoPermissionException;
-import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
-import com.example.ojackkyoserver.Exceptions.NullTokenException;
+import com.example.ojackkyoserver.exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.exceptions.NoPermissionException;
+import com.example.ojackkyoserver.exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Tag;
 import com.example.ojackkyoserver.Model.TagArticleMap;
@@ -25,6 +25,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+import java.beans.Transient;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -70,21 +72,6 @@ public class ArticleService {
     //TODO 나중에 엘라스틱 서치 이용할것
     @Deprecated
     public Page<Article> getListByText(String text, Pageable pageable) {
-//        String elasticSearchHost = "127.0.0.1/ojackkyo/article";
-//        int elasticSearchPort = 6000;
-//        RestClient restClient = RestClient.builder(new HttpHost(elasticSearchHost, elasticSearchPort)).build();
-//        Request request = new Request("GET", elasticSearchHost);
-//        request.addParameter("text", text);
-//
-//        Response response = null;
-//        String resBody = null;
-//        try {
-//            response  = restClient.performRequest(request);
-//            resBody =  EntityUtils.toString(response.getEntity());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        System.out.println(resBody);
         String[] words = text.split(" ");
 
         List<Article> Articles = articleRepository.findAll();
@@ -116,9 +103,8 @@ public class ArticleService {
         return articleRepository.findByIdIn(ids, pageable);
     }
 
-    public Article create(@RequestBody Article article) throws MalFormedResourceException, JwtException, NullTokenException {
+    public Article create(@RequestBody Article article) {
         HttpServletRequest req = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-
 
         String token = req.getHeader("token");
         if(article.getTitle().equals("") || article.getText().equals("")){
@@ -131,11 +117,6 @@ public class ArticleService {
         sdf.setTimeZone(time);
         article.setTimeCreated(sdf.format(new Date()));
 
-
-        //TODO resultHolder 말고 다른 방법 없나???
-
-
-
         jwtContext.loginCheck(token);
         String authorsNickname = (String) jwtContext.getDecodedToken(token).get("nickname");
         //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
@@ -145,27 +126,24 @@ public class ArticleService {
         if(tags != null) {
             saveTagsToTagArticleMap(tags, article.getId());
         }
-
-
         return result;
     }
-
-    public Article update(Article article) throws MalFormedResourceException, NoResourcePresentException,
-            NoPermissionException, JwtException, NullTokenException {
+    @Transactional
+    public Article update(Article article){
         if(article.getTitle().equals("") || article.getText().equals("")){
             throw new MalFormedResourceException();
         }
 
-        if(articleRepository.existsById(article.getId())) {
-            jwtContext.entityOwnerCheck(article.getAuthorsNickname());
-            articleRepository.save(article);
-            return (Article) articleRepository.findById(article.getId()).get();
-        }else{
-            throw new NoResourcePresentException();
-        }
+        jwtContext.entityOwnerCheck(article.getAuthorsNickname());
+        tagArticleMapRepository.deleteAllByArticle(article.getId());
+        saveTagsToTagArticleMap(article.getTags(), article.getId());
+        articleRepository.save(article);
+
+        return articleRepository.findById(article.getId()).get();
+
     }
 
-    public void delete(Integer id) throws NoResourcePresentException, NoPermissionException, JwtException, NullTokenException {
+    public void delete(Integer id)  {
         Optional<Article> optArticle = articleRepository.findById(id);
         if(optArticle.isPresent()){
             Article article = optArticle.get();
@@ -205,7 +183,7 @@ public class ArticleService {
     }
     final static String PATH = System.getProperty("user.dir") + "/out/production/resources/static/article/images/";
 
-    public void saveImage(String token, MultipartFile image, Integer articleId) throws NoPermissionException, JwtException, IOException, NoResourcePresentException, NullTokenException {
+    public void saveImage(String token, MultipartFile image, Integer articleId) throws IOException {
         if(articleRepository.existsById(articleId)) {
             Article article = (Article) articleRepository.findById(articleId).get();
 

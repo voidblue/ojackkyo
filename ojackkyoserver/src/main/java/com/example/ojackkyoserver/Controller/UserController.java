@@ -1,7 +1,7 @@
 package com.example.ojackkyoserver.Controller;
 
-import com.example.ojackkyoserver.Exceptions.NoPermissionException;
-import com.example.ojackkyoserver.Exceptions.NullTokenException;
+import com.example.ojackkyoserver.exceptions.NoPermissionException;
+import com.example.ojackkyoserver.exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.User;
 import com.example.ojackkyoserver.Repository.UserRepository;
 import com.example.ojackkyoserver.Service.JwtContext;
@@ -9,16 +9,10 @@ import io.jsonwebtoken.JwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.jar.JarException;
 
 @CrossOrigin(origins = "*")
 @RestController

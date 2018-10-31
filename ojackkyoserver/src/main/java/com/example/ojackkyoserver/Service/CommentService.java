@@ -1,9 +1,9 @@
 package com.example.ojackkyoserver.Service;
 
-import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
-import com.example.ojackkyoserver.Exceptions.NoPermissionException;
-import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
-import com.example.ojackkyoserver.Exceptions.NullTokenException;
+import com.example.ojackkyoserver.exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.exceptions.NoPermissionException;
+import com.example.ojackkyoserver.exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Article;
 import com.example.ojackkyoserver.Model.Comment;
 import com.example.ojackkyoserver.Model.User;
@@ -16,10 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_SINGLETON;

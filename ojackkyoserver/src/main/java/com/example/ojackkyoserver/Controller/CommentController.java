@@ -1,9 +1,9 @@
 package com.example.ojackkyoserver.Controller;
 
-import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
-import com.example.ojackkyoserver.Exceptions.NoPermissionException;
-import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
-import com.example.ojackkyoserver.Exceptions.NullTokenException;
+import com.example.ojackkyoserver.exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.exceptions.NoPermissionException;
+import com.example.ojackkyoserver.exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Comment;
 import com.example.ojackkyoserver.Service.CommentService;
 import io.jsonwebtoken.JwtException;
