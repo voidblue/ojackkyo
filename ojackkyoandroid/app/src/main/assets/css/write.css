@@ -1,0 +1,66 @@
+
+.body {
+  min-height: 51rem;
+  width: 100%;
+  /* text-align: center; */
+  height: 100%;
+}
+
+.write_box {
+  text-align: left;
+  /* display: inline-block; */
+  background-color: white;
+  margin: 0 auto;
+  width: 60rem;
+}
+
+.content {
+  margin: 0 auto;
+  padding-top: 50px;
+  padding-left: 150px;
+  padding-right: 150px;
+  padding-bottom: 5px;
+  font-size: 20px;
+
+}
+
+input[name = type] {
+  background-color: gray;
+  border: 0;
+  width: 200px;
+  height: 25px;
+  margin-left: 10px;
+}
+
+input[name = title] {
+  background-color: gray;
+  border: 0;
+  width: 350px;
+  height: 25px;
+  margin-left: 27px;
+}
+
+textarea[name = content_box] {
+  background-color: gray;
+  border: 0;
+  width: 100%;
+  height: 25rem;
+  font-size: 20px;
+  resize: none;
+}
+
+.btn_submit {
+  text-align: center;
+  margin-top: 2.5rem;
+  margin-bottom: 2.5rem;
+}
+
+button[name = write] {
+  color: white;
+  background-color: gray;
+  border: 0;
+  font-size: 20px;
+  width: 100px;
+  height: 40px;
+  border-radius: 3px;
+}

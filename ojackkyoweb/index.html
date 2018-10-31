@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>오작교 - 오늘부터 작은 교류의 시작</title>
+    <link rel="stylesheet" href="css/index.css">\
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Yeon+Sung" rel="stylesheet">
+  </head>
+  <body>
+
+    <!-- 로고 이미지 -->
+    <div id="logo">
+      <img src="img/logo.png" id="logo_img">
+    </div>
+
+
+    <!-- 아이디, 비밀번호 입력칸 -->
+    <section>
+      <div id="login">
+        <input type="text" class="user id" name="ID" placeholder="ID">
+        <button type="submit" id="btnLogin" onclick="javascript:btnLogin();">Log In</button><br>
+        <input type="password" class="user pw" name="password" placeholder="PASSWORD">
+      </div>
+
+      <!-- 아이디, 비번찾기, 회원가입 -->
+      <div id="btnPack">
+        <button type="button" class="btn find" onclick="javascript:btnFind();">ID/PW찾기</button>
+        <button type="button" class="btn signIn" onclick="javascript:btnSignIn();">회원가입</button>
+      </div>
+    </section>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/GlobalVarialble.js"></script>
+    <script src="js/front.js"></script>
+  </body>
+</html>

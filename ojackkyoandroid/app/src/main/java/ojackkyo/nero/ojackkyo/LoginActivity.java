@@ -1,8 +1,11 @@
 package ojackkyo.nero.ojackkyo;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,7 +38,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         id_input = (EditText) findViewById(R.id.input_id);
         pw_input = (EditText) findViewById(R.id.input_pw);
-
     }
 
     @Override
@@ -74,7 +76,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             case R.id.reg:
                 Intent reg_intent = new Intent(this, RegActivity.class);
+                reg_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(reg_intent);
+                break;
+            case R.id.find:
+                Intent find_intent = new Intent(this, RegActivity.class);
+                startActivity(find_intent);
                 break;
 
         }

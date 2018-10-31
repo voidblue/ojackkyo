@@ -1,15 +1,19 @@
 package com.example.ojackkyoserver.Controller;
 
 import com.example.ojackkyoserver.Exceptions.MalFormedResourceException;
+import com.example.ojackkyoserver.Exceptions.NoPermissionException;
 import com.example.ojackkyoserver.Exceptions.NoResourcePresentException;
+import com.example.ojackkyoserver.Exceptions.NullTokenException;
 import com.example.ojackkyoserver.Model.Comment;
 import com.example.ojackkyoserver.Service.CommentService;
+import io.jsonwebtoken.JwtException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -19,11 +23,11 @@ public class CommentController {
     CommentService commentService;
 
     @GetMapping(value = "/{id}")
-    public Comment get(@PathVariable Integer id, HttpServletResponse res){
+    public Comment get(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             return commentService.get(id);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
+            res.sendError(404, e.getMessage());
             return null;
         }
     }
@@ -42,37 +46,52 @@ public class CommentController {
     }
 
     @PostMapping
-    public Comment create(@RequestBody Comment comment, HttpServletResponse res){
+    public Comment create(@RequestBody Comment comment, HttpServletResponse res) throws IOException {
         try {
             return commentService.create(comment);
-        } catch (MalFormedResourceException e) {
-            res.setStatus(400, e.getMessage());
+        } catch (MalFormedResourceException|JwtException e) {
+            res.sendError(400, e.getMessage());
+            System.out.println(e.getMessage());
             return null;
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, "댓글을 쓰고자 하는 게시글이 없습니다.");
+            res.sendError(404, "댓글을 쓰고자 하는 게시글이 없습니다.");
+            return null;
+        } catch (NullTokenException e) {
+            res.sendError(401,e.getMessage());
             return null;
         }
     }
 
     @PutMapping
-    public Comment update(@RequestBody Comment comment, HttpServletResponse res){
+    public Comment update(@RequestBody Comment comment, HttpServletResponse res) throws IOException {
+        Comment result = null;
         try {
-            return commentService.update(comment);
+            result = commentService.update(comment);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
-            return null;
-        } catch (MalFormedResourceException e) {
-            res.setStatus(400, e.getMessage());
-            return null;
+            res.sendError(404, e.getMessage());
+        } catch (MalFormedResourceException|JwtException e) {
+            res.sendError(400, e.getMessage());
+            System.out.println(e.getMessage());
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
         }
+        return result;
     }
 
     @DeleteMapping(value ="/{id}")
-    public void delete(@PathVariable Integer id, HttpServletResponse res){
+    public void delete(@PathVariable Integer id, HttpServletResponse res) throws IOException {
         try {
             commentService.delete(id);
         } catch (NoResourcePresentException e) {
-            res.setStatus(404, e.getMessage());
+            res.sendError(404, e.getMessage());
+        } catch (NoPermissionException e) {
+            res.sendError(403, e.getMessage());
+        } catch (JwtException e){
+            res.sendError(400, e.getMessage());
+        } catch (NullTokenException e) {
+            res.sendError(401, e.getMessage());
         }
 
     }
