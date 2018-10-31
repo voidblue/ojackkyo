@@ -29,8 +29,6 @@ import static android.content.ContentValues.TAG;
 
 public class Connection_list extends AsyncTask{
 
-    private String path = "";
-    private String method = "";
 
     @Override
     protected String doInBackground(Object[] objects) {
