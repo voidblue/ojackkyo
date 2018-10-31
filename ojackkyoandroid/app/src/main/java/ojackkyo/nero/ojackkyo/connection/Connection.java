@@ -1,5 +1,6 @@
 package ojackkyo.nero.ojackkyo.connection;
 
+import android.app.AlertDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -14,6 +15,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import ojackkyo.nero.ojackkyo.LoginActivity;
 import ojackkyo.nero.ojackkyo.UserInfo;
 
 import static android.content.ContentValues.TAG;
@@ -28,14 +30,11 @@ public class Connection extends AsyncTask {
     private String method = "";
     private UserInfo userInfo;
 
-
     @Override
     protected String doInBackground(Object[] objects) {
 
         String serverURL = "http://117.17.102.131:4000/" + objects[1];  // 그거 1개\
         try {
-
-
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
@@ -85,9 +84,8 @@ public class Connection extends AsyncTask {
                 return result.toString();
 
             } else {
-
                 Log.e("에러 테스트", String.valueOf(responseStatusCode));
-                return "bb";
+                return String.valueOf(responseStatusCode);
             }
 
 

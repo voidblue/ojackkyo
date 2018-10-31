@@ -36,7 +36,6 @@ public class RegActivity extends AppCompatActivity {
                 return true;
             }
         });
-//        webView.loadUrl("file:///android_asset/src/SignInSelect.html");
         webView.loadUrl("http://117.17.102.131/SignInSelect.html");
     }
 
