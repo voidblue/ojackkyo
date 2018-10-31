@@ -29,27 +29,33 @@
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:gravity="center_vertical"
         android:hint="게시글 제목!!"
-        android:padding="5dp"
-        android:paddingLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:textColor="#000000"
-        android:textSize="20dp" />
+        android:textSize="30dp" />
+
+    <TextView
+        android:id="@+id/user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:textSize="15dp"
+        android:text="닉네임표시할거에요"/>
     <TextView
         android:id="@+id/context_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:textSize="10dp"
-        android:text="시간표시할거에요"
-        android:gravity="end"/>
+        android:layout_marginLeft="10dp"
+        android:textSize="15dp"
+        android:text="시간표시할거에요"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-        android:padding="5dp">
+        android:layout_marginLeft="10dp">
 
         <TextView
             android:layout_width="wrap_content"

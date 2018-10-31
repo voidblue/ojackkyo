@@ -21,12 +21,14 @@ import java.util.concurrent.ExecutionException;
 import ojackkyo.nero.ojackkyo.connection.Connection;
 
 public class PostActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView name, context, comment_tv, context_time;
+    TextView name, context, comment_tv, context_time, user_name;
     UserInfo userInfo;
     Button comment_btn;
     Connection connection;
     Connection connection_delete;
     String authorsNickname;
+    String real_context;
+    String post_name;
     int id_index;
 
     @Override
@@ -53,6 +55,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         comment_tv = (TextView) findViewById(R.id.comment_tv);
         comment_btn = (Button) findViewById(R.id.comment_btn);
         context_time = (TextView) findViewById(R.id.context_time);
+        user_name = (TextView)findViewById(R.id.user_name);
         comment_btn.setOnClickListener(this);
 
         Log.e("게시글 보기", String.valueOf(id_index));
@@ -65,15 +68,18 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             resultObject = jsonElement.getAsJsonObject();
 
             String post_context = resultObject.get("text").toString().replace("\\n", "\n");
-            String real_context = post_context.substring(1, post_context.length() - 1);
-            String post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length() - 1);
+            real_context = post_context.substring(1, post_context.length() - 1);
+            post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length() - 1);
             authorsNickname = resultObject.get("authorsNickname").toString();
             String time = resultObject.get("timeCreated").toString().substring(1, resultObject.get("timeCreated").toString().length() - 6);
             String viewed = resultObject.get("viewed").toString();
+            Log.e("asdfasdf", id_index + " "+ real_context  +"  "+ post_name +"  "+ authorsNickname +"  "+ time +"  "+ viewed);
 
             context.setText(real_context);
             name.setText(post_name);
+
             context_time.setText("작성시간 : " + time + " | 조회수 : " + viewed);
+            user_name.setText("작성자 : "+ authorsNickname.substring(1,authorsNickname.length()-1));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -115,8 +121,10 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.수정하기:
                 Intent intent1 = new Intent(PostActivity.this, UpdateActivity.class);
-                intent1.putExtra("title","a");
-                intent1.putExtra("context","b");
+                intent1.putExtra("id",id_index);
+                intent1.putExtra("title",post_name);
+                intent1.putExtra("context",real_context);
+                intent1.putExtra("authorsNickname",authorsNickname.substring(1,authorsNickname.length()-1));
                 startActivity(intent1);
                 return true;
         }
