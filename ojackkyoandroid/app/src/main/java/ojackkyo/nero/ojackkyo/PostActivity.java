@@ -21,7 +21,7 @@ import java.util.concurrent.ExecutionException;
 import ojackkyo.nero.ojackkyo.connection.Connection;
 
 public class PostActivity extends AppCompatActivity implements View.OnClickListener {
-    TextView name, context, comment_tv;
+    TextView name, context, comment_tv, context_time;
     UserInfo userInfo;
     Button comment_btn;
     Connection connection;
@@ -52,7 +52,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         context = (TextView) findViewById(R.id.context);
         comment_tv = (TextView) findViewById(R.id.comment_tv);
         comment_btn = (Button) findViewById(R.id.comment_btn);
-
+        context_time = (TextView) findViewById(R.id.context_time);
         comment_btn.setOnClickListener(this);
 
         Log.e("게시글 보기", String.valueOf(id_index));
@@ -68,9 +68,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             String real_context = post_context.substring(1, post_context.length() - 1);
             String post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length() - 1);
             authorsNickname = resultObject.get("authorsNickname").toString();
+            String time = resultObject.get("timeCreated").toString().substring(1, resultObject.get("timeCreated").toString().length() - 6);
+            String viewed = resultObject.get("viewed").toString();
 
             context.setText(real_context);
             name.setText(post_name);
+            context_time.setText("작성시간 : " + time + " | 조회수 : " + viewed);
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -82,10 +85,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        if(authorsNickname.equals(userInfo.getNickname())){
+        if (authorsNickname.equals(userInfo.getNickname())) {
             getMenuInflater().inflate(R.menu.main, menu);
-        }
-        else {
+        } else {
 
         }
         return true;
@@ -109,11 +111,13 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 Intent intent = new Intent(PostActivity.this, MainActivity.class);
                 startActivity(intent);
                 PostActivity.this.finish();
-                Log.e("삭제하기", "삭제하기");
                 return true;
 
             case R.id.수정하기:
-                Log.e("수정하기", "수장하기");
+                Intent intent1 = new Intent(PostActivity.this, UpdateActivity.class);
+                intent1.putExtra("title","a");
+                intent1.putExtra("context","b");
+                startActivity(intent1);
                 return true;
         }
         return super.onOptionsItemSelected(item);

@@ -21,6 +21,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.ListResourceBundle;
 import java.util.concurrent.ExecutionException;
 
@@ -46,7 +47,7 @@ public class ScrollViewFragment extends Fragment {
     ArrayList<String> titleList = new ArrayList<String>();
     ArrayList<Integer> idList = new ArrayList<>();
 
-    String[] tag;
+    List<String> tag;
     static int count;
 
     public static ScrollViewFragment newInstance(String title) {
@@ -69,7 +70,7 @@ public class ScrollViewFragment extends Fragment {
         Connection_list connection_list = new Connection_list();
         try {
 
-            Object list = connection_list.execute(tag[count], userInfo.getToken()).get();
+            Object list = connection_list.execute(tag.get(count), userInfo.getToken()).get();
             count = count + 1;
             Log.e("count", "count: " + count);
 

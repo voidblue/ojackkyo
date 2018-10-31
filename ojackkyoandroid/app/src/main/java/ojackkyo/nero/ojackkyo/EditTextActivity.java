@@ -83,7 +83,7 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                 ArrayList<String> tags_list = new ArrayList();
                 tags_list.add("통합");
 
-                Pattern MY_PATTERN = Pattern.compile("#(\\w+)");
+                Pattern MY_PATTERN = Pattern.compile("#(\\S+)");
                 Matcher mat = MY_PATTERN.matcher(text);
                 while (mat.find()) {
                     tags_list.add(mat.group(1));

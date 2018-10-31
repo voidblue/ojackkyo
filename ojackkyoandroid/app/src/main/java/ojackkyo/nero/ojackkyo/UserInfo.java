@@ -8,6 +8,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Created by wjdal on 2018-08-06.
  */
@@ -51,15 +56,20 @@ public class UserInfo extends Application {
         this.nickname = resultObject.get("nickname").toString();
     }
 
-    public String[] setTag() {  // 태그 스트링 배열 호출
-        String tag;
+    public List<String> setTag() {  // 태그 스트링 배열 호출
+        List<String> tag = new ArrayList<String >();
         Gson gson = new Gson();
         JsonObject resultObject;
         JsonElement jSonElement = gson.fromJson(정보, JsonElement.class);
         resultObject = jSonElement.getAsJsonObject();
         String tagString = resultObject.get("tags").toString();
-        tag = tagString.substring(8, tagString.length() - 3);
-        return tag.split("\\}, \\{name=");
+        Pattern MY_PATTERN = Pattern.compile("\\=(\\S+)\\}");
+        Matcher mat = MY_PATTERN.matcher(tagString);
+        tag.add("통합");
+        while (mat.find()) {
+            tag.add(mat.group(1));
+        }
+        return tag;
     }
 
 

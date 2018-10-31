@@ -25,6 +25,9 @@ import ojackkyo.nero.ojackkyo.fragment.ScrollViewFragment;
 
 import com.github.florent37.hollyviewpager.HollyViewPager;
 import com.github.florent37.hollyviewpager.HollyViewPagerConfigurator;
+
+import java.util.List;
+
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     TextView user_name;
 
     UserInfo userInfo;
-    String[] tag;
+    List<String> tag;
     long pressedTime = 0;
 
     @Override
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_name.setText(userInfo.getNickname().replaceAll("\"",""));
 
         tag = userInfo.setTag(); //userinfo에서 tag 배열 호출
-        pageCount = tag.length;
+        pageCount = tag.size();
 
         Log.e("pagecount : ", "   " + pageCount);
 
@@ -102,7 +105,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public CharSequence getPageTitle(int position) {
 
-                return "" + tag[position] + "게시판";
+                return "" + tag.get(position) + "게시판";
             } //태그 이름
         });
     }

@@ -8,10 +8,10 @@
     android:focusable="true"
     android:focusableInTouchMode="true"
     android:theme="@style/DHFont"
-    tools:context="ojackkyo.nero.ojackkyo.EditTextActivity">
+    tools:context="ojackkyo.nero.ojackkyo.UpdateActivity">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/edit_text_toolbar"
+        android:id="@+id/update_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="게시글 쓰기"
+            android:text="게시글 수정"
             android:textColor="#000000"
             android:textSize="20sp"/>
     </android.support.v7.widget.Toolbar>
