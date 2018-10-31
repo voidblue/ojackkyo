@@ -32,7 +32,7 @@ body {
   border: 0;
   border-radius: 5px;
   margin-bottom: 8px;
-  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Sunflower', sans-serif;
 }
 
 #btnLogin {
@@ -43,7 +43,8 @@ body {
   height: 88px;
   font-size: 1.3em;
   margin-left: 4px;
-  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Sunflower', sans-serif;
+  font-weight: bold;
 }
 
 #btnPack {
@@ -58,7 +59,8 @@ body {
   height: 50px;
   border-radius: 5px;
   font-size: 1.1em;
-  font-family: 'Do Hyeon', sans-serif;
+  font-family: 'Sunflower', sans-serif;
+  font-weight: bold;
 }
 
 .btn:first-child {

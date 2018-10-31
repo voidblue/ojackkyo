@@ -2,9 +2,10 @@
 <html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>오작교 - 오늘부터 작은 교류의 시작</title>
-    <link rel="stylesheet" href="css/index.css">\
-    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Yeon+Sung" rel="stylesheet">
+    <link rel="stylesheet" href="css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Do+Hyeon|Noto+Sans+KR|Sunflower:300|Yeon+Sung" rel="stylesheet">
   </head>
   <body>
 
@@ -17,9 +18,9 @@
     <!-- 아이디, 비밀번호 입력칸 -->
     <section>
       <div id="login">
-        <input type="text" class="user id" name="ID" placeholder="ID">
+        <input type="text" class="user id" id="userID" name="ID" placeholder="ID">
         <button type="submit" id="btnLogin" onclick="javascript:btnLogin();">Log In</button><br>
-        <input type="password" class="user pw" name="password" placeholder="PASSWORD">
+        <input type="password" class="user pw" id="userPW" name="password" placeholder="PASSWORD">
       </div>
 
       <!-- 아이디, 비번찾기, 회원가입 -->
