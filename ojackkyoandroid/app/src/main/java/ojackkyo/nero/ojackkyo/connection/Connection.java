@@ -33,13 +33,13 @@ public class Connection extends AsyncTask {
     @Override
     protected String doInBackground(Object[] objects) {
 
-        String serverURL = "http://117.17.102.131:4000/" + objects[1];  // 그거 1개\
+        String serverURL = "http://117.17.102.131:4000/" + objects[1];  // 그거 1개
         try {
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             httpURLConnection.setRequestProperty("content-type", "application/json; charset=utf-8");
-            httpURLConnection.setRequestProperty("token", (String) objects[3]);
+            httpURLConnection.setRequestProperty("token", (String) objects[3]); //토큰 이름
             httpURLConnection.setReadTimeout(5000);
             httpURLConnection.setConnectTimeout(5000);
             httpURLConnection.setRequestMethod((String) objects[2]); // 방식 2개

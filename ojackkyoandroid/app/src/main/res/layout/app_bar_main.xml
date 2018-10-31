@@ -14,14 +14,24 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:theme="@style/DHFont" />
+            android:theme="@style/DHFont">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오작교"
+                android:textColor="#ffffff"
+                android:textSize="20sp"/>
+        </android.support.v7.widget.Toolbar>
+
+
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_main"></include>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/edit_text"
-        android:layout_width="70dp"
+        android:layout_width="60dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"

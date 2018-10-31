@@ -72,6 +72,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         toolbar.setTitleTextColor(0xFFFFFFFF);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("");
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
