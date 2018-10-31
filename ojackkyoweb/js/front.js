@@ -10,12 +10,13 @@ function btnLogin(){
             password : $("#userPW").val()
          }),
          success : function(data){
+             console.log(data);
             console.log(data.token);
             sessionStorage.setItem("token", data.token);
-            window.location.replace("board.html"); 
+            window.location.replace("main.html"); 
          },
          error : function(data) {
-             alert("ID,PW를 확인하세요");
+            alert("ID,PW를 확인하세요");
          }   
     })   
 }
