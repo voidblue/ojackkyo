@@ -33,12 +33,14 @@ else{
                     </a>'
                 })
                 str += '<div class = "tag" id='+arrayTag[i]+'>\
-                    <div class="title">\
+                    <h2 class="title">\
                     '+ "#"+arrayTag[i] +'\
-                    </div>\
+                    </h2>\
+                    <div class="scroll">\
                     '+ innerstr +'\
+                    </div>\
                     <a href="write.html">\
-                        <button type="button" name="write">글쓰기</button>\
+                        <button class="btnWrite" type="button" name="write">글쓰기</button>\
                     </a>\
                 </div>'
             },

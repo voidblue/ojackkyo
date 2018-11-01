@@ -1,5 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-image: url("../img/bgcolor.png");
+  background-size: cover;
+}
+
 .middle {
   padding: 15px;
+  padding-top: 20px;
 }
 
 .board {
@@ -8,12 +19,11 @@
 
 .tag {
   margin-right: 10px;
-  width: 272px;
+  width: 275px;
   position: relative;
-  max-height: 100%;
+  /* max-height: 100%; */
   display: inline-block;
   background-color: #DEDEDE;
-  border: 0;
   border-radius: 5px;
   vertical-align: top;
 }
@@ -21,51 +31,69 @@
 .title {
   text-align: center;
   font-weight: bold;
-  font-size: 25px;
-  margin-top: 13px;
+  font-size: 22px;
+}
+
+.scroll {
+  overflow: scroll;
+  width: 100%;
+  max-height: 580px;
 }
 
 .content {
   background-color: white;
-  width: 85%;
+  width: 90%;
   height: 70px;
   margin: auto;
-  margin-top: 10px;
   text-align: left;
-  padding: 5px;
-  /* margin-bottom: 10px; */
+  padding: 8px;
+  margin-bottom: 10px;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+.content:hover {
+  background-color: #F5F6F7;
 }
 
 .content_btn {
   width: 100%;
   padding: 0;
-  margin: 0;
+  border: 0;
+  background-color: inherit;
 }
 
 .content_btn:hover {
   background-color: inherit;
   color: black;
   cursor: pointer;
+  font-weight: 700;
 }
 
 a {
   text-decoration: none;
 }
 
-button[name="write"] {
+.btnWrite {
   display: block;
   margin: auto;
-  width: 88%;
-  margin-top: 12px;
+  width: 90%;
   padding: 10px;
   font-size: 15px;
-  margin-bottom: 12px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  border: 0;
+  background-color: inherit;
 }
 
-/* button:hover {
-  background-color: gray;
+.btnWrite:hover {
+  background-color: #5C5CC0;
   color: white;
-} */
+  font-weight: 700;
+  font-size: 17px;
+  border-radius: 3px;
+}
 
 .question {
   position: relative;
@@ -77,3 +105,44 @@ button[name="write"] {
   border-radius: 5px;
   vertical-align: top;
 }
+
+
+
+/* .board {
+  display: inline-block;
+  background-color: #DEDEDE;
+  width: 270px;
+  border-radius: 5px;
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.tag {
+  text-align: center;
+}
+
+.contents {
+  width: 85%;
+  margin: auto;
+}
+
+.content {
+  background-color: #ffffff;
+  width: 100%;
+  height: 80px;
+  margin-bottom: 12px;
+}
+
+.write {
+  display: block;
+  background-color: inherit;
+  border: 0;
+  width: 85%;
+  height: 40px;
+  font-size: 15px;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 0;
+  cursor: pointer;
+} */
