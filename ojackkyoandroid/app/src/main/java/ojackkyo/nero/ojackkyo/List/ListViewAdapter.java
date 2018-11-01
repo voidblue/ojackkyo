@@ -40,6 +40,7 @@ public class ListViewAdapter extends BaseAdapter {
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.list_item, parent, false);
         }
+
         TextView state = (TextView) convertView.findViewById(R.id.state);
         ListVO listViewItem = listVO.get(position);
 

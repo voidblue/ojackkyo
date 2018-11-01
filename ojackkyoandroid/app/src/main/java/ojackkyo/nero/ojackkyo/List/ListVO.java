@@ -10,6 +10,8 @@ public class ListVO {
     private Drawable img;
     private String Title;
     private String context;
+    private String contents;
+    private String nickname;
 
     public Drawable getImg() {
         return img;
