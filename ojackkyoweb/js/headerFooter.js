@@ -18,10 +18,9 @@ $(window).scroll(function(){
 //     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 // }
 
-
 $("#header").html('\
 <div id="logo">\
-  <a href="main.html"><img src="img/ojk.png" id="imgLogo"></a>\
+  <a href="main.html"><img src="img/frame.png" id="imgLogo"></a>\
 </div>\
 <div id="search">\
   <input type="search" name="search_bar">\

@@ -25,7 +25,7 @@ function editArticle(){
          }),
          success : function(data){
             console.log(data.token);
-            window.location.href = "board.html"
+            window.location.href = "main.html"
 
          },
          error : function(data) {
