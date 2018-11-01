@@ -30,13 +30,12 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/edit_text"
-        android:layout_width="60dp"
+        android:layout_width="50dp"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_gravity="bottom|end"
-        android:layout_margin="40dp"
-        android:backgroundTint="@color/floating"
+        android:layout_margin="30dp"
         android:src="@drawable/ic_plus" />
 
 </android.support.design.widget.CoordinatorLayout>

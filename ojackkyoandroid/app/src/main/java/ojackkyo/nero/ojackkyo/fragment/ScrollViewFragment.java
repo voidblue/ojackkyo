@@ -69,12 +69,12 @@ public class ScrollViewFragment extends Fragment {
         tag = userInfo.setTag();
         Connection_list connection_list = new Connection_list();
         try {
-
-            Object list = connection_list.execute(tag.get(count), userInfo.getToken()).get();
+            Object list = connection_list.execute("article","tag=" + tag.get(count), "desc", userInfo.getToken()).get();
             count = count + 1;
             Log.e("count", "count: " + count);
 
             listResult = new JSONObject(list.toString());
+            Log.e("listre", String.valueOf(listResult));
             contentList = listResult.getJSONArray("content");
 
             Log.e("ddd", "결과: " + contentList.length());

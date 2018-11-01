@@ -72,7 +72,7 @@
     <TextView
         android:id="@+id/context"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:layout_margin="5dp"
         android:background="@drawable/textview"
         android:breakStrategy="simple"
@@ -83,10 +83,10 @@
         android:textSize="17dp" />
 
     <ListView
+        android:id="@+id/comment_lv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:padding="5dp">
-
     </ListView>
 
     <RelativeLayout
@@ -97,7 +97,7 @@
         android:padding="5dp">
 
         <EditText
-            android:id="@+id/comment_tv"
+            android:id="@+id/comment_et"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:hint="댓글 적는 공간" />

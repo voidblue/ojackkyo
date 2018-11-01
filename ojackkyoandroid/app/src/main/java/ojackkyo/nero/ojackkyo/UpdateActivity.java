@@ -77,7 +77,7 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
 
                 jsonObject.addProperty("title", title);
                 jsonObject.addProperty("text", text);
-                jsonObject.addProperty("id",id_index);
+                jsonObject.addProperty("id", id_index);
                 JsonArray jsonArray = new JsonArray();
 
                 ArrayList<String> tags_list = new ArrayList();

@@ -33,13 +33,13 @@ public class Connection_list extends AsyncTask{
     @Override
     protected String doInBackground(Object[] objects) {
 
-        String serverURL = "http://117.17.102.131:4000/article/list/search?tag=" + objects[0] + "&sort=timeCreated,desc";  // 그거 1개
+        String serverURL = "http://117.17.102.131:4000/" + objects[0] +"/list/search?" + objects[1] + "&sort=timeCreated," + objects[2];  // 그거 1개
         try {
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
             httpURLConnection.setRequestProperty("content-type", "application/json; charset=utf-8");
-            httpURLConnection.setRequestProperty("token", (String) objects[1]);
+            httpURLConnection.setRequestProperty("token", (String) objects[3]);
             httpURLConnection.setReadTimeout(5000);
             httpURLConnection.setConnectTimeout(5000);
             httpURLConnection.setRequestMethod("GET"); // 방식 2개
