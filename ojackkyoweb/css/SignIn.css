@@ -161,13 +161,21 @@ h3 {
   margin-top: 30px;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 400px) {
     #wrap {
       width: 440px;
     }
 
     #SignIn {
       width: 340px;
+    }
+
+    #btnID {
+      font-size: 13px;
+    }
+
+    #btnNickname {
+      font-size: 13px;
     }
 
     .interest {
