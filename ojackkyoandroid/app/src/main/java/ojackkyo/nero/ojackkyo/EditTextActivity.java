@@ -1,8 +1,10 @@
 package ojackkyo.nero.ojackkyo;
 
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,18 +13,17 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.concurrent.ExecutionException;
 import java.util.regex.Matcher;
@@ -34,7 +35,12 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
 
     private EditText edit_title, edit_text;
     private Button write_btn;
+    private ImageView upload_btn;
+    private final int GALLERY_CODE = 1112;
+
     UserInfo userInfo;
+    String imagePath;
+    String imageName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +57,11 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
         edit_title = (EditText) findViewById(R.id.edit_title);
         edit_text = (EditText) findViewById(R.id.edit_text);
         write_btn = (Button) findViewById(R.id.write_btn);
+        upload_btn = (ImageView) findViewById(R.id.image_upload);
         edit_text.setHorizontallyScrolling(false);
 
         write_btn.setOnClickListener(this);
+        upload_btn.setOnClickListener(this);
     }
 
     @Override
@@ -67,13 +75,13 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
     public void onClick(View v) {
         int id = v.getId();
         switch (id) {
-
             case R.id.write_btn:
                 final String title = edit_title.getText().toString();
                 final String text = edit_text.getText().toString();
 
                 JsonObject resultObject = null;
                 Connection connection = new Connection();
+                Connection_image connection1 = new Connection_image();
                 JsonObject jsonObject = new JsonObject();
 
                 jsonObject.addProperty("title", title);
@@ -107,6 +115,12 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
 
                 try {
                     result = (String) connection.execute(jsonObject, "article", "POST", userInfo.getToken()).get();
+                    if (imagePath != null){
+                        Log.e("이미지패스가", "있다 !!!!! ");
+                    }
+                    else{
+                        Log.e("이미지패스가", "없다 !!!!!");
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 } catch (ExecutionException e) {
@@ -135,8 +149,13 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 break;
+            case R.id.image_upload:
+                selectGallery();
+
         }
     }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -159,5 +178,53 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+
+            switch (requestCode) {
+
+                case GALLERY_CODE:
+                    imagePath= getImagePath(data.getData()); //갤러리에서 가져오기
+
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
+    }
+
+    private String getImagePath(Uri imgUri) {
+
+        String path = getRealPathFromURI(imgUri); // path 경로
+        imageName = new File(path).getName();
+        Log.d("이미지패스", "getImagePath: " + path+ "이미지이름" + imageName);
+
+        return path;
+    }
+
+    private String getRealPathFromURI(Uri contentUri) {
+        int column_index=0;
+        String[] proj = {MediaStore.Images.Media.DATA};
+        Cursor cursor = getContentResolver().query(contentUri, proj, null, null, null);
+        if(cursor.moveToFirst()){
+            column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        }
+
+        return cursor.getString(column_index);
+    }
+
+
+    private void selectGallery(){
+        Intent intent = new Intent(Intent.ACTION_PICK);
+        intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(intent, GALLERY_CODE);
     }
 }
