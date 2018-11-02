@@ -23,10 +23,10 @@ public class CommentListViewAdapter extends BaseAdapter {
         this.comment_list = comment_list;
     }
 
-    Context context;
-    ArrayList<CommentList> comment_list;
+    private Context context;
+    private ArrayList<CommentList> comment_list;
 
-    TextView contents;
+    private TextView contents;
 
 
     @Override

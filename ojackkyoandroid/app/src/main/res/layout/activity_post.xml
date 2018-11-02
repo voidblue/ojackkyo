@@ -22,94 +22,133 @@
             android:layout_gravity="center"
             android:text="게시글 보기"
             android:textColor="#000000"
-            android:textSize="20sp"/>
+            android:textSize="20sp" />
 
     </android.support.v7.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/title"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:gravity="center_vertical"
-        android:hint="게시글 제목!!"
-        android:layout_marginLeft="10dp"
-        android:textColor="#000000"
-        android:textSize="30dp" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:textSize="15dp"
-        android:text="닉네임표시할거에요"/>
-    <TextView
-        android:id="@+id/context_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:textSize="15dp"
-        android:text="시간표시할거에요"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:gravity="center"
-        android:layout_marginLeft="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="첨부된 파일"
-            android:textColor="#000000" />
-
-        <ImageView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/logo" />
-    </LinearLayout>
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/context"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        android:layout_margin="5dp"
-        android:background="@drawable/textview"
-        android:breakStrategy="simple"
-        android:hint="내용이 나올겁니다"
-        android:inputType="textMultiLine"
-        android:padding="3dp"
-        android:textColor="#000000"
-        android:textSize="17dp" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:hint="게시글 제목!!"
+                android:textColor="#000000"
+                android:textSize="30dp" />
 
-    <ListView
-        android:id="@+id/comment_lv"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:padding="5dp">
-    </ListView>
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="닉네임표시할거에요"
+                android:textSize="15dp" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:padding="5dp">
+            <TextView
+                android:id="@+id/context_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="시간표시할거에요"
+                android:textSize="15dp" />
 
-        <EditText
-            android:id="@+id/comment_et"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:hint="댓글 적는 공간" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginLeft="10dp"
+                android:gravity="center">
 
-        <Button
-            android:id="@+id/comment_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="댓글달기" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="첨부된 파일"
+                    android:textColor="#000000" />
 
-    </RelativeLayout>
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/logo" />
+            </LinearLayout>
 
+            <TextView
+                android:id="@+id/context"
+                android:layout_width="match_parent"
+                android:layout_height="350dp"
+                android:layout_margin="5dp"
+                android:background="@drawable/textview"
+                android:breakStrategy="simple"
+                android:hint="내용이 나올겁니다"
+                android:inputType="textMultiLine"
+                android:padding="3dp"
+                android:textColor="#000000"
+                android:textSize="17dp" />
 
+        </LinearLayout>
+
+        <SlidingDrawer
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:content="@id/content"
+            android:handle="@id/handle"
+            android:orientation="vertical"
+            android:topOffset="0dp">
+
+            <Button
+                android:id="@+id/handle"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:text="댓글 처리" />
+
+            <RelativeLayout
+                android:id="@+id/content"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff">
+
+                <ListView
+                    android:id="@+id/comment_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/button_layout"
+                    android:padding="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/button_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:layout_alignParentBottom="true"
+                    android:focusableInTouchMode="true"
+                    android:orientation="horizontal"
+                    android:padding="5dp">
+
+                    <EditText
+                        android:id="@+id/comment_et"
+                        android:layout_width="300dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:hint="댓글 적는 공간" />
+
+                    <Button
+                        android:id="@+id/comment_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="bottom"
+                        android:text="댓글달기" />
+
+                </LinearLayout>
+
+            </RelativeLayout>
+        </SlidingDrawer>
+    </FrameLayout>
 </LinearLayout>
