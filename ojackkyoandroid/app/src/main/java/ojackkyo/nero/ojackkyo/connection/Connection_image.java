@@ -33,12 +33,14 @@ public class Connection_image extends AsyncTask {
 
             httpURLConnection.setRequestProperty("content-type", "application/json; charset=utf-8");
             httpURLConnection.setRequestProperty("token", (String) objects[1]); //토큰 이름
+            httpURLConnection.setRequestProperty("image",(String)objects[2]);
+            httpURLConnection.setRequestProperty("articleId", (String)objects[3]);
             httpURLConnection.setReadTimeout(5000);
             httpURLConnection.setConnectTimeout(5000);
             httpURLConnection.setRequestMethod("POST"); //이미지 올리는 방식은 무조건 포스트
             httpURLConnection.connect();
 
-            JsonObject jsonobject = (JsonObject) objects[0]; //jsonobject 를 받고
+//            JsonObject jsonobject = (JsonObject) objects[0]; //jsonobject 를 받고
 
             int responseStatusCode = httpURLConnection.getResponseCode();
 
