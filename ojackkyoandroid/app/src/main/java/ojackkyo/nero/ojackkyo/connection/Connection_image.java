@@ -27,7 +27,7 @@ public class Connection_image extends AsyncTask {
     protected String doInBackground(Object[] objects) {
 
         String serverURL = "http://117.17.102.131:4000/article/image";  //인자를 받는게 아니라서 아이피로 바로 연결
-        try {
+            try {
             URL url = new URL(serverURL);
             HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
 
