@@ -22,6 +22,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -41,6 +43,7 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
     UserInfo userInfo;
     String imagePath;
     String imageName;
+    String articleId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +84,7 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
 
                 JsonObject resultObject = null;
                 Connection connection = new Connection();
-                Connection_image connection1 = new Connection_image();
+                Connection_image connection_image = new Connection_image();
                 JsonObject jsonObject = new JsonObject();
 
                 jsonObject.addProperty("title", title);
@@ -116,6 +119,12 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                 try {
                     result = (String) connection.execute(jsonObject, "article", "POST", userInfo.getToken()).get();
                     if (imagePath != null){
+                        Gson gson = new Gson();     // 글을 올리고 나서 아이디를 받아가지고 이미지를 따로 올려야되서 여기다가 이미지 경로 유무에 따라서 업로드 하는 커넥션 수행하게 했음.
+                        JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
+                        JsonObject jsonObject1 = jsonElement.getAsJsonObject();
+                        Log.e("jsonObject", String.valueOf(jsonObject1.get("id")));
+                        articleId = String.valueOf(jsonObject1.get("id"));  //아이디 받아오는거 그냥 갔다가 썼어 ㅡ.,ㅡ 정신이 없어
+                        connection_image.execute(null, userInfo.getToken(), imagePath, articleId );  // connection_image 클래스 새로 만들었고, 이미지 파일을 올리는게 경로올리는거 같아서 경로 받아서 넣었고 , 토큰이랑 아티클 아이디 같이 넣었음.
                         Log.e("이미지패스가", "있다 !!!!! ");
                     }
                     else{
@@ -147,11 +156,9 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
                     startActivity(intent);
                     EditTextActivity.this.finish();
                 }
-
                 break;
             case R.id.image_upload:
                 selectGallery();
-
         }
     }
 
