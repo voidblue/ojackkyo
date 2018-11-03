@@ -1,35 +1,36 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/frame.css">
     <link rel="stylesheet" href="css/write.css">
-    <title>게시판</title>
+    <title>작성하기</title>
   </head>
-  <body class="body" >
-    <header id = "header"></header>
-    <!-- <div class="middle full_width"> -->
-        <div class="write_box">
-          <div class="content">
-            게시판 <input type="text" name="type">
-            <p></p>
-            제목 <input type="text" name="title" id = "title">
-            <p></p>
-            파일첨부
-            <p></p>
-            <textarea name="content_box" wrap="physical" id = "contents"></textarea>
-            <div class="btn_submit">
-              <button type="submit" name="write" onclick="editArticle()">작성하기</button>
-            </div>
-          </div>
+  <body>
+
+    <!-- 상단바 -->
+    <header id="header"></header>
+
+    <div id="writeBox">
+      <form id="imageForm" action="http://117.17.102.131:4000/article/image" method="POST" accept-charset="UTF-8" name="imageData" enctype="multipart/form-data">
+        <div class="wrap">
+          <input id="title" type="text" name="title" placeholder="제목">
         </div>
-    <!-- </div> -->
-    <footer id = "footer"></footer>
-
+        <div class="wrap form-name">
+          <span id="file">첨부파일</span>
+          <input class="img img-content left-space" type="file" name="image">
+        </div>
+        <div class="text">
+          <textarea id="contents" name="content_box" wrap="physical"></textarea>
+        </div>
+      </form>
+    </div>
+    <button id="btn_submit" type="submit" name="write" onclick="editArticle(); getTokenObject()">작성하기</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/GlobalVarialble.js"></script>
+    <script src="js/write.js"></script>
+    <script src="js/upload.js"></script>
+    <script src="js/headerFooter.js"></script>
   </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="js/GlobalVarialble.js"></script>
-  <script src="js/write.js"></script>
-  <script src="js/headerFooter.js"></script>
-
 </html>

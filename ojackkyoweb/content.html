@@ -1,71 +1,47 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" dir="ltr">
   <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/frame.css">
     <link rel="stylesheet" href="css/content.css">
-    <link rel="stylesheet" href="css/headerFooter.css">
-    <title>내용</title>
+    <title>게시글 보기</title>
   </head>
   <body>
 
-  <!-- 프레임 헤더 -->
+    <!-- 상단바 -->
+    <header id="header"></header>
 
-    <header id = "header"></header>
-
-    <div class="middle">
-      <div class="wrapper">
-        <div class="title_box">
-          <div class="title" id = "title">
-            게시글 제목
-          </div>
-
-          <hr class="hr1">
-
-          <div class="detail" id = "details">
-
-          </div>
+    <!-- 게시글 내용 -->
+    <div id="middle">
+      <div id="wrapper">
+        <div id="infoBox">
+          <span id="title" class="title">제목</span>
+          <span id="details" class="details">닉네임 | 작성시간 | 조회수</span>
         </div>
-
-        <hr class="hr2">
-
         <div class="content_box">
-          <div class="content", id = "contents">
-            
-          </div>
+          <div class="content" id="contents"></div>
         </div>
+      </div>
 
-        <hr class="hr3">
+      <!-- 댓글 -->
+      <div id="comment_box">
+        <div class="comment">
+          <span class="cm_writer">아이디</span>
+          <span class="cm_content">댓글 내용</span>
+          <span class="cm_time">댓글 작성시간</span>
+        </div>
+      </div>
 
-        <div class="comment_box">
-          <div class="comment">
-            <div class="cm_writer"> 댓글 작성자 </div>
-            <div class="cm_content"> 댓글 내용 </div>
-            <div class="cm_time"> 댓글 작성 시간 </div>
-          </div>
-          <div class="comment">
-            <div class="cm_writer"> 댓글 작성자 </div>
-            <div class="cm_content"> 댓글 내용 </div>
-            <div class="cm_time"> 댓글 작성 시간 </div>
-          </div>
-        </div>
-        <div class="cm_write">
-          <div class="write">
-            <input type="text" name="write" placeholder="댓글을 작성해주세요.">
-            <button type="submit" name="wr_button">댓글 쓰기</button>
-          </div>
-        </div>
+      <div id="write">
+        <textarea id="writeCm" name="write" placeholder="댓글 입력"></textarea>
+        <button id="wr_button" type="submit" name="wr_button">확인</button>
       </div>
     </div>
 
-    <!-- 프레임 푸터 -->
-
-    <footer id = "footer"></footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/GlobalVarialble.js"></script>
+    <script src="js/content.js"></script>
+    <script src="js/headerFooter.js"></script>
   </body>
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-  <script src="js/GlobalVarialble.js"></script>
-  <script src="js/content.js"></script>
-  <script src="js/headerFooter.js"></script>
-
 </html>
