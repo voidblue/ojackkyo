@@ -11,7 +11,7 @@ $.ajax({
 
         console.log(text);
         $("#contents").html(text);
-        var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0]   + " | 조회수 " + data.viewed;
+        var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0] + " | 조회수 " + data.viewed;
         $("#details").html(str)
      },
      error : function(data) {

@@ -1,4 +1,4 @@
-.middle {
+/* .middle {
   text-align: center;
 }
 
@@ -100,7 +100,7 @@
 }
 
 .write {
-  /* display: inline-block; */
+  display: inline-block;
 }
 
 input[name="write"] {
@@ -120,4 +120,113 @@ button[name="wr_button"] {
   font-size: 18px;
   height: 80px;
   border-radius: 4px;
+} */
+
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#wrapper {
+  width: 800px;
+  border-bottom: 1px solid #DFDFDF;
+  margin: auto;
+  margin-top: 20px;
+}
+
+#infoBox {
+  border-bottom: 2px solid #CCCCCC;
+}
+
+#title {
+  display: inline-block;
+  width: 100%;
+  padding: 10px;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#details {
+  display: inline-block;
+  width: 100%;
+  color: #DADADA;
+  font-size: 13px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+}
+
+.content_box {
+  padding: 10px;
+}
+
+#contents {
+  width: 100%;
+  height: 25em;
+  overflow: scroll;
+  display: inline-block;
+}
+
+#comment_box {
+  width: 800px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.comment {
+  padding: 10px;
+  padding-bottom: 0;
+  border-bottom: 1px solid #DADADA;
+}
+
+.cm_writer {
+  display: block;
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  text-decoration: underline;
+}
+
+.cm_content {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.cm_time {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  color: #DADADA;
+}
+
+#write {
+  text-align: center;
+  margin: auto;
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+#writeCm {
+  width: 680px;
+  resize: none;
+  font-size: 13px;
+  padding: 5px;
+  height: 60px;
+}
+
+#wr_button {
+  width: 90px;
+  height: 60px;
+  vertical-align: top;
+  margin-left: 10px;
+  border: 0;
+  background-color: #5C5CC0;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 3px;
+  cursor: pointer;
 }
