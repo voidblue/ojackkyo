@@ -18,6 +18,24 @@ $(window).scroll(function(){
 //     return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 // }
 
+$("#header").on('click', warning);
+// $("#header").addEventListener('click', warning);
+
+function warning(e) {
+  var currentNode = e.target.parentElement;
+  console.log(currentNode.className);
+
+  if(e.target.className == "imgMessage" && currentNode.className == "hrefMessage") {
+    alert("메시지 기능 구현 중입니다. 조금만 기다려 주세요!!");
+  }
+  else if(e.target.className == "imgAlarm" && currentNode.className == "hrefAlarm") {
+    alert("알람 기능 구현 중입니다. 조금만 기다려 주세요!!");
+  }
+  else if(e.target.className == "imgUser" && currentNode.className == "hrefUser") {
+    alert("회원정보 수정 기능 구현 중입니다. 조금만 기다려 주세요!!");
+  }
+}
+
 $("#header").html('\
 <div id="logo">\
   <a href="main.html"><img src="img/frame.png" id="imgLogo"></a>\
@@ -26,8 +44,8 @@ $("#header").html('\
   <input type="search" name="search_bar">\
   <button type="button" name="btnSearch"><img id="imgSearch" src="img/search.svg"></button>\
 </div>\
-<div id="btnPack">\
-  <button type="button" class="btn message"><a href="#"><img src="img/message.svg"></a></button>\
-  <button type="button" class="btn alarm"><a href="#"><img src="img/alarm.svg"></a></button>\
-  <button type="button" class="btn user"><a href="#"><img src="img/user.svg"></a></button>\
+<div id="btnPack" class="btnPack">\
+  <button type="button" class="btn message"><a href="#" class="hrefMessage"><img src="img/message.svg" class="imgMessage"></a></button>\
+  <button type="button" class="btn alarm"><a href="#" class="hrefAlarm"><img src="img/alarm.svg" class="imgAlarm"></a></button>\
+  <button type="button" class="btn user"><a href="#" class="hrefUser"><img src="img/user.svg" class="imgUser"></a></button>\
 </div>')

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/frame.css">
+    <link rel="stylesheet" href="css/write.css">
+    <title>게시판</title>
+  </head>
+  <body class="body" >
+
+    <header id = "header"></header>
+    <!-- <div class="middle full_width"> -->
+
+        <div class="write_box">
+          <div class="content">
+            <form action="http://117.17.102.131:4000/article/image" method="POST" accept-charset="UTF-8" id="imageForm" name="imageData" enctype="multipart/form-data">
+              제목 <input type="text" name="title" id = "title">
+              <p></p>
+              <div class="img-area flexcenter-align">
+              <div class="img form-name">첨부 파일<input type="file" name="image" class="img img-content left-space"></div>
+              <div class="btn-area flexcenter"></div>
+              <textarea name="content_box" wrap="physical" id = "contents"></textarea>
+            </form>
+
+            <div class="btn_submit">
+              <button id="btn_submit" type="submit" name="write" onclick="editArticle(); getTokenObject()">작성하기</button>
+            </div>
+          </div>
+        </div>
+
+  </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src="js/GlobalVarialble.js"></script>
+  <script src="js/write.js"></script>
+  <script src="js/upload.js"></script>
+  <script src="js/headerFooter.js"></script>
+
+</html>
