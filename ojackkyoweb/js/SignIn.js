@@ -1,3 +1,22 @@
+function PWchk() {
+  var patternNum = /[0-9]/; //숫자 포함
+  var patternEng = /[a-zA-Z]/; //영문자 포함
+  var password = $("#inputPW").val();
+  var passwordchk = $("#inputPWChk").val();
+  // var password = document.getElementById('inputPW').val();
+  // var passwordchk = document.getElementById('inputPWChk').val();
+
+  if( !patternNum.test(password) || !patternEng.test(password) || password.length < 6 || password.length > 10) {
+    alert("비밀번호는 영문자, 숫자 포함 6자 이상 10자 이하로 설정해야 합니다.");
+  }
+  else if(password != passwordchk) {
+    alert("비밀번호가 일치하지 않습니다.");
+  }
+  else {
+    SignIn();
+  }
+}
+
 function SignIn(){
     $.ajax({
         url: ip +'/user',
@@ -15,15 +34,14 @@ function SignIn(){
          }),
          success : function(data){
             console.log(data.id);
-            window.android.regSuccess("success");
-            window.location.replace("index.html");
             alert("회원가입 성공");
+            window.location.replace("index.html");
+            window.android.regSuccess("success");
          },
          error : function(data) {
              console.log(data)
              alert("회원가입 실패");
          }
-
     })
 }
 
@@ -32,9 +50,9 @@ $('#inputPWChk').keyup(function () {
     var inputPWChk = $('#inputPWChk').val();
 
     if (inputPW==inputPWChk) {
-        $('#pwChk').html("PASSWARD가 일치합니다.");
+        $('#condition').html("PASSWARD가 일치합니다.");
     } else {
-        $('#pwChk').html("PASSWARD가 일치하지 않습니다.");
+        $('#condition').html("PASSWARD가 일치하지 않습니다.");
     }
 
 });

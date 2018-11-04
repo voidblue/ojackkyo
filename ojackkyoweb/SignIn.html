@@ -9,7 +9,8 @@
   <body>
     <section>
       <div id="wrap">
-        <img src="img/signin.png" id="signinImg">
+        <a href="index.html"><img src="img/signin.png" id="signinImg"></a>
+
         <div id="SignIn">
 
           <h3>아이디</h3>
@@ -39,16 +40,16 @@
           <h3>E-mail</h3>
           <input type="email" id="inputEmail" class="inputType" rows="1" name="mailAddr">
 
-          <h3 id="sns">SNS </h3><span id="select">(선택)</span><br>
+          <h3 class="inline">SNS</h3> <span class="select">(선택)</span><br>
           <input id="inputSNS" class="inputType" rows="1" name="snsAddr">
 
-          <h3>관심분야</h3>
+          <h3 class="inline">관심분야</h3> <span class="select">(선택)</span>
           <div id="grid">
             <label class="interest"><input type="checkbox" value="C언어">C언어</label>
             <label class="interest"><input type="checkbox" value="C++">C++</label>
             <label class="interest"><input type="checkbox" value="C#">C#</label>
             <label class="interest"><input type="checkbox" value="자바">자바(Java)</label>
-            <label class="interest"><input type="checkbox" value="js">자바스크립트(JS)</label>
+            <label class="interest"><input type="checkbox" value="js">JavaScript</label>
 
             <label class="interest"><input type="checkbox" value="파이썬">파이썬</label>
             <label class="interest"><input type="checkbox" value="안드로이드">안드로이드</label>
@@ -63,13 +64,13 @@
             <label class="interest"><input type="checkbox" value="스프링">스프링</label>
 
             <label class="interest"><input type="checkbox" value="백앤드">백앤드</label>
-            <label class="interest"><input type="checkbox" value="소공">소프트웨어 공학</label>
+            <label class="interest"><input type="checkbox" value="소공">S/W 공학</label>
             <label class="interest"><input type="checkbox" value="알고리즘">알고리즘</label>
             <label class="interest"><input type="checkbox" value="운영체제">운영체제(OS)</label>
             <label class="interest last"><input type="checkbox" value="기타">기타<input rows="1" id="etc"></label>
           </div>
 
-          <button type="submit" id="signIn" onclick="javascript:SignIn();">가입하기</button>
+          <button type="submit" id="signIn" onclick="javascript:PWchk();">가입하기</button>
         </div>
       </div>
     </section>
