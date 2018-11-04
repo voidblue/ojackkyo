@@ -43,12 +43,21 @@ public class ArticleService {
     private JwtContext jwtContext;
     private UserRepository userRepository;
 
-    public Article get(@PathVariable Integer id) throws NoResourcePresentException {
+    @Transactional
+    public Article get(@PathVariable final Integer id) throws NoResourcePresentException {
         Optional<Article> optArticle = articleRepository.findById(id);
         if(optArticle.isPresent()){
             Article article = optArticle.get();
             article.setViewed(article.getViewed() + 1);
             articleRepository.save(article);
+            List<TagArticleMap> maps = tagArticleMapRepository.findAllByArticle(article.getId());
+            List<Tag> tags = new ArrayList<>();
+            for(TagArticleMap e : maps){
+                Tag tag = new Tag();
+                tag.setName(e.getTagName());
+                tags.add(tag);
+            }
+            article.setTags(tags);
             return article;
         }else {
             throw new NoResourcePresentException();
@@ -122,7 +131,7 @@ public class ArticleService {
         //토큰 검증은 이미 한 상태이므로 아래 토큰에서 닉네임을 가져오는 것은 실행에 문제가 없음
         article.setAuthor(userRepository.findByNickname(authorsNickname));
         Article result = (Article) articleRepository.save(article);
-        ArrayList<Tag> tags = article.getTags();
+        List<Tag> tags = article.getTags();
         if(tags != null) {
             saveTagsToTagArticleMap(tags, article.getId());
         }
@@ -154,7 +163,7 @@ public class ArticleService {
         }
     }
 
-    private void saveTagsToTagArticleMap(ArrayList<Tag> tags, Integer articleId){
+    private void saveTagsToTagArticleMap(List<Tag> tags, Integer articleId){
         for (Tag e : tags) {
             if (tagRepository.existsByName(e.getName())) {
                 Tag innerTag = tagRepository.findByName(e.getName());

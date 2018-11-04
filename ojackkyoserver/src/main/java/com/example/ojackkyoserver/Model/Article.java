@@ -9,6 +9,7 @@ import org.springframework.lang.Nullable;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Data
@@ -26,7 +27,7 @@ public class Article {
     @Transient @JsonIgnore
     Integer searchPriority;
     @Transient
-    ArrayList<Tag> tags;
+    List<Tag> tags;
     @Transient
     String authorsNickname;
     @ManyToOne(fetch = FetchType.EAGER)
