@@ -129,8 +129,6 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
                     Log.e("result", result);
                     JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
                     Log.e("jsonElement", String.valueOf(jsonElement));
-                    Intent intent = new Intent(UpdateActivity.this, MainActivity.class);
-                    startActivity(intent);
                     UpdateActivity.this.finish();
                 }
 

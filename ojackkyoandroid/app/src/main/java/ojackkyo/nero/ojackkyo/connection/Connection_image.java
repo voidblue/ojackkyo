@@ -1,86 +1,104 @@
 package ojackkyo.nero.ojackkyo.connection;
 
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
 import android.util.Log;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.HttpMultipartMode;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.protocol.HttpContext;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 
-import ojackkyo.nero.ojackkyo.UserInfo;
+public class Connection_image {
 
-import static android.content.ContentValues.TAG;
+    String serverURL = "http://117.17.102.131:4000/article/image";
 
-public class Connection_image extends AsyncTask {
-    private String path = "";
-    private String method = "";
-    private UserInfo userInfo;
+    // 이미지
 
-    @Override
-    protected String doInBackground(Object[] objects) {
+    // 기타 필요한 내용
+    String attachmentName = "bitmap";
+    String attachmentFileName = "bitmap.bmp";
+    String crlf = "\r\n";
+    String twoHyphens = "--";
+    String boundary =  "*****";
 
-        String serverURL = "http://117.17.102.131:4000/article/image";  //인자를 받는게 아니라서 아이피로 바로 연결
-            try {
-            URL url = new URL(serverURL);
-            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+    public String POST_Data(String filepath, String token, int articleId) throws Exception {
+        Log.e("들어는", "왔니");
+        URL url = new URL(serverURL);
+        String boundary =  "*****"+Long.toString(System.currentTimeMillis())+"*****";
 
-            httpURLConnection.setRequestProperty("content-type", "application/json; charset=utf-8");
-            httpURLConnection.setRequestProperty("token", (String) objects[1]); //토큰 이름
-            httpURLConnection.setRequestProperty("image",(String)objects[2]);
-            httpURLConnection.setRequestProperty("articleId", (String)objects[3]);
-            httpURLConnection.setReadTimeout(5000);
-            httpURLConnection.setConnectTimeout(5000);
-            httpURLConnection.setRequestMethod("POST"); //이미지 올리는 방식은 무조건 포스트
-            httpURLConnection.connect();
+        HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+        httpURLConnection.setReadTimeout(5000);
+        httpURLConnection.setConnectTimeout(5000);
+        httpURLConnection.setRequestProperty("token", token);
+        httpURLConnection.setRequestProperty("articleId", String.valueOf(articleId));
+        httpURLConnection.setRequestProperty("User-Agent", "Android Multipart HTTP Client 1.0");
+        httpURLConnection.setRequestProperty("content-Type", "multipart/form-data; boundary="+boundary);
+        httpURLConnection.setRequestMethod("POST");
 
-//            JsonObject jsonobject = (JsonObject) objects[0]; //jsonobject 를 받고
-
-            int responseStatusCode = httpURLConnection.getResponseCode();
-
-            InputStream inputStream;
-            if (responseStatusCode == HttpURLConnection.HTTP_OK) {
-                inputStream = httpURLConnection.getInputStream();
-                Log.d(TAG, "********************HTTP_OK**********************");
-
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, "UTF-8");
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-
-                StringBuilder sb = new StringBuilder();
-                String line = null;
-
-                while ((line = bufferedReader.readLine()) != null) {
-                    sb.append(line);
-                }
-
-                Gson gson = new Gson();
-                JsonElement jsonElement = gson.fromJson(sb.toString(), JsonElement.class);
-                JsonObject result = jsonElement.getAsJsonObject();
-
-                bufferedReader.close();
-
-                return result.toString();
-
-            } else {
-                Log.e("에러 테스트", String.valueOf(responseStatusCode));
-                return String.valueOf(responseStatusCode);
-            }
-
-
-        } catch (Exception e) {
-
-            JsonObject jsonObject1 = new JsonObject();
-            e.printStackTrace();
-            jsonObject1.addProperty("error", e.getMessage());
-
-            return jsonObject1.toString();
+        InputStream inputStream = null;
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        String[] q = filepath.split("/");
+        int idx = q.length - 1;
+        File file = new File(filepath);
+        FileInputStream fileInputStream = new FileInputStream(file);
+        DataOutputStream outputStream = (DataOutputStream) httpURLConnection.getOutputStream();
+        outputStream.writeBytes("--" + boundary + "\r\n");
+        outputStream.writeBytes("Content-Disposition: form-data; name=\"" + "img_upload" + "\"; filename=\"" + q[idx] +"\"" + "\r\n");
+        outputStream.writeBytes("Content-Type: image/*" + "\r\n");
+        outputStream.writeBytes("Content-Transfer-Encoding: binary" + "\r\n");
+        outputStream.writeBytes("\r\n");
+        bytesAvailable = fileInputStream.available();
+        bufferSize = Math.min(bytesAvailable, 1048576);
+        buffer = new byte[bufferSize];
+        bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+        while(bytesRead > 0) {
+            outputStream.write(buffer, 0, bufferSize);
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, 1048576);
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
         }
-
+        outputStream.writeBytes("\r\n");
+        outputStream.writeBytes("--" + boundary + "--" + "\r\n");
+        inputStream = httpURLConnection.getInputStream();
+        int status = httpURLConnection.getResponseCode();
+        if (status == HttpURLConnection.HTTP_OK) {
+            BufferedReader in = new BufferedReader(new InputStreamReader(httpURLConnection.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            inputStream.close();
+            httpURLConnection.disconnect();
+            fileInputStream.close();
+            outputStream.flush();
+            outputStream.close();
+            Log.e("접속", "함");
+            return response.toString();
+        } else {
+            Log.e("접속else", "못함");
+            throw new Exception("Non ok response returned");
+        }
     }
 }
