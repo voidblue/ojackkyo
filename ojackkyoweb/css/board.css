@@ -9,10 +9,14 @@ body {
   background-repeat: no-repeat;
 }
 
+.wrap {
+  white-space: nowrap;
+  overflow-x: scroll;
+}
+
 .middle {
   padding: 15px;
   width: 100%;
-  position: relative;
   padding-bottom: 0;
 }
 
@@ -42,6 +46,7 @@ body {
   overflow: scroll;
   width: 100%;
   max-height: 620px;
+  white-space: normal;
 }
 
 .content {
