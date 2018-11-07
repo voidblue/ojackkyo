@@ -1,57 +1,52 @@
-var arrayTag;
+function insertContent() {
+  var arrayTag;
+  if(sessionStorage.getItem("token") == null){
 
+  }
+  else {
+      b64claims = sessionStorage.getItem("token").split(".")[1];
+      claims = JSON.parse(b64DecodeUnicode(b64claims));
 
-if(sessionStorage.getItem("token") == null){
+      console.log(claims);
+      arrayTag=claims.tags.split('=');
+      console.log(arrayTag);
+      for(var i=0; i<arrayTag.length; i++){
+          arrayTag[i] = arrayTag[i].split('}')[0];
 
-}
-else{
-    b64claims = sessionStorage.getItem("token").split(".")[1];
-    claims = JSON.parse(b64DecodeUnicode(b64claims));
-
-    console.log(claims);
-    arrayTag=claims.tags.split('=');
-
-    for(var i=0; i<arrayTag.length; i++){
-        arrayTag[i] = arrayTag[i].split('}')[0];
-
-    }
-    str = "";
-    for(var i=1; i<arrayTag.length; i++){
-        innerstr = "";
-        $.ajax({
-            url: ip +'/article/list/search?tag=' + arrayTag[i] +'&sort=timeCreated,desc',
-            contentType : 'application/json',
-            type: 'GET',
-            async: false,
-            success : function(data){
-                console.log(data)
-                obj = data.content
-                console.log(obj)
-                $.each(obj, function (key, value){
-                    innerstr += '<button class="content_btn" onclick="showArticle('+value.id+')" >\
-                    <div class="content">'+value.title+'</div>\
-                    </a>'
-                })
-                str += '<div class = "tag" id='+arrayTag[i]+'>\
-                    <h2 class="title">\
-                    '+ "#"+arrayTag[i] +'\
-                    </h2>\
-                    <div class="scroll">\
-                    '+ innerstr +'\
-                    </div>\
-                    <a href="write.html">\
-                        <button class="btnWrite" type="button" name="write">글쓰기</button>\
-                    </a>\
-                </div>'
-            },
-            error : function(data) {
-                console.log(data)
-            }
-        })
-
-    }
-    $("#board").html(str);
-
+      }
+      str = "";
+      for(var i=1; i<arrayTag.length; i++){
+          innerstr = "";
+          $.ajax({
+              url: ip +'/article/list/search?tag=' + arrayTag[i] +'&sort=timeCreated,desc',
+              contentType : 'application/json',
+              type: 'GET',
+              async: false,
+              success : function(data){
+                  // console.log(data)
+                  obj = data.content
+                  // console.log(obj)
+                  $.each(obj, function (key, value){
+                      innerstr += '<a onclick="showArticle('+value.id+')"><button class="content_btn">\
+                      <div class="content">'+value.title+'<br>'+value.authorsNickname+'<br></div>\
+                      </button></a>'
+                  })
+                  str += '<div class = "tag" id='+arrayTag[i]+'>\
+                      <h2 class="title">\
+                      '+ "#"+arrayTag[i] +'\
+                      </h2>\
+                      <div class="scroll">\
+                      '+ innerstr +'\
+                      </div>\
+                  </div>'
+              },
+              error : function(data) {
+                  console.log(data)
+              }
+          })
+      }
+      $("#board").html(str);
+  }
 }
 
 //디코드 함수//
@@ -66,4 +61,21 @@ function b64DecodeUnicode(str) {
 
 function showArticle(id){
     window.location.href = "content.html?id=" + id
+
 }
+
+function makeBoard() {//사용자의 관심분야 게시판 만들어주기
+  var interest = [];
+  var interestNum = $('input:checkbox[name="interest"]');
+  var num = 0;
+
+  for(var i = 0; i < interestNum.length; i++) {
+    if(interestNum[i].checked == true) {
+      interest[num] = interestNum[i].value;
+      num++;
+    }
+  }
+  console.log(interest);
+}
+
+insertContent();

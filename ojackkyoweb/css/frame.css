@@ -80,3 +80,13 @@ button[name = btnSearch] {
   vertical-align: middle;
   margin-right: 10px;
 }
+
+@media (max-width: 880px) {
+  #search {
+    visibility: hidden;
+  }
+
+  #btnPack {
+    visibility: hidden;
+  }
+}

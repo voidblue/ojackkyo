@@ -29,3 +29,9 @@ function btnFind(){
 function btnSignIn(){
     window.location.href="SignIn.html";
 }
+
+function enterkey() {
+  if(window.event.keyCode == 13) {
+    btnLogin();
+  }
+}

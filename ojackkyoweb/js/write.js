@@ -1,17 +1,20 @@
 function editArticle(){
-    sharp = $("#contents").val().split("#")
-    xxx = []
+    sharp = $("#contents").val().split("#");
+    xxx = [];
     i = 0;
-    console.log(sharp)
+    console.log(sharp);
     for (var i = 1 ; i < sharp.length; i++){
         xxx[i-1] = sharp[i].split(" ")[0];
+        console.log(xxx);
     }
+    
     for (var i = 0 ; i < xxx.length; i++){
         str = '{"name":"' + sharp[i+1].split(" ")[0] + '"}';
-        console.log(str)
+        console.log(str);
         xxx[i] = JSON.parse(str);
     }
-    console.log(xxx)
+    console.log(xxx);
+
     $.ajax({
         headers : {"token":sessionStorage.getItem("token")},
         url: ip +'/article/',
@@ -25,11 +28,11 @@ function editArticle(){
          }),
          success : function(data){
             console.log(data.token);
-            window.location.href = "main.html"
+            window.location.href = "main.html";
 
          },
          error : function(data) {
-           console.log(data)
+            console.log(data);
          }
     })
 }

@@ -45,32 +45,32 @@
 
           <h3 class="inline">관심분야</h3> <span class="select">(선택)</span>
           <div id="grid">
-            <label class="interest"><input type="checkbox" value="C언어">C언어</label>
-            <label class="interest"><input type="checkbox" value="C++">C++</label>
-            <label class="interest"><input type="checkbox" value="C#">C#</label>
-            <label class="interest"><input type="checkbox" value="자바">자바(Java)</label>
-            <label class="interest"><input type="checkbox" value="js">JavaScript</label>
+            <label class="interest"><input type="checkbox" value="C언어" name="interest">C언어</label>
+            <label class="interest"><input type="checkbox" value="C++" name="interest">C++</label>
+            <label class="interest"><input type="checkbox" value="C#" name="interest">C#</label>
+            <label class="interest"><input type="checkbox" value="자바" name="interest">자바(Java)</label>
+            <label class="interest"><input type="checkbox" value="자바스크립트" name="interest">JavaScript</label>
 
-            <label class="interest"><input type="checkbox" value="파이썬">파이썬</label>
-            <label class="interest"><input type="checkbox" value="안드로이드">안드로이드</label>
-            <label class="interest"><input type="checkbox" value="iOS">iOS</label>
-            <label class="interest"><input type="checkbox" value="머신러닝">머신러닝</label>
-            <label class="interest"><input type="checkbox" value="보안">보안</label>
+            <label class="interest"><input type="checkbox" value="파이썬" name="interest">파이썬</label>
+            <label class="interest"><input type="checkbox" value="안드로이드" name="interest">안드로이드</label>
+            <label class="interest"><input type="checkbox" value="iOS" name="interest">iOS</label>
+            <label class="interest"><input type="checkbox" value="머신러닝" name="interest">머신러닝</label>
+            <label class="interest"><input type="checkbox" value="보안" name="interest">보안</label>
 
-            <label class="interest"><input type="checkbox" value="데이터베이스">데이터베이스</label>
-            <label class="interest"><input type="checkbox" value="빅데이터">빅데이터</label>
-            <label class="interest"><input type="checkbox" value="HTML/CSS">HTML/CSS</label>
-            <label class="interest"><input type="checkbox" value="프론트앤드">프론트앤드</label>
-            <label class="interest"><input type="checkbox" value="스프링">스프링</label>
+            <label class="interest"><input type="checkbox" value="데이터베이스" name="interest">DataBase</label>
+            <label class="interest"><input type="checkbox" value="빅데이터" name="interest">빅데이터</label>
+            <label class="interest"><input type="checkbox" value="HTML/CSS" name="interest">HTML/CSS</label>
+            <label class="interest"><input type="checkbox" value="프론트앤드" name="interest">프론트앤드</label>
+            <label class="interest"><input type="checkbox" value="스프링" name="interest">스프링</label>
 
-            <label class="interest"><input type="checkbox" value="백앤드">백앤드</label>
-            <label class="interest"><input type="checkbox" value="소공">S/W 공학</label>
-            <label class="interest"><input type="checkbox" value="알고리즘">알고리즘</label>
-            <label class="interest"><input type="checkbox" value="운영체제">운영체제(OS)</label>
-            <label class="interest last"><input type="checkbox" value="기타">기타<input rows="1" id="etc"></label>
+            <label class="interest"><input type="checkbox" value="백앤드" name="interest">백앤드</label>
+            <label class="interest"><input type="checkbox" value="소공" name="interest">S/W 공학</label>
+            <label class="interest"><input type="checkbox" value="알고리즘" name="interest">알고리즘</label>
+            <label class="interest"><input type="checkbox" value="운영체제" name="interest">운영체제</label>
+            <label class="interest last"><input type="checkbox" value="기타" name="interest">기타<input rows="1" id="etc"></label>
           </div>
 
-          <button type="submit" id="signIn" onclick="javascript:PWchk();">가입하기</button>
+          <button type="submit" id="signIn" onclick="SignIn(); makeBoard();">가입하기</button>
         </div>
       </div>
     </section>
@@ -78,5 +78,6 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="js/GlobalVarialble.js"></script>
     <script src="js/SignIn.js"></script>
+    <script src="js/board.js"></script>
   </body>
 </html>
