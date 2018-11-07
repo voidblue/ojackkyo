@@ -84,7 +84,7 @@ public class Connection extends AsyncTask {
                 return result.toString();
 
             } else {
-                Log.e("에러 테스트", String.valueOf(responseStatusCode));
+                Log.e("에러 테스트_커넥션", String.valueOf(responseStatusCode));
                 return String.valueOf(responseStatusCode);
             }
 

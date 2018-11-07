@@ -27,6 +27,8 @@ public class CommentListViewAdapter extends BaseAdapter {
     private ArrayList<CommentList> comment_list;
 
     private TextView contents;
+    private TextView authors;
+    private TextView time;
 
 
     @Override
@@ -49,9 +51,13 @@ public class CommentListViewAdapter extends BaseAdapter {
         if(convertView == null){
             convertView = LayoutInflater.from(context).inflate(R.layout.comment_item,null);
             contents = (TextView)convertView.findViewById(R.id.comment_tv);
+            authors = (TextView)convertView.findViewById(R.id.author_tv);
+            time = (TextView)convertView.findViewById(R.id.time_tv);
         }
 
         contents.setText(comment_list.get(position).getContents());
+        authors.setText(comment_list.get(position).getNickname());
+        time.setText(comment_list.get(position).getTime());
         return convertView;
     }
 }
