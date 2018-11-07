@@ -196,7 +196,7 @@ public class EditTextActivity extends AppCompatActivity implements View.OnClickL
             switch (requestCode) {
 
                 case GALLERY_CODE:
-                    imagePath= getImagePath(data.getData()); //갤러리에서 가져오기
+                    imagePath = getImagePath(data.getData()); //갤러리에서 가져오기
 
                     break;
 
