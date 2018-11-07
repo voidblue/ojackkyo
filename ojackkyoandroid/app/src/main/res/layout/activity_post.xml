@@ -61,23 +61,23 @@
                 android:text="시간표시할거에요"
                 android:textSize="15dp" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="40dp"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:gravity="center">-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="첨부된 파일"
-                    android:textColor="#000000" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="첨부된 파일"-->
+                    <!--android:textColor="#000000" />-->
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/logo" />
-            </LinearLayout>
+                <!--<ImageView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:src="@drawable/logo" />-->
+            <!--</LinearLayout>-->
 
             <TextView
                 android:id="@+id/context"
@@ -106,8 +106,8 @@
             <Button
                 android:id="@+id/handle"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:text="댓글 처리" />
+                android:layout_height="40dp"
+                android:text="댓글 보기" />
 
             <RelativeLayout
                 android:id="@+id/content"
@@ -120,6 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@+id/button_layout"
+                    android:layout_alignParentTop="true"
                     android:padding="5dp" />
 
                 <LinearLayout
@@ -134,8 +135,10 @@
 
                     <EditText
                         android:id="@+id/comment_et"
-                        android:layout_width="300dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="7"
+                        android:textSize="20dp"
                         android:layout_gravity="bottom"
                         android:hint="댓글 적는 공간" />
 
@@ -143,8 +146,9 @@
                         android:id="@+id/comment_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:layout_gravity="bottom"
-                        android:text="댓글달기" />
+                        android:text="입력" />
 
                 </LinearLayout>
 
