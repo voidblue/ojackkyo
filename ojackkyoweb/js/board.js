@@ -57,7 +57,7 @@ function b64DecodeUnicode(str) {
 
 
 function showArticle(id){
-    window.location.href = "content.html?id=" + id
+    window.location.href = "content?id=" + id
 
 }
 
