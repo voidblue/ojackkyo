@@ -1,23 +1,83 @@
 $.ajax({
     url: ip +'/article/' + getParameters("id"),
-    contentType : 'application/json',
+    contentType: 'application/json',
     type: 'GET',
     async: false,
-     success : function(data){
-        console.log(data.text);
-        $("#title").html(data.title);
-        console.log(data.text.includes("\n"))
-        text = data.text.replace(/\n/g,"<br />")
+    success: function(data){
+      console.log(data.text);
+      $("#title").html(data.title);
+      console.log(data.text.includes("\n"))
+      text = data.text.replace(/\n/g,"<br />")
 
-        console.log(text);
-        $("#contents").html(text);
-        var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0] + " | 조회수 " + data.viewed;
-        $("#details").html(str)
+      console.log(text);
+      $("#contents").html(text);
+      var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0] + " | 조회수 " + data.viewed;
+      $("#details").html(str);
+      comments_refresh();
      },
-     error : function(data) {
-         alert("ID,PW를 확인하세요");
+     error: function(data) {
+       alert("Error!!");
      }
 })
+
+function writeCm(data) {
+  var detail = document.getElementById("writeCm").value;
+  $.ajax({
+    headers : {"token":sessionStorage.getItem("token")},
+    url: ip +'/comments/',
+    contentType : 'application/json; charset=UTF-8',
+    type: 'POST',
+    async: false,
+    data: JSON.stringify({
+      contents: detail,
+      articleId: getParameters("id"),
+      title: "title"
+     }),
+     success: function(data){
+       console.log(data);
+
+       comments_refresh();
+       document.getElementById("writeCm").value = '';
+      },
+      error: function(data) {
+       console.log(data);
+       alert("댓글 등록 실패");
+      }
+   })
+}
+
+function comments_refresh(){
+  var innerstr = "";
+  var comment_box = document.getElementById("comment_box");
+
+  $.ajax({
+    url: ip +'/comments/list/search?articleId=' + getParameters("id") + '&sort=timeCreated,asc',
+    contentType: 'application/json;  charset=UTF-8',
+    type: 'GET',
+    async: false,
+    success: function(data){
+        console.log(data);
+        obj = data.content;
+        console.log(obj);
+        comment_box.innerHTML = "";
+
+        for (var i = 0 ; i < obj.length ; i++){
+          $.each(obj, function (){
+            var text = obj[i].contents.replace(/\n/g,"<br />");
+            innerstr = '<div class="comment">' +
+            '<span class="cm_writer">' + obj[i].authorsNickname + '</span>' +
+            '<span class="cm_content">' + text + '</span>' +
+            '<span class="cm_time">' + obj[i].timeCreated.split(".")[0] + '</span>' +
+            '</div>';
+          })
+        comment_box.innerHTML += innerstr;
+        }
+      },
+      error : function(data) {
+        alert("Error!!");
+      }
+   })
+}
 
 function getParameters (paramName) {
     // 리턴값을 위한 변수 선언

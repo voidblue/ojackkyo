@@ -3,8 +3,6 @@ function PWchk() {
   var patternEng = /[a-zA-Z]/; //영문자 포함
   var password = $("#inputPW").val();
   var passwordchk = $("#inputPWChk").val();
-  // var password = document.getElementById('inputPW').val();
-  // var passwordchk = document.getElementById('inputPWChk').val();
 
   if( !patternNum.test(password) || !patternEng.test(password) || password.length < 6 || password.length > 10) {
     alert("비밀번호는 영문자, 숫자 포함 6자 이상 10자 이하로 설정해야 합니다.");
@@ -18,6 +16,19 @@ function PWchk() {
 }
 
 function SignIn(){
+  var array = [];
+  var interest = $('.interest');
+  var num = 0;
+
+  for(var i = 0; i < interest.length; i++) {
+    if(interest[i].checked == true) {
+      array[num] = interest[i].value;
+      num++;
+      }
+  }
+
+  jQuery.ajaxSettings.traditional = true;
+
     $.ajax({
         url: ip +'/user',
         contentType : 'application/json',
@@ -30,16 +41,18 @@ function SignIn(){
             nickname : $("#inputNickname").val(),
             callNumber : $("#inputCal").val(),
             email: $("#inputEmail").val(),
-            studentCode: $("#inputStdID").val()
+            studentCode: $("#inputStdID").val(),
+            tags: array
          }),
          success : function(data){
             console.log(data.id);
+            console.log(data);
             alert("회원가입 성공");
             window.location.replace("index.html");
             window.android.regSuccess("success");
          },
          error : function(data) {
-             console.log(data)
+             console.log(data);
              alert("회원가입 실패");
          }
     })
@@ -54,7 +67,6 @@ $('#inputPWChk').keyup(function () {
     } else {
         $('#condition').html("PASSWARD가 일치하지 않습니다.");
     }
-
 });
 
 $("#btnID").click(function(){
@@ -69,9 +81,8 @@ $("#btnID").click(function(){
         error : function(data) {
             alert("ID가 중복되었습니다.");
         }
-
     })
-})
+});
 
 $("#btnNickname").click(function(){
     $.ajax({
@@ -85,6 +96,5 @@ $("#btnNickname").click(function(){
         error : function(data) {
             alert("닉네임이 중복되었습니다.");
         }
-
     })
-})
+});

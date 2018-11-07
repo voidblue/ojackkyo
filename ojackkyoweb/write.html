@@ -12,25 +12,28 @@
     <!-- 상단바 -->
     <header id="header"></header>
 
-    <div id="writeBox">
-      <form id="imageForm" action="http://117.17.102.131:4000/article/image" method="POST" accept-charset="UTF-8" name="imageData" enctype="multipart/form-data">
-        <div class="wrap">
-          <input id="title" type="text" name="title" placeholder="제목">
-        </div>
-        <div class="wrap form-name">
-          <span id="file">첨부파일</span>
-          <input class="img img-content left-space" type="file" name="image">
-        </div>
-        <div class="text">
-          <textarea id="contents" name="content_box" wrap="physical"></textarea>
-        </div>
-      </form>
+    <div id="box">
+      <div id="writeBox">
+        <form id="imageForm" method="POST" accept-charset="UTF-8" name="imageData" enctype="multipart/form-data">
+          <div class="wrap">
+            <input id="title" type="text" name="title" placeholder="제목">
+          </div>
+          <!-- <div class="wrap form-name">
+            <span id="file">첨부파일</span>
+            <input class="img img-content left-space" type="file" name="image">
+          </div> -->
+          <div class="text">
+            <textarea id="contents" name="content_box" wrap="physical"></textarea>
+          </div>
+        </form>
+      </div>
+      <button id="btn_submit" type="submit" name="write" onclick="editArticle();">작성하기</button>
     </div>
-    <button id="btn_submit" type="submit" name="write" onclick="editArticle(); getTokenObject()">작성하기</button>
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <script src="js/GlobalVarialble.js"></script>
     <script src="js/write.js"></script>
-    <script src="js/upload.js"></script>
+    <!-- <script src="js/upload.js"></script> -->
     <script src="js/headerFooter.js"></script>
   </body>
 </html>
