@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
@@ -46,9 +47,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     String time;
     String viewed;
     int id_index;
+    JsonArray tags;
 
     CommentListViewAdapter adapter;
     ArrayList<CommentList> comment_list;
+    ArrayList<CommentList> author_list;
+    ArrayList<CommentList> time_list;
     JSONArray contentList;
     JSONObject object;
     Object result_comment;
@@ -97,28 +101,15 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             String result = (String) connection.execute(jsonObject, "article/" + id_index, "GET", null).get();
             JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
             resultObject = jsonElement.getAsJsonObject();
-
+            tags = new JsonArray();
             String post_context = resultObject.get("text").toString().replace("\\n", "\n");
             real_context = post_context.substring(1, post_context.length() - 1);
             post_name = resultObject.get("title").toString().substring(1, resultObject.get("title").toString().length() - 1);
             authorsNickname = resultObject.get("authorsNickname").toString();
             time = resultObject.get("timeCreated").toString().substring(1, resultObject.get("timeCreated").toString().length() - 6);
             viewed = resultObject.get("viewed").toString();
-            String tag = resultObject.get("tags").toString();
-            Log.e("게시글은 태그를 가져 올까?", tag);
-
-//            // 게시글 내부 댓글 받아오기
-//            result_comment = connection_comment_read.execute("comments", "articleId=" + id_index, "asc", null).get();
-//            object = new JSONObject(result_comment.toString());
-
-
-//            contentList = object.getJSONArray("content");
-////            comment_list.add(new CommentList(commentObject.get("contents").toString()));
-//            Log.e("ddd", "결과: " + contentList.length());
-//            Log.e("ddd", "결과: " + contentList.get(0));
-////            comment_list.add(new CommentList("댓글 테스트"));
-//
-//            Log.e("댓글 테스트", String.valueOf(commentObject));
+            tags = resultObject.getAsJsonArray("tags");
+            Log.e("게시글은 이미지 경로를 가져올까?", String.valueOf(tags));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -126,28 +117,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
             e.printStackTrace();
         }
 
-//        for (int i = 0; i < contentList.length(); i++) {
-//            JSONObject test = null;
-//            try {
-//                test = contentList.getJSONObject(i);
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//            try {
-//                comment_list.add(new CommentList(test.getString("contents")));
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//        adapter = new CommentListViewAdapter(PostActivity.this, comment_list);
-//        comment_view.setAdapter(adapter);
-
+        ArrayList<JsonElement> tag_list = new ArrayList<>();
+        for (int i = 0; i<tags.size();i++){
+            tag_list.add(tags);
+        }
         context.setText(real_context);
         name.setText(post_name);
-//
-//        commentObject.get("contents").toString();
-//        commentObject.get("timeCreated").toString();
-//        commentObject.get("authorsNickname").toString();
 
         context_time.setText("작성시간 : " + time + " | 조회수 : " + viewed);
         user_name.setText("작성자 : " + authorsNickname.substring(1, authorsNickname.length() - 1));
@@ -176,7 +151,12 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 e.printStackTrace();
             }
             try {
-                comment_list.add(new CommentList(test.getString("contents")));
+                String a = test.getString("contents");
+                String b = test.getString("authorsNickname");
+                String c = test.getString("timeCreated");
+
+                String[] d = new String[]{a,b,c};
+                comment_list.add(new CommentList(d));
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -242,7 +222,8 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 jsonObject.addProperty("articleId", id_index);
                 jsonObject.addProperty("title", "abc");
 
-                input_comment.execute(jsonObject, "comments", "POST", userInfo.getToken());
+                input_comment.execute(jsonObject, "comments/", "POST", userInfo.getToken());
+                comment_et.setText("");
                 onResume();
                 Toast.makeText(this, comment, Toast.LENGTH_SHORT).show();
                 break;

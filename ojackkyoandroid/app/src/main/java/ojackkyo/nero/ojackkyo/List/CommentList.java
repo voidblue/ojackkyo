@@ -5,11 +5,14 @@ package ojackkyo.nero.ojackkyo.List;
  */
 
 public class CommentList {
-    String contents;
-    String nickname;
+    private String time;
+    private String contents;
+    private String nickname;
 
-    public CommentList(String contents) {
-        this.contents = contents;
+    public CommentList(String[] contents) {
+        this.contents = contents[0];
+        this.nickname = contents[1];
+        this.time = contents[2].substring(0,contents[2].length()-2);
     }
 
     public String getContents() {
@@ -26,5 +29,13 @@ public class CommentList {
 
     public void setNickname(String nickname) {
         this.nickname = nickname;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

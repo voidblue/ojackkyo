@@ -1,6 +1,7 @@
 package ojackkyo.nero.ojackkyo;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -25,6 +27,8 @@ import ojackkyo.nero.ojackkyo.fragment.ScrollViewFragment;
 
 import com.github.florent37.hollyviewpager.HollyViewPager;
 import com.github.florent37.hollyviewpager.HollyViewPagerConfigurator;
+
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 
 import java.util.List;
 
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         user_name.setText(userInfo.getNickname().replaceAll("\"",""));
 
         tag = userInfo.setTag(); //userinfo에서 tag 배열 호출
+        Log.e("로그 테스트 몇개나 나올까??", String.valueOf(tag));
         pageCount = tag.size();
 
         Log.e("pagecount : ", "   " + pageCount);
@@ -124,7 +129,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.search:
-                //현재 로그아웃 기능!
+                AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.setMessage("게시글 찾기 기능 구현중입니다.");
+                alert.show();
                 break;
 
             case R.id.user_info:
@@ -181,11 +194,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         int id = item.getItemId();
 
         if (id == R.id.message) {
-            Toast.makeText(this,"테스트1",Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.setMessage("쪽지 기능 구현중입니다.");
+            alert.show();
         } else if (id == R.id.nav_gallery) {
-            Toast.makeText(this,"테스트2",Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.setMessage("알림 기능 구현중입니다.");
+            alert.show();
         } else if (id == R.id.nav_slideshow) {
-            Toast.makeText(this,"테스트3",Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            alert.setMessage("회원정보 수정 기능 구현중입니다.");
+            alert.show();
         } else if (id == R.id.nav_manage) {
             Toast.makeText(getApplicationContext(), "로그아웃 버튼 클릭됨", Toast.LENGTH_LONG).show();
             userInfo.reset();

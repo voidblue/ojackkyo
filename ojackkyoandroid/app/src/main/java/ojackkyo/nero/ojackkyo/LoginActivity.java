@@ -24,7 +24,7 @@ import ojackkyo.nero.ojackkyo.connection.Connection;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button login_btn, reg_btn;
+    Button login_btn, reg_btn, find_btn;
     UserInfo userInfo;
     EditText id_input, pw_input;
 
@@ -36,9 +36,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         login_btn = (Button) findViewById(R.id.login_btn);
         reg_btn = (Button) findViewById(R.id.reg);
+        find_btn = (Button) findViewById(R.id.find);
 
-        reg_btn.setOnClickListener(this);
         login_btn.setOnClickListener(this);
+        reg_btn.setOnClickListener(this);
+        find_btn.setOnClickListener(this);
 
         id_input = (EditText) findViewById(R.id.input_id);
         pw_input = (EditText) findViewById(R.id.input_pw);
@@ -61,8 +63,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.login_btn:
 //                String user_id = id_input.getText().toString();
 //                String user_pw = pw_input.getText().toString();
-                String user_id = "wjm";
-                String user_pw = "12";
+                String user_id = "testwonjung";
+                String user_pw = "1q2w3e4r";
 
                 Connection connection = new Connection();
                 JsonObject jsonObject = new JsonObject();
@@ -108,9 +110,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 reg_intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(reg_intent);
                 break;
+
             case R.id.find:
-                Intent find_intent = new Intent(this, RegActivity.class);
-                startActivity(find_intent);
+                AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+                alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                alert.setMessage("ID/PW찾기 기능 구현중입니다.");
+                alert.show();
                 break;
 
         }

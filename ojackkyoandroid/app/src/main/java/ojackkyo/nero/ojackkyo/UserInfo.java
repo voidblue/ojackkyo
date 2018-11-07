@@ -65,7 +65,6 @@ public class UserInfo extends Application {
         String tagString = resultObject.get("tags").toString();
         Pattern MY_PATTERN = Pattern.compile("\\=(\\S+)\\}");
         Matcher mat = MY_PATTERN.matcher(tagString);
-        tag.add("통합");
         while (mat.find()) {
             tag.add(mat.group(1));
         }
