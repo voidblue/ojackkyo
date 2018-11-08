@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public CharSequence getPageTitle(int position) {
 
-                return "" + tag.get(position) + "게시판";
+                return "#" + tag.get(position);
             } //태그 이름
         });
     }

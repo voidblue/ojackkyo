@@ -13,7 +13,7 @@
             android:layout_width="18dp"
             android:layout_height="18dp"
             android:layout_gravity="center"
-            android:src="@drawable/logo" />
+            android:src="@drawable/user" />
 
         <TextView
             android:id="@+id/author_tv"
@@ -22,7 +22,7 @@
             android:layout_marginLeft="10dp"
             android:text="작성자 들어갈거에요"
             android:textColor="#000000"
-            android:textSize="17dp"
+            android:textSize="15dp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -31,17 +31,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="내용 들어갈거에요"
-        android:layout_margin="5dp"
+        android:layout_margin="3dp"
         android:textColor="#000000"
-        android:textSize="19dp" />
+        android:textSize="17dp" />
 
     <TextView
         android:id="@+id/time_tv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="3dp"
         android:text="시간 들어갈거에요"
         android:textColor="#616161"
-        android:textSize="12dp" />
+        android:textSize="13dp" />
 
 </LinearLayout>
