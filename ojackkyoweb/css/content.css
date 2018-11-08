@@ -140,12 +140,20 @@ body {
   background-size: cover;
 }
 
+#back {
+  background-color: #ffffff;
+  width: 950px;
+  margin: auto;
+  min-height: 93%;
+}
+
 #middle {
   background-color: #ffffff;
   width: 950px;
   margin: auto;
-  padding-top: 85px;
-  height: 120%;
+  padding-top: 25px;
+  /* height: 120%; */
+  /* padding-bottom: 25px; */
 }
 
 #wrapper {
