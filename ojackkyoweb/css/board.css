@@ -83,6 +83,15 @@ a {
   text-decoration: none;
 }
 
+.valueTitle {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.valueNickname {
+  color: gray;
+}
+
 /* .btnWrite {
   display: block;
   margin: auto;

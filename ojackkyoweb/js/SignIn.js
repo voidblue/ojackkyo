@@ -17,7 +17,7 @@ function PWchk() {
 
 function SignIn(){
   var array = [];
-  var interest = $('.interest');
+  var interest = $('.study');
   var num = 0;
 
   for(var i = 0; i < interest.length; i++) {

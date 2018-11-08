@@ -26,7 +26,7 @@ else {
                 console.log(obj)
                 $.each(obj, function (key, value){
                     innerstr += '<a onclick="showArticle('+value.id+')"><button class="content_btn">\
-                    <div class="content">'+value.title+'<br>'+value.authorsNickname+'<br></div>\
+                    <div class="content"><span class="valueTitle">'+value.title+'</span><br><span class="valueNickname">'+value.authorsNickname+'</span><br></div>\
                     </button></a>'
                 })
                 str += '<div class = "tag" id='+arrayTag[i]+'>\
@@ -57,8 +57,7 @@ function b64DecodeUnicode(str) {
 
 
 function showArticle(id){
-    window.location.href = "content.html?id=" + id
-
+    window.location.href = "content?id=" + id;
 }
 
 // function makeBoard() {

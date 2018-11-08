@@ -144,6 +144,11 @@ h3 {
   padding: 10px;
 }
 
+.red {
+  color: red;
+  font-size: 12px;
+}
+
 #grid {
   border: 0.3px solid #EAEAEA;
   padding: 10px;
