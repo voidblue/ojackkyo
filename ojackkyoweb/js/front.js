@@ -23,7 +23,7 @@ function btnLogin(){
 
 function btnFind(){
     alert("기능구현 중입니다.");
-    window.location.href("#");
+    window.location.href("index.html");
 }
 
 function btnSignIn(){
