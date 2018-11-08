@@ -61,10 +61,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         int id = v.getId();
         switch (id) {
             case R.id.login_btn:
-//                String user_id = id_input.getText().toString();
-//                String user_pw = pw_input.getText().toString();
-                String user_id = "testwonjung";
-                String user_pw = "1q2w3e4r";
+                String user_id = id_input.getText().toString();
+                String user_pw = pw_input.getText().toString();
+//                String user_id = "testwonjung";
+//                String user_pw = "1q2w3e4r";
 
                 Connection connection = new Connection();
                 JsonObject jsonObject = new JsonObject();
