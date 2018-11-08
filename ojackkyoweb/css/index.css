@@ -45,6 +45,7 @@ body {
   margin-left: 4px;
   font-family: 'Sunflower', sans-serif;
   font-weight: bold;
+  background-color: #ffffff;
 }
 
 #btnPack {
@@ -61,8 +62,20 @@ body {
   font-size: 1.1em;
   font-family: 'Sunflower', sans-serif;
   font-weight: bold;
+  background-color: #ffffff;
 }
 
 .btn:first-child {
   margin-right: 5px;
+}
+
+@media(max-width: 555px) {
+  #logo_img {
+    width: 85%;
+    height: 100%;
+  }
+
+  #btnLogin {
+    font-size: 1.1em;
+  }
 }

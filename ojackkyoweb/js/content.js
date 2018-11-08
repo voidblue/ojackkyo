@@ -1,14 +1,18 @@
+var id_index = getParameters("id");
+
+console.log("id index " + id_index);
+
 $.ajax({
     url: ip +'/article/' + getParameters("id"),
     contentType: 'application/json',
     type: 'GET',
     async: false,
     success: function(data){
+      console.log(data);
       console.log(data.text);
       $("#title").html(data.title);
       console.log(data.text.includes("\n"))
       text = data.text.replace(/\n/g,"<br />")
-
       console.log(text);
       $("#contents").html(text);
       var str = data.authorsNickname + " | " + data.timeCreated.split(".")[0] + " | 조회수 " + data.viewed;
@@ -78,6 +82,37 @@ function comments_refresh(){
       }
    })
 }
+var flag = true;
+
+function more() {
+  if(flag == true) {
+    $('#slide').css('visibility', 'visible');
+    flag = false;
+  }
+  else if(flag == false){
+    $('#slide').css('visibility', 'hidden');
+    flag = true;
+  }
+}
+
+function delete_post() {
+  $.ajax({
+    headers : {"token":sessionStorage.getItem("token")},
+    url: ip +'/article/' + getParameters("id"),
+    contentType: 'application/json',
+    type: 'DELETE',
+    async: false,
+    success: function(data) {
+      console.log(data);
+      alert('게시글을 삭제하였습니다.');
+      window.location.href = "main.html";
+    },
+    error: function(data) {
+      console.log(data);
+      alert('게시글 삭제 실패하였습니다.');
+    }
+  })
+}
 
 function getParameters (paramName) {
     // 리턴값을 위한 변수 선언
@@ -97,4 +132,8 @@ function getParameters (paramName) {
             return decodeURIComponent(returnValue);
         }
     }
+}
+
+function content_modify() {
+      window.location.href = "modify?id=" + id_index;
 }

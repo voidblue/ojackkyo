@@ -19,6 +19,14 @@
         <div id="infoBox">
           <span id="title" class="title">제목</span>
           <span id="details" class="details">닉네임 | 작성시간 | 조회수</span>
+          <span id="more">
+            <button type="button" id="btnMore">
+            <img src="img/more.png" id="imgMore" onclick="more();"></button>
+          </span>
+          <div id="slide">
+            <button type="button" class="slide modify" onclick="content_modify();">수정</button><br>
+            <button type="button" class="slide delete" onclick="delete_post();">삭제</button>
+          </div>
         </div>
         <div class="content_box">
           <div class="content" id="contents"></div>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ko" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/frame.css">
+    <link rel="stylesheet" href="css/write.css">
+    <title>수정하기</title>
+  </head>
+  <body>
+
+    <!-- 상단바 -->
+    <header id="header"></header>
+    <div id="navbar"></div>
+
+    <div id="box">
+      <div id="writeBox">
+        <form id="imageForm" method="POST" accept-charset="UTF-8" name="imageData" enctype="multipart/form-data">
+          <div class="wrap">
+            <input id="title" type="text" name="title" placeholder="제목"></input>
+          </div>
+          <!-- <div class="wrap form-name">
+            <span id="file">첨부파일</span>
+            <input class="img img-content left-space" type="file" name="image">
+          </div> -->
+          <div class="text">
+            <textarea id="contents" name="content_box" wrap="physical"></textarea>
+          </div>
+        </form>
+      </div>
+      <button id="btn_submit" type="submit" name="write" onclick="btn_modify();">수정하기</button>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="js/GlobalVarialble.js"></script>
+    <script src="js/modify.js"></script>
+    <!-- <script src="js/upload.js"></script> -->
+    <script src="js/headerFooter.js"></script>
+  </body>
+</html>
