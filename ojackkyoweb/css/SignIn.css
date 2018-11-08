@@ -185,7 +185,7 @@ h3 {
   cursor: pointer;
 }
 
-@media (max-width: 400px) {
+@media (max-width: 745px) {
     #wrap {
       width: 100%;
     }
@@ -195,11 +195,11 @@ h3 {
     }
 
     #btnID {
-      font-size: 13px;
+      font-size: 11px;
     }
 
     #btnNickname {
-      font-size: 13px;
+      font-size: 11px;
     }
 
     .interest {
