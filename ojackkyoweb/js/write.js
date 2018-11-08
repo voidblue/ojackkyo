@@ -1,15 +1,14 @@
 function editArticle(){
-    sharp = $("#contents").val().split("#");
-    xxx = [];
-    i = 0;
-    console.log(sharp);
-    for (var i = 1 ; i < sharp.length; i++){
-        xxx[i-1] = sharp[i].split(" ")[0];
-        console.log(xxx);
-    }
-    
-    for (var i = 0 ; i < xxx.length; i++){
-        str = '{"name":"' + sharp[i+1].split(" ")[0] + '"}';
+  var txt = $("#contents").val();
+  var tags = ["#통합"];
+  var xxx = [];
+  txt = txt.replace(/#[^#\s,;]+/gm, function(tag) {
+   tags.push(tag);
+   });
+   console.log(tags);
+
+    for (var i = 0 ; i < tags.length; i++){
+        str = '{"name":"' + tags[i].substring(1,tags[i].length) + '"}';
         console.log(str);
         xxx[i] = JSON.parse(str);
     }

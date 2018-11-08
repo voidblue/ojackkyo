@@ -16,7 +16,6 @@ body {
   height: 65px;
   text-align: center;
   box-shadow: 0 2px 7px gray;
-  position: absolute;
   width: 100%;
 }
 
@@ -95,7 +94,6 @@ button[name = btnSearch] {
   box-shadow: -2px 0 11px gray;
   z-index: 1;
   visibility: hidden;
-  margin-top: 65px;
 }
 /*
 #imgUser {
