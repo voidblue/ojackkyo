@@ -32,12 +32,14 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
     private String title, context, authorsNickname;
     private int id_index;
     UserInfo userInfo;
+    PostActivity postActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update);
 
+        postActivity = new PostActivity();
         Intent intent = getIntent();
         title = intent.getExtras().getString("title");
         context = intent.getExtras().getString("context");
@@ -71,6 +73,8 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
 
         switch (id) {
             case android.R.id.home:
+//                Intent resultIntent = new Intent();
+//                setResult(RESULT_CANCELED,resultIntent);
                 finish();
                 return true;
         }
@@ -78,6 +82,9 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
     }
     @Override
     public void onBackPressed() {
+//        Intent resultIntent = new Intent();
+//        setResult(RESULT_CANCELED,resultIntent);
+        finish();
         super.onBackPressed();
     }
 
@@ -148,7 +155,9 @@ public class UpdateActivity extends AppCompatActivity implements View.OnClickLis
                     Log.e("result", result);
                     JsonElement jsonElement = gson.fromJson(result, JsonElement.class);
                     Log.e("jsonElement", String.valueOf(jsonElement));
-                    UpdateActivity.this.finish();
+//                    Intent resultIntent = new Intent();
+//                    setResult(RESULT_CANCELED,resultIntent);
+                    finish();
                 }
                 break;
         }

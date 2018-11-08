@@ -1,6 +1,7 @@
 package ojackkyo.nero.ojackkyo;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -39,7 +40,6 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     Connection connection;
     Connection connection_delete;
     Connection input_comment;
-    Connection_list connection_comment_read;
     Connection_list connection_comment_refresh;
     String authorsNickname;
     String real_context;
@@ -48,11 +48,11 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
     String viewed;
     int id_index;
     JsonArray tags;
+    JsonObject jsonObject;
+    JsonObject resultObject;
 
     CommentListViewAdapter adapter;
-    ArrayList<CommentList> comment_list;
-    ArrayList<CommentList> author_list;
-    ArrayList<CommentList> time_list;
+    ArrayList<CommentList> comment_list = new ArrayList<CommentList>();
     JSONArray contentList;
     JSONObject object;
     Object result_comment;
@@ -65,15 +65,9 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         userInfo = (UserInfo) getApplicationContext();
 
         comment_view = (ListView) findViewById(R.id.comment_lv);
-        comment_list = new ArrayList<CommentList>();
 
-        connection = new Connection();
-        connection_comment_read = new Connection_list();
-        connection_comment_refresh = new Connection_list();
-
-        JsonObject jsonObject = new JsonObject();
+        jsonObject = new JsonObject();
         JsonObject resultObject = null;
-        JsonObject commentObject = null;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.post_toolbar);
         setSupportActionBar(toolbar);
@@ -94,8 +88,66 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         Log.e("게시글 보기", String.valueOf(id_index));
 
+
+    }
+
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        if (requestCode == 1) {
+//            if(resultCode == Activity.RESULT_OK){
+//            }
+//            if (resultCode == Activity.RESULT_CANCELED) {
+//                getPosts();
+//            }
+//        }
+//    }//onActivityResult
+    @Override
+    protected void onResume() {
+        getPosts();
+        getComments();
+        super.onResume();
+    }
+
+    public void getComments(){
+        try {
+            connection_comment_refresh = new Connection_list();
+            result_comment = connection_comment_refresh.execute("comments", "articleId=" + id_index, "asc", null).get();
+            object = new JSONObject(result_comment.toString());
+            contentList = object.getJSONArray("content");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        comment_list.clear();
+        for (int i = 0; i < contentList.length(); i++) {
+            JSONObject test = null;
+            try {
+                test = contentList.getJSONObject(i);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            try {
+                String a = test.getString("contents");
+                String b = test.getString("authorsNickname");
+                String c = test.getString("timeCreated");
+
+                String[] d = new String[]{a, b, c};
+                comment_list.add(new CommentList(d));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        adapter = new CommentListViewAdapter(PostActivity.this, comment_list);
+        comment_view.setAdapter(adapter);
+    }
+    public void getPosts(){
         try {
             Gson gson = new Gson();
+            connection = new Connection();
 
             // 게시글 내용 받아오기
             String result = (String) connection.execute(jsonObject, "article/" + id_index, "GET", null).get();
@@ -118,7 +170,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         ArrayList<JsonElement> tag_list = new ArrayList<>();
-        for (int i = 0; i<tags.size();i++){
+        for (int i = 0; i < tags.size(); i++) {
             tag_list.add(tags);
         }
         context.setText(real_context);
@@ -126,44 +178,7 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
 
         context_time.setText("작성시간 : " + time + " | 조회수 : " + viewed);
         user_name.setText("작성자 : " + authorsNickname.substring(1, authorsNickname.length() - 1));
-    }
 
-    @Override
-    protected void onResume() {
-        try {
-            connection_comment_refresh = new Connection_list();
-            result_comment = connection_comment_refresh.execute("comments", "articleId=" + id_index, "asc", null).get();
-            object = new JSONObject(result_comment.toString());
-            contentList = object.getJSONArray("content");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        comment_list.clear();
-        for (int i = 0; i < contentList.length(); i++) {
-            JSONObject test = null;
-            try {
-                test = contentList.getJSONObject(i);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            try {
-                String a = test.getString("contents");
-                String b = test.getString("authorsNickname");
-                String c = test.getString("timeCreated");
-
-                String[] d = new String[]{a,b,c};
-                comment_list.add(new CommentList(d));
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        adapter = new CommentListViewAdapter(PostActivity.this, comment_list);
-        comment_view.setAdapter(adapter);
-        super.onResume();
     }
 
     @Override
@@ -203,12 +218,11 @@ public class PostActivity extends AppCompatActivity implements View.OnClickListe
                 intent1.putExtra("title", post_name);
                 intent1.putExtra("context", real_context);
                 intent1.putExtra("authorsNickname", authorsNickname.substring(1, authorsNickname.length() - 1));
-                startActivity(intent1);
+                startActivityForResult(intent1,RESULT_CANCELED);
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
     @Override
     public void onClick(View v) {
         int id = v.getId();
