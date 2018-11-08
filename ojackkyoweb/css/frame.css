@@ -2,6 +2,10 @@
   box-sizing: border-box;
 }
 
+html, body {
+  height: 100%;
+}
+
 body {
   margin: 0;
   /* background-color: #ABA7CD; */
@@ -12,6 +16,8 @@ body {
   height: 65px;
   text-align: center;
   box-shadow: 0 2px 7px gray;
+  position: absolute;
+  width: 100%;
 }
 
 #logo {
@@ -49,7 +55,7 @@ button[name = btnSearch] {
   padding: 0;
   height: 25px;
   vertical-align: middle;
-  margin-left: -35px;
+  margin-left: -38px;
   background-color: inherit;
   cursor: pointer;
 }
@@ -89,6 +95,7 @@ button[name = btnSearch] {
   box-shadow: -2px 0 11px gray;
   z-index: 1;
   visibility: hidden;
+  margin-top: 65px;
 }
 /*
 #imgUser {
